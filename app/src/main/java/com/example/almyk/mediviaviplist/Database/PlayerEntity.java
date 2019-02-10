@@ -15,7 +15,7 @@ public class PlayerEntity {
     public String server;
 
     @ColumnInfo(name = "level")
-    public int level;
+    public String level;
 
     @ColumnInfo(name = "vocation")
     public String vocation;
@@ -24,9 +24,11 @@ public class PlayerEntity {
     public PlayerEntity(String name, String server) {
         this.name = name;
         this.server = server;
+        this.level = "?";
+        this.vocation = "?";
     }
 
-    public PlayerEntity(String name, String server, int level, String vocation) {
+    public PlayerEntity(String name, String server, String level, String vocation) {
         this.name = name;
         this.server = server;
         this.level = level;
@@ -49,11 +51,11 @@ public class PlayerEntity {
         this.server = server;
     }
 
-    public int getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 
