@@ -31,4 +31,7 @@ dependencies {
     // room persistence library
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // scraping
+    implementation 'org.jsoup:jsoup:1.11.3'
 }

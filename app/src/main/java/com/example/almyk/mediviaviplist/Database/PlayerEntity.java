@@ -21,9 +21,15 @@ public class PlayerEntity {
     public String vocation;
 
     @Ignore
-    public PlayerEntity(String name, String server) {
+    public PlayerEntity() {
+
+    }
+
+    // TODO : this should not be needed
+    @Ignore
+    public PlayerEntity(String name) {
         this.name = name;
-        this.server = server;
+        this.server = "?";
         this.level = "?";
         this.vocation = "?";
     }
