@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Scraper scraper = new Scraper();
-                final HashMap<String, PlayerEntity> onlineList = scraper.scrapeOnline("prophecy");
+                HashMap<String, PlayerEntity> onlineList = scraper.scrapeOnline("prophecy");
+                scraper.scrapePlayer("Heresy");
             }
         }).start();
     }

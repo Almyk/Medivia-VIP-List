@@ -63,9 +63,22 @@ public class Scraper {
 
     public PlayerEntity scrapePlayer(String name) {
         getDocument(BASE_URL_PLAYER+name);
-        PlayerEntity player = new PlayerEntity(name);
+        PlayerEntity player = new PlayerEntity();
+        String text;
 
+        Elements elements = mDoc.select("div[class='med-width-50 med-white-space-normal']");
+        elements = elements.select("div[class='med-width-50']");
 
+        text = elements.get(1).text(); // name
+        player.setName(text);
+        text = elements.get(7).text(); // vocation
+        player.setVocation(text);
+        text = elements.get(9).text(); // level
+        player.setLevel(text);
+        text = elements.get(11).text(); // server
+        player.setServer(text);
+
+        Log.d(TAG, "Player: " + player.getName() + " " + player.getLevel() + " " + player.getVocation() + " " + player.getServer());
 
         return player;
     }
