@@ -20,6 +20,8 @@ public class PlayerEntity {
     @ColumnInfo(name = "vocation")
     public String vocation;
 
+    public boolean online;
+
     @Ignore
     public PlayerEntity() {
 
@@ -32,6 +34,7 @@ public class PlayerEntity {
         this.server = "?";
         this.level = "?";
         this.vocation = "?";
+        this.online = false;
     }
 
     public PlayerEntity(String name, String server, String level, String vocation) {
@@ -39,6 +42,14 @@ public class PlayerEntity {
         this.server = server;
         this.level = level;
         this.vocation = vocation;
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 
     public String getName() {
