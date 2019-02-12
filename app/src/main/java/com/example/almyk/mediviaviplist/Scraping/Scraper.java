@@ -14,12 +14,15 @@ import java.util.List;
 public class Scraper {
     private static final String BASE_URL_ONLINE = "https://medivia.online/community/online/";
     private static final String PROPHECY = "prophecy";
-    private HashMap<String, PlayerEntity> mOnlineList;
+    private HashMap<String, PlayerEntity> mOnlineList = new HashMap<>();
     //private List<PlayerEntity> mOnlineList;
 
     private static final String BASE_URL_PLAYER = "https://medivia.online/community/character/";
 
     private Document mDoc;
+
+    public Scraper() {
+    }
 
     public HashMap<String, PlayerEntity> scrapeOnline(String server) {
         getDocument(BASE_URL_ONLINE+server);

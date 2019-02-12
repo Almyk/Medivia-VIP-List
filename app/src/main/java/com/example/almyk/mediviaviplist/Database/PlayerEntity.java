@@ -1,14 +1,17 @@
 package com.example.almyk.mediviaviplist.Database;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
+
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 @Entity(tableName = "player")
 public class PlayerEntity {
     @PrimaryKey
     @ColumnInfo(name = "player_name")
+    @NonNull
     public String name;
 
     @ColumnInfo(name = "server_name")
