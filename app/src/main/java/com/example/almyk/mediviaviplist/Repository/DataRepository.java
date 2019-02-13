@@ -9,31 +9,36 @@ import com.example.almyk.mediviaviplist.Scraping.Scraper;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class DataRepository {
-    private static DataRepository sInstance;
+//    private static DataRepository sInstance;
 
     private final AppDatabase mDatabase;
     private final Scraper mScraper;
 
     private LiveData<List<PlayerEntity>> mVipList;
 
-    private DataRepository(final AppDatabase database) {
+    @Inject
+    public DataRepository(final AppDatabase database) {
         this.mDatabase = database;
         mVipList = mDatabase.playerDao().getAll();
         mScraper = new Scraper();
     }
 
 
-    public static DataRepository getInstance(final AppDatabase database) {
-        if(sInstance == null) {
-            synchronized (DataRepository.class) {
-                if (sInstance == null) {
-                    sInstance = new DataRepository(database);
-                }
-            }
-        }
-        return sInstance;
-    }
+//    public static DataRepository getInstance(final AppDatabase database) {
+//        if(sInstance == null) {
+//            synchronized (DataRepository.class) {
+//                if (sInstance == null) {
+//                    sInstance = new DataRepository(database);
+//                }
+//            }
+//        }
+//        return sInstance;
+//    }
 
     public LiveData<List<PlayerEntity>> getVipList() {
         return mVipList;

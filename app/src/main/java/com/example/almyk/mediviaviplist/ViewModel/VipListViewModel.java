@@ -1,8 +1,8 @@
 package com.example.almyk.mediviaviplist.ViewModel;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
 import com.example.almyk.mediviaviplist.AppExecutors;
@@ -13,18 +13,19 @@ import com.example.almyk.mediviaviplist.Repository.DataRepository;
 import java.util.HashMap;
 import java.util.List;
 
-public class VipListViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+public class VipListViewModel extends ViewModel {
     private DataRepository mRepository;
     private AppExecutors mExecutors;
 
     private LiveData<List<PlayerEntity>> mVipList;
     private HashMap<String, PlayerEntity> mOnlineList;
 
-    public VipListViewModel(@NonNull Application application) {
-        super(application);
-        AppDatabase database = AppDatabase.getInstance(this.getApplication());
-        mRepository = DataRepository.getInstance(database);
-        mExecutors = AppExecutors.getInstance();
+    @Inject
+    public VipListViewModel(DataRepository repository, AppExecutors executors) {
+        this.mRepository = repository;
+        this.mExecutors = executors;
 
         init();
     }
