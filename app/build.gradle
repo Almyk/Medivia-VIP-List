@@ -29,9 +29,12 @@ dependencies {
 
     // room persistence library
     def room_version = "1.1.1"
-
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+
+    // lifecycle : ViewModels and LiveData
+    def lifecycle_version = "1.1.1"
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
 
     // scraping
     implementation 'org.jsoup:jsoup:1.11.3'
