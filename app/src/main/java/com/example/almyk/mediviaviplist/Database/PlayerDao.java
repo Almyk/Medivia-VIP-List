@@ -1,8 +1,10 @@
 package com.example.almyk.mediviaviplist.Database;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
@@ -13,7 +15,7 @@ import java.util.List;
 @Dao
 public interface PlayerDao {
     @Query("SELECT * FROM player")
-    List<PlayerEntity> getAll();
+    LiveData<List<PlayerEntity>> getAll();
 
     @Insert
     void insert(PlayerEntity player);
@@ -21,6 +23,6 @@ public interface PlayerDao {
     @Delete
     void delete(PlayerEntity player);
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(PlayerEntity player);
 }

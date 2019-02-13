@@ -27,7 +27,6 @@ public class PlayerEntity {
 
     @Ignore
     public PlayerEntity() {
-
     }
 
     // TODO : this should not be needed
