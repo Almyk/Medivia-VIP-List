@@ -12,18 +12,18 @@ public class PlayerEntity {
     @PrimaryKey
     @ColumnInfo(name = "player_name")
     @NonNull
-    public String name;
+    private String name;
 
     @ColumnInfo(name = "server_name")
-    public String server;
+    private String server;
 
     @ColumnInfo(name = "level")
-    public String level;
+    private String level;
 
     @ColumnInfo(name = "vocation")
-    public String vocation;
+    private String vocation;
 
-    public boolean online;
+    private boolean online;
 
     @Ignore
     public PlayerEntity() {

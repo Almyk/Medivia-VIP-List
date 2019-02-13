@@ -48,8 +48,20 @@ public class VipListViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 mOnlineList = mRepository.getOnline("prophecy"); // TODO should not hard code server here
+                updateVipList();
             }
         });
+    }
+
+    private void updateVipList() {
+        for(PlayerEntity player : mVipList.getValue()) {
+            if(mOnlineList.containsKey(player.getName())) {
+                mRepository.updatePlayer(mOnlineList.get(player.getName()));
+            } else {
+                player.setOnline(false);
+                mRepository.updatePlayer(player);
+            }
+        }
     }
 
     public LiveData<List<PlayerEntity>> getVipList() {
