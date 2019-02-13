@@ -14,10 +14,10 @@ import java.util.List;
 
 @Dao
 public interface PlayerDao {
-    @Query("SELECT * FROM player")
+    @Query("SELECT * FROM vip_list")
     LiveData<List<PlayerEntity>> getAll();
 
-    @Query("SELECT * FROM player where player_name = :name")
+    @Query("SELECT * FROM vip_list where player_name = :name")
     PlayerEntity getPlayer(String name);
 
     @Insert

@@ -50,4 +50,16 @@ public class DataRepository {
     public PlayerEntity getPlayer(String name) {
         return mDatabase.playerDao().getPlayer(name);
     }
+
+    public void addPlayer(PlayerEntity player) {
+        mDatabase.playerDao().insert(player);
+    }
+
+    public void removePlayer(PlayerEntity player) {
+        mDatabase.playerDao().delete(player);
+    }
+
+    public void updatePlayer(PlayerEntity player) {
+        mDatabase.playerDao().update(player);
+    }
 }

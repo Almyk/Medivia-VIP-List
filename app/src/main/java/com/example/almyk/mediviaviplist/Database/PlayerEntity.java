@@ -7,7 +7,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(tableName = "player")
+@Entity(tableName = "vip_list")
 public class PlayerEntity {
     @PrimaryKey
     @ColumnInfo(name = "player_name")
