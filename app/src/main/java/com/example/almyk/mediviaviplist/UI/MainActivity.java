@@ -22,18 +22,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        setupViewModel();
-    }
-
-    private void setupViewModel() {
-        VipListViewModel vipListViewModel = ViewModelProviders.of(this).get(VipListViewModel.class);
-
-        vipListViewModel.getVipList().observe(this, new Observer<List<PlayerEntity>>() {
-            @Override
-            public void onChanged(@Nullable List<PlayerEntity> playerEntities) {
-                // TODO : update adapter that fills a RecyclerView
-            }
-        });
     }
 }
