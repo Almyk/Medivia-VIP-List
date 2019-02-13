@@ -17,6 +17,9 @@ public interface PlayerDao {
     @Query("SELECT * FROM player")
     LiveData<List<PlayerEntity>> getAll();
 
+    @Query("SELECT * FROM player where player_name = :name")
+    PlayerEntity getPlayer(String name);
+
     @Insert
     void insert(PlayerEntity player);
 

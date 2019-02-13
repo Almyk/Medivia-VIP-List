@@ -4,19 +4,23 @@ import android.arch.lifecycle.LiveData;
 
 import com.example.almyk.mediviaviplist.Database.AppDatabase;
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
+import com.example.almyk.mediviaviplist.Scraping.Scraper;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class DataRepository {
     private static DataRepository sInstance;
 
     private final AppDatabase mDatabase;
+    private final Scraper mScraper;
 
     private LiveData<List<PlayerEntity>> mVipList;
 
     private DataRepository(final AppDatabase database) {
         this.mDatabase = database;
         mVipList = mDatabase.playerDao().getAll();
+        mScraper = new Scraper();
     }
 
 
@@ -33,5 +37,17 @@ public class DataRepository {
 
     public LiveData<List<PlayerEntity>> getVipList() {
         return mVipList;
+    }
+
+    public HashMap<String, PlayerEntity> getOnline(String server) {
+        return mScraper.scrapeOnline(server);
+    }
+
+    public PlayerEntity getPlayerWeb(String name) {
+        return mScraper.scrapePlayer(name);
+    }
+
+    public PlayerEntity getPlayer(String name) {
+        return mDatabase.playerDao().getPlayer(name);
     }
 }
