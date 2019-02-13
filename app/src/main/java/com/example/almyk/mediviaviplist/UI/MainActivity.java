@@ -11,22 +11,10 @@ import com.example.almyk.mediviaviplist.Scraping.Scraper;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView mText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mText = findViewById(R.id.tv_text);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Scraper scraper = new Scraper();
-                HashMap<String, PlayerEntity> onlineList = scraper.scrapeOnline("prophecy");
-                scraper.scrapePlayer("Heresy");
-            }
-        }).start();
     }
 }
