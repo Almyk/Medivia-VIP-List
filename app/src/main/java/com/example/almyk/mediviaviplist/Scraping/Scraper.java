@@ -57,7 +57,7 @@ public class Scraper {
             count++;
         }
 
-        Log.d(TAG, count + " Players online.");
+//        Log.d(TAG, count + " Players online.");
         return mOnlineList;
     }
 
@@ -86,7 +86,7 @@ public class Scraper {
     private void getDocument(String url) {
         try {
             mDoc = Jsoup.connect(url).get();
-            Log.d(TAG, "Succesfully connected to " + url);
+//            Log.d(TAG, "Succesfully connected to " + url);
         } catch (IOException e) {
             e.printStackTrace();
         }

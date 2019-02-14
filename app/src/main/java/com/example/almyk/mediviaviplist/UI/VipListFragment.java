@@ -40,7 +40,7 @@ public class VipListFragment extends Fragment {
 
         mRecyclerView = rootView.findViewById(R.id.rv_vip);
         if (mRecyclerView == null) {
-            Log.d(TAG, "mRecyclerView is null");
+            Log.e(TAG, "mRecyclerView is null");
         }
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -81,7 +81,6 @@ public class VipListFragment extends Fragment {
         mViewModel.getVipList().observe(this, new Observer<List<PlayerEntity>>() {
             @Override
             public void onChanged(@Nullable List<PlayerEntity> playerEntities) {
-                Log.d(TAG, "VIP list updated from LiveData");
                 mAdapter.setPlayers(playerEntities);
             }
         });
