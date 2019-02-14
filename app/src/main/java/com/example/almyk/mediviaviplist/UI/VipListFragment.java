@@ -35,6 +35,7 @@ public class VipListFragment extends Fragment {
 
     private void setupViewModel() {
         viewModel = ViewModelProviders.of(this).get(VipListViewModel.class);
+        viewModel.init();
 
         viewModel.getVipList().observe(this, new Observer<List<PlayerEntity>>() {
             @Override
@@ -42,5 +43,9 @@ public class VipListFragment extends Fragment {
                 // TODO : update adapter that fills a RecyclerView
             }
         });
+    }
+
+    public static VipListFragment newInstance() {
+        return new VipListFragment();
     }
 }

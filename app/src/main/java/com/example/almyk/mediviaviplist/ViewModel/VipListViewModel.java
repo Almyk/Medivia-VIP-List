@@ -1,36 +1,35 @@
 package com.example.almyk.mediviaviplist.ViewModel;
 
 import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
 import com.example.almyk.mediviaviplist.AppExecutors;
-import com.example.almyk.mediviaviplist.Database.AppDatabase;
+import com.example.almyk.mediviaviplist.BasicApp;
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
 import com.example.almyk.mediviaviplist.Repository.DataRepository;
 
 import java.util.HashMap;
 import java.util.List;
 
-import javax.inject.Inject;
 
-public class VipListViewModel extends ViewModel {
-    private DataRepository mRepository;
-    private AppExecutors mExecutors;
+public class VipListViewModel extends AndroidViewModel {
+    private static DataRepository mRepository;
+    private static AppExecutors mExecutors;
 
     private LiveData<List<PlayerEntity>> mVipList;
     private HashMap<String, PlayerEntity> mOnlineList;
 
-    @Inject
-    public VipListViewModel(DataRepository repository, AppExecutors executors) {
-        this.mRepository = repository;
-        this.mExecutors = executors;
+    public VipListViewModel(@NonNull Application application) {
+        super(application);
 
-        init();
+        mRepository = ((BasicApp) application).getRepository();
+        mExecutors = AppExecutors.getInstance();
     }
 
-    private void init() {
+
+    public void init() {
         setupVipList();
         getOnlinePlayers();
     }
