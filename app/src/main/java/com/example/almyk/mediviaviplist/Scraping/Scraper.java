@@ -30,7 +30,6 @@ public class Scraper {
 
     public HashMap<String, PlayerEntity> scrapeOnline(String server) {
         getDocument(BASE_URL_ONLINE+server);
-        PlayerEntity player = new PlayerEntity();
         int count = 0;
 
         if(!mOnlineList.isEmpty()) {
@@ -46,6 +45,7 @@ public class Scraper {
                 first = false;
                 continue;
             }
+            PlayerEntity player = new PlayerEntity();
             player.setName(entry.select("div[class=med-width-35]").text());
             player.setServer(server);
             player.setLevel(entry.select("div[class='med-width-25 med-text-right med-pr-40']").text());

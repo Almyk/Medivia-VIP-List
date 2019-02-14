@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.almyk.mediviaviplist.AppExecutors;
 import com.example.almyk.mediviaviplist.MediviaVipListApp;
@@ -15,6 +16,8 @@ import java.util.List;
 
 
 public class VipListViewModel extends AndroidViewModel {
+    private static final String TAG = VipListViewModel.class.getSimpleName();
+
     private static DataRepository mRepository;
     private static AppExecutors mExecutors;
 
@@ -54,8 +57,10 @@ public class VipListViewModel extends AndroidViewModel {
 
     private void updateVipList() {
         for(PlayerEntity player : mVipList.getValue()) {
-            if(mOnlineList.containsKey(player.getName())) {
-                mRepository.updatePlayer(mOnlineList.get(player.getName()));
+            String name = player.getName();
+            if(mOnlineList.containsKey(name)) {
+                Log.d(TAG, "Update DB for player: " + name);
+                mRepository.updatePlayer(mOnlineList.get(name));
             } else {
                 player.setOnline(false);
                 mRepository.updatePlayer(player);
