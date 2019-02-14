@@ -51,7 +51,7 @@ public class Scraper {
             player.setLevel(entry.select("div[class='med-width-25 med-text-right med-pr-40']").text());
             player.setVocation(entry.select("div[class=med-width-15]").text());
             player.setOnline(true);
-            Log.d(TAG, "Player: " + player.getName() + " " + player.getLevel() + " " + player.getVocation() + " " + player.getServer());
+//            Log.d(TAG, "Player: " + player.getName() + " " + player.getLevel() + " " + player.getVocation() + " " + player.getServer());
 
             mOnlineList.put(player.getName(), player);
             count++;

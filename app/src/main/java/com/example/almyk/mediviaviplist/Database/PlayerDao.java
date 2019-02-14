@@ -20,7 +20,7 @@ public interface PlayerDao {
     @Query("SELECT * FROM vip_list where player_name = :name")
     PlayerEntity getPlayer(String name);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(PlayerEntity player);
 
     @Delete

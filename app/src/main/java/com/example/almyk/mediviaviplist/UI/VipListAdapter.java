@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.example.almyk.mediviaviplist.R;
 import java.util.List;
 
 public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListViewHolder> {
+    private static final String TAG = VipListAdapter.class.getSimpleName();
     private Context mContext;
 
     private List<PlayerEntity> mPlayers;
@@ -26,7 +28,8 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
     @NonNull
     @Override
     public VipListAdapter.VipListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.vip_entry, viewGroup, false);
+        View view = LayoutInflater.from(mContext)
+                .inflate(R.layout.vip_entry, viewGroup, false);
 
         return new VipListViewHolder(view);
     }
@@ -63,6 +66,7 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
 
     public void setPlayers(List<PlayerEntity> players) {
         mPlayers = players;
+
         notifyDataSetChanged();
     }
 
