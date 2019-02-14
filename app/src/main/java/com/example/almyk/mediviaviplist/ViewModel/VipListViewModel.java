@@ -59,7 +59,6 @@ public class VipListViewModel extends AndroidViewModel {
         for(PlayerEntity player : mVipList.getValue()) {
             String name = player.getName();
             if(mOnlineList.containsKey(name)) {
-                Log.d(TAG, "Update DB for player: " + name);
                 mRepository.updatePlayer(mOnlineList.get(name));
             } else {
                 player.setOnline(false);
