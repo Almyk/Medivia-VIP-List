@@ -77,6 +77,12 @@ public class Scraper {
         player.setLevel(text);
         text = elements.get(11).text(); // server
         player.setServer(text);
+        text = elements.get(21).text(); // online status
+        if(text.equals("Online")) {
+            player.setOnline(true);
+        } else {
+            player.setOnline(false);
+        }
 
         Log.d(TAG, "Player: " + player.getName() + " " + player.getLevel() + " " + player.getVocation() + " " + player.getServer());
 
