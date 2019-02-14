@@ -6,7 +6,7 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import com.example.almyk.mediviaviplist.AppExecutors;
-import com.example.almyk.mediviaviplist.BasicApp;
+import com.example.almyk.mediviaviplist.MediviaVipListApp;
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
 import com.example.almyk.mediviaviplist.Repository.DataRepository;
 
@@ -24,7 +24,7 @@ public class VipListViewModel extends AndroidViewModel {
     public VipListViewModel(@NonNull Application application) {
         super(application);
 
-        mRepository = ((BasicApp) application).getRepository();
+        mRepository = ((MediviaVipListApp) application).getRepository();
         mExecutors = AppExecutors.getInstance();
     }
 
