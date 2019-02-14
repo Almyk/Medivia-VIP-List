@@ -28,9 +28,21 @@ public class VipListViewModel extends AndroidViewModel {
         mExecutors = AppExecutors.getInstance();
     }
 
+    private void addTestPlayers() {
+        mExecutors.networkIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                PlayerEntity player = new PlayerEntity("Litle");
+                mRepository.addPlayer(player);
+                player.setName("Skully");
+                mRepository.addPlayer(player);
+            }
+        });
+    }
 
     public void init() {
         setupVipList();
+//        addTestPlayers();
         getOnlinePlayers();
     }
 
@@ -43,7 +55,7 @@ public class VipListViewModel extends AndroidViewModel {
         });
     }
 
-    private void getOnlinePlayers() {
+    public void getOnlinePlayers() {
         mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {

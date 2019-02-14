@@ -11,7 +11,8 @@
     <TextView
         android:id="@+id/tv_level"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="6dp"/>
     <TextView
         android:id="@+id/tv_vocation"
         android:layout_width="wrap_content"
@@ -19,7 +20,8 @@
     <TextView
         android:id="@+id/tv_server"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="6dp"/>
     <TextView
         android:id="@+id/tv_online"
         android:layout_width="wrap_content"

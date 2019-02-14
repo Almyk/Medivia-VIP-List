@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
 import com.example.almyk.mediviaviplist.R;
@@ -27,8 +29,9 @@ public class VipListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private VipListAdapter mAdapter;
 
-    private List<PlayerEntity> mVipList;
-
+    private Button mUpdateButton;
+    private Button mAddPlayerButton;
+    private EditText mNewPlayerView;
 
     @Nullable
     @Override
@@ -44,6 +47,23 @@ public class VipListFragment extends Fragment {
 
         mAdapter = new VipListAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
+
+        mUpdateButton = rootView.findViewById(R.id.bt_update);
+        mUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.getOnlinePlayers();
+            }
+        });
+
+        mNewPlayerView = rootView.findViewById(R.id.et_player_name);
+        mAddPlayerButton = rootView.findViewById(R.id.bt_add_player);
+        mAddPlayerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.addPlayer(mNewPlayerView.getText().toString());
+            }
+        });
 
         return rootView;
     }
@@ -61,6 +81,7 @@ public class VipListFragment extends Fragment {
         mViewModel.getVipList().observe(this, new Observer<List<PlayerEntity>>() {
             @Override
             public void onChanged(@Nullable List<PlayerEntity> playerEntities) {
+                Log.d(TAG, "VIP list updated from DB");
                 mAdapter.setPlayers(playerEntities);
             }
         });
