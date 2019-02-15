@@ -111,6 +111,9 @@ public class VipListViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 final PlayerEntity player = mRepository.getPlayerWeb(name);
+                if(player == null) {
+                    return;
+                }
                 mExecutors.diskIO().execute(new Runnable() {
                     @Override
                     public void run() {

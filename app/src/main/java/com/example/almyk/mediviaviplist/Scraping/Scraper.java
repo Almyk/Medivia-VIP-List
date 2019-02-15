@@ -69,6 +69,9 @@ public class Scraper {
         Elements elements = mDoc.select("div[class='med-width-50 med-white-space-normal']");
         elements = elements.select("div[class='med-width-50']");
 
+        if(elements.size() == 0) {
+            return null;
+        }
         text = elements.get(1).text(); // name
         player.setName(text);
         text = elements.get(7).text(); // vocation

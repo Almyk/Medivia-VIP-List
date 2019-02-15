@@ -67,6 +67,7 @@ public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRe
             @Override
             public void onClick(View v) {
                 mViewModel.addPlayer(mNewPlayerView.getText().toString());
+                mNewPlayerView.getText().clear();
             }
         });
 
