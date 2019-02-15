@@ -112,4 +112,13 @@ public class VipListViewModel extends AndroidViewModel {
         });
 
     }
+
+    public void removePlayer(final PlayerEntity player) {
+        mExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mRepository.removePlayer(player);
+            }
+        });
+    }
 }
