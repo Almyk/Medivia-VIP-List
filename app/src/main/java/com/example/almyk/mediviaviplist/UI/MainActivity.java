@@ -8,16 +8,19 @@ import android.os.Bundle;
 import com.example.almyk.mediviaviplist.R;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        VipListFragment vipListFragment = VipListFragment.newInstance();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if(savedInstanceState == null) {
+            VipListFragment vipListFragment = VipListFragment.newInstance();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.fragment_container, vipListFragment).commit();
+            fragmentTransaction.add(R.id.fragment_container, vipListFragment).commit();
+        }
     }
 }
