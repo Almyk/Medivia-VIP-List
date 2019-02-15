@@ -3,9 +3,11 @@ package com.example.almyk.mediviaviplist.UI;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,11 +24,12 @@ import com.example.almyk.mediviaviplist.ViewModel.VipListViewModel;
 
 import java.util.List;
 
-public class VipListFragment extends Fragment {
+public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private static final String TAG = VipListFragment.class.getSimpleName();
 
     private VipListViewModel mViewModel;
 
+    private SwipeRefreshLayout mSwipeContainer;
     private RecyclerView mRecyclerView;
     private VipListAdapter mAdapter;
 
@@ -43,20 +46,14 @@ public class VipListFragment extends Fragment {
         if (mRecyclerView == null) {
             Log.e(TAG, "mRecyclerView is null");
         }
-
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
-
         mAdapter = new VipListAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
-        mUpdateButton = rootView.findViewById(R.id.bt_update);
-        mUpdateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewModel.getOnlinePlayers();
-            }
-        });
+        mSwipeContainer = rootView.findViewById(R.id.swipe_container);
+        mSwipeContainer.setOnRefreshListener(this);
 
         mNewPlayerView = rootView.findViewById(R.id.et_player_name);
         mAddPlayerButton = rootView.findViewById(R.id.bt_add_player);
@@ -90,5 +87,17 @@ public class VipListFragment extends Fragment {
 
     public static VipListFragment newInstance() {
         return new VipListFragment();
+    }
+
+    @Override
+    public void onRefresh() {
+        mViewModel.getOnlinePlayers();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeContainer.setRefreshing(false);
+            }
+        }, 2000);
     }
 }
