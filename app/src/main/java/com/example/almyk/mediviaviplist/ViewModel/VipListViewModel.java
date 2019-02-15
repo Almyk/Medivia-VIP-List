@@ -49,7 +49,14 @@ public class VipListViewModel extends AndroidViewModel {
         mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                mOnlineList = mRepository.getOnline("prophecy"); // TODO should not hard code server here
+                if(mOnlineList == null) {
+                    mOnlineList = new HashMap<>();
+                }
+                mOnlineList.clear();
+                mOnlineList.putAll(mRepository.getOnline("prophecy"));
+                mOnlineList.putAll(mRepository.getOnline("legacy"));
+                mOnlineList.putAll(mRepository.getOnline("pendulum"));
+                mOnlineList.putAll(mRepository.getOnline("destiny"));
                 updateVipList();
             }
         });
