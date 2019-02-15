@@ -23,6 +23,7 @@ public class PlayerEntity {
     @ColumnInfo(name = "vocation")
     private String vocation;
 
+    @ColumnInfo(name = "online")
     private boolean online;
 
     @Ignore

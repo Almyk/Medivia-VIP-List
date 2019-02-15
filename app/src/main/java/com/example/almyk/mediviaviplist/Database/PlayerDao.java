@@ -14,7 +14,7 @@ import java.util.List;
 
 @Dao
 public interface PlayerDao {
-    @Query("SELECT * FROM vip_list")
+    @Query("SELECT * FROM vip_list ORDER BY online DESC, player_name ASC")
     LiveData<List<PlayerEntity>> getAll();
 
     @Query("SELECT * FROM vip_list where player_name = :name")
