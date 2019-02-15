@@ -26,10 +26,6 @@ public class VipListViewModel extends AndroidViewModel {
     private static AppExecutors mExecutors;
 
     private LiveData<List<PlayerEntity>> mVipList;
-    private HashMap<String, PlayerEntity> mOnlineListProphecy;
-    private HashMap<String, PlayerEntity> mOnlineListLegacy;
-    private HashMap<String, PlayerEntity> mOnlineListPendulum;
-    private HashMap<String, PlayerEntity> mOnlineListDestiny;
 
     public VipListViewModel(@NonNull Application application) {
         super(application);
@@ -40,7 +36,7 @@ public class VipListViewModel extends AndroidViewModel {
 
     public void init() {
         setupVipList();
-        getOnlinePlayers();
+        updateVipList();
     }
 
     private void setupVipList() {
@@ -52,54 +48,31 @@ public class VipListViewModel extends AndroidViewModel {
         });
     }
 
-    public void getOnlinePlayers() {
+    public void updateVipList() {
         mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                mOnlineListProphecy = mRepository.getOnline(PROPHECY);
-//                Log.d(TAG, "prophecy scraped");
-                updateVipList(mOnlineListProphecy, PROPHECY);
+                mRepository.updateVipList(PROPHECY);
             }
         });
         mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                mOnlineListLegacy = mRepository.getOnline(LEGACY);
-//                Log.d(TAG, "legacy scraped");
-                updateVipList(mOnlineListLegacy, LEGACY);
+                mRepository.updateVipList(LEGACY);
             }
         });
         mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                mOnlineListPendulum = mRepository.getOnline(PENDULUM);
-//                Log.d(TAG, "pendulum scraped");
-                updateVipList(mOnlineListPendulum, PENDULUM);
+                mRepository.updateVipList(PENDULUM);
             }
         });
         mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                mOnlineListDestiny = mRepository.getOnline(DESTINY);
-//                Log.d(TAG, "destiny scraped");
-                updateVipList(mOnlineListDestiny, DESTINY);
+                mRepository.updateVipList(DESTINY);
             }
         });
-    }
-
-    private void updateVipList(HashMap<String, PlayerEntity> onlineList, String server) {
-        for(PlayerEntity player : mVipList.getValue()) {
-            if(!player.getServer().equals(server)) {
-                continue;
-            }
-            String name = player.getName();
-            if(onlineList.containsKey(name)) {
-                mRepository.updatePlayer(onlineList.get(name));
-            } else {
-                player.setOnline(false);
-                mRepository.updatePlayer(player);
-            }
-        }
     }
 
     public LiveData<List<PlayerEntity>> getVipList() {

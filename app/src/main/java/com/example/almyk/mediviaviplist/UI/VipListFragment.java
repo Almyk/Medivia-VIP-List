@@ -83,7 +83,7 @@ public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onResume() {
         super.onResume();
-        mViewModel.getOnlinePlayers();
+        mViewModel.updateVipList();
     }
 
     private void setupViewModel() {
@@ -104,7 +104,7 @@ public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public void onRefresh() {
-        mViewModel.getOnlinePlayers();
+        mViewModel.updateVipList();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

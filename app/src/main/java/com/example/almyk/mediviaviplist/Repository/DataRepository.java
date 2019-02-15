@@ -39,8 +39,9 @@ public class DataRepository {
         return mVipList;
     }
 
-    public HashMap<String, PlayerEntity> getOnline(String server) {
-        return mScraper.scrapeOnline(server);
+    public void updateVipList(String server) {
+        HashMap<String, PlayerEntity> map = mScraper.scrapeOnline(server);
+        updateDatabaseVipList(map, server);
     }
 
     public PlayerEntity getPlayerWeb(String name) {
@@ -61,5 +62,20 @@ public class DataRepository {
 
     public void updatePlayer(PlayerEntity player) {
         mDatabase.playerDao().update(player);
+    }
+
+    private void updateDatabaseVipList(HashMap<String, PlayerEntity> onlineList, String server) {
+        for(PlayerEntity player : mVipList.getValue()) {
+            if(!player.getServer().equals(server)) {
+                continue;
+            }
+            String name = player.getName();
+            if(onlineList.containsKey(name)) {
+                updatePlayer(onlineList.get(name));
+            } else {
+                player.setOnline(false);
+                updatePlayer(player);
+            }
+        }
     }
 }
