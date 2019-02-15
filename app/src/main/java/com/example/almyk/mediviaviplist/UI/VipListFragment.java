@@ -83,8 +83,7 @@ public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onResume() {
         super.onResume();
-        mSwipeContainer.setRefreshing(true);
-        onRefresh();
+        mViewModel.getOnlinePlayers();
     }
 
     private void setupViewModel() {
