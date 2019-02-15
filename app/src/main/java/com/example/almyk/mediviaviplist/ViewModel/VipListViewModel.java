@@ -83,16 +83,7 @@ public class VipListViewModel extends AndroidViewModel {
         mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                final PlayerEntity player = mRepository.getPlayerWeb(name);
-                if(player == null) {
-                    return;
-                }
-                mExecutors.diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRepository.addPlayer(player);
-                    }
-                });
+                mRepository.addPlayer(name);
             }
         });
 
@@ -102,7 +93,7 @@ public class VipListViewModel extends AndroidViewModel {
         mExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                mRepository.removePlayer(player);
+                mRepository.removePlayerDB(player);
             }
         });
     }

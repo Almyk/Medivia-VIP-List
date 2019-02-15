@@ -48,19 +48,26 @@ public class DataRepository {
         return mScraper.scrapePlayer(name);
     }
 
-    public PlayerEntity getPlayer(String name) {
+    public void addPlayer(String name) {
+        PlayerEntity player = mScraper.scrapePlayer(name);
+        if(player != null) {
+            addPlayerDB(player);
+        }
+    }
+
+    public PlayerEntity getPlayerDB(String name) {
         return mDatabase.playerDao().getPlayer(name);
     }
 
-    public void addPlayer(PlayerEntity player) {
+    public void addPlayerDB(PlayerEntity player) {
         mDatabase.playerDao().insert(player);
     }
 
-    public void removePlayer(PlayerEntity player) {
+    public void removePlayerDB(PlayerEntity player) {
         mDatabase.playerDao().delete(player);
     }
 
-    public void updatePlayer(PlayerEntity player) {
+    public void updatePlayerDB(PlayerEntity player) {
         mDatabase.playerDao().update(player);
     }
 
@@ -71,10 +78,10 @@ public class DataRepository {
             }
             String name = player.getName();
             if(onlineList.containsKey(name)) {
-                updatePlayer(onlineList.get(name));
+                updatePlayerDB(onlineList.get(name));
             } else {
                 player.setOnline(false);
-                updatePlayer(player);
+                updatePlayerDB(player);
             }
         }
     }
