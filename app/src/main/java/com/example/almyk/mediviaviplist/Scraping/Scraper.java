@@ -80,7 +80,7 @@ public class Scraper {
         player.setLevel(text);
         text = elements.get(11).text(); // server
         player.setServer(text);
-        text = elements.get(19).text(); // online status
+        text = elements.get(17).text(); // online status
         if(text.equals("Online")) {
             player.setOnline(true);
         } else {
