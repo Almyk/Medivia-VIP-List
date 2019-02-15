@@ -17,6 +17,10 @@ import java.util.List;
 
 public class VipListViewModel extends AndroidViewModel {
     private static final String TAG = VipListViewModel.class.getSimpleName();
+    private static final String PROPHECY = "Prophecy";
+    private static final String LEGACY = "Legacy";
+    private static final String DESTINY = "Destiny";
+    private static final String PENDULUM = "Pendulum";
 
     private static DataRepository mRepository;
     private static AppExecutors mExecutors;
@@ -52,33 +56,33 @@ public class VipListViewModel extends AndroidViewModel {
         mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                mOnlineListProphecy = mRepository.getOnline("prophecy");
+                mOnlineListProphecy = mRepository.getOnline(PROPHECY);
                 Log.d(TAG, "prophecy scraped");
-                updateVipList(mOnlineListProphecy, "prophecy");
+                updateVipList(mOnlineListProphecy, PROPHECY);
             }
         });
         mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                mOnlineListLegacy = mRepository.getOnline("legacy");
+                mOnlineListLegacy = mRepository.getOnline(LEGACY);
                 Log.d(TAG, "legacy scraped");
-                updateVipList(mOnlineListLegacy, "legacy");
+                updateVipList(mOnlineListLegacy, LEGACY);
             }
         });
         mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                mOnlineListPendulum = mRepository.getOnline("pendulum");
+                mOnlineListPendulum = mRepository.getOnline(PENDULUM);
                 Log.d(TAG, "pendulum scraped");
-                updateVipList(mOnlineListPendulum, "pendulum");
+                updateVipList(mOnlineListPendulum, PENDULUM);
             }
         });
         mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                mOnlineListDestiny = mRepository.getOnline("destiny");
+                mOnlineListDestiny = mRepository.getOnline(DESTINY);
                 Log.d(TAG, "destiny scraped");
-                updateVipList(mOnlineListDestiny, "destiny");
+                updateVipList(mOnlineListDestiny, DESTINY);
             }
         });
     }
@@ -103,11 +107,16 @@ public class VipListViewModel extends AndroidViewModel {
     }
 
     public void addPlayer(final String name) {
-        mExecutors.diskIO().execute(new Runnable() {
+        mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                PlayerEntity player = new PlayerEntity(name);
-                mRepository.addPlayer(player);
+                final PlayerEntity player = mRepository.getPlayerWeb(name);
+                mExecutors.diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRepository.addPlayer(player);
+                    }
+                });
             }
         });
 
