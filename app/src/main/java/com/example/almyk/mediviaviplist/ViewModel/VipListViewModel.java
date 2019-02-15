@@ -54,7 +54,7 @@ public class VipListViewModel extends AndroidViewModel {
             public void run() {
                 mOnlineListProphecy = mRepository.getOnline("prophecy");
                 Log.d(TAG, "prophecy scraped");
-                updateVipList(mOnlineListProphecy);
+                updateVipList(mOnlineListProphecy, "prophecy");
             }
         });
         mExecutors.networkIO().execute(new Runnable() {
@@ -62,7 +62,7 @@ public class VipListViewModel extends AndroidViewModel {
             public void run() {
                 mOnlineListLegacy = mRepository.getOnline("legacy");
                 Log.d(TAG, "legacy scraped");
-                updateVipList(mOnlineListLegacy);
+                updateVipList(mOnlineListLegacy, "legacy");
             }
         });
         mExecutors.networkIO().execute(new Runnable() {
@@ -70,7 +70,7 @@ public class VipListViewModel extends AndroidViewModel {
             public void run() {
                 mOnlineListPendulum = mRepository.getOnline("pendulum");
                 Log.d(TAG, "pendulum scraped");
-                updateVipList(mOnlineListPendulum);
+                updateVipList(mOnlineListPendulum, "pendulum");
             }
         });
         mExecutors.networkIO().execute(new Runnable() {
@@ -78,13 +78,16 @@ public class VipListViewModel extends AndroidViewModel {
             public void run() {
                 mOnlineListDestiny = mRepository.getOnline("destiny");
                 Log.d(TAG, "destiny scraped");
-                updateVipList(mOnlineListDestiny);
+                updateVipList(mOnlineListDestiny, "destiny");
             }
         });
     }
 
-    private void updateVipList(HashMap<String, PlayerEntity> onlineList) {
+    private void updateVipList(HashMap<String, PlayerEntity> onlineList, String server) {
         for(PlayerEntity player : mVipList.getValue()) {
+            if(!player.getServer().equals(server)) {
+                continue;
+            }
             String name = player.getName();
             if(onlineList.containsKey(name)) {
                 mRepository.updatePlayer(onlineList.get(name));
