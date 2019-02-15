@@ -24,7 +24,7 @@ import com.example.almyk.mediviaviplist.ViewModel.VipListViewModel;
 
 import java.util.List;
 
-public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = VipListFragment.class.getSimpleName();
 
     private VipListViewModel mViewModel;
@@ -39,7 +39,10 @@ public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.vip_list, container, false);
 
         mRecyclerView = rootView.findViewById(R.id.rv_vip);
