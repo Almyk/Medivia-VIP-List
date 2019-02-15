@@ -57,7 +57,7 @@ public class VipListViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 mOnlineListProphecy = mRepository.getOnline(PROPHECY);
-                Log.d(TAG, "prophecy scraped");
+//                Log.d(TAG, "prophecy scraped");
                 updateVipList(mOnlineListProphecy, PROPHECY);
             }
         });
@@ -65,7 +65,7 @@ public class VipListViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 mOnlineListLegacy = mRepository.getOnline(LEGACY);
-                Log.d(TAG, "legacy scraped");
+//                Log.d(TAG, "legacy scraped");
                 updateVipList(mOnlineListLegacy, LEGACY);
             }
         });
@@ -73,7 +73,7 @@ public class VipListViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 mOnlineListPendulum = mRepository.getOnline(PENDULUM);
-                Log.d(TAG, "pendulum scraped");
+//                Log.d(TAG, "pendulum scraped");
                 updateVipList(mOnlineListPendulum, PENDULUM);
             }
         });
@@ -81,7 +81,7 @@ public class VipListViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 mOnlineListDestiny = mRepository.getOnline(DESTINY);
-                Log.d(TAG, "destiny scraped");
+//                Log.d(TAG, "destiny scraped");
                 updateVipList(mOnlineListDestiny, DESTINY);
             }
         });

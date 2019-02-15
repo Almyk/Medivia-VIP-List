@@ -46,7 +46,7 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
         holder.mName.setText(name);
         holder.mLevel.setText(level);
         holder.mVocation.setText(vocation);
-        holder.mServer.setText(server+":");
+        holder.mServer.setText(server);
         if(online) {
             holder.mOnline.setText("Online");
             holder.mOnline.setTextColor(Color.GREEN);
