@@ -30,16 +30,6 @@ public class PlayerEntity {
     public PlayerEntity() {
     }
 
-    // TODO : this should not be needed
-    @Ignore
-    public PlayerEntity(String name) {
-        this.name = name;
-        this.server = "?";
-        this.level = "?";
-        this.vocation = "?";
-        this.online = false;
-    }
-
     public PlayerEntity(String name, String server, String level, String vocation) {
         this.name = name;
         this.server = server;
