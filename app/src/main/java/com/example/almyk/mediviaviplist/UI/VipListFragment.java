@@ -51,7 +51,6 @@ public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRe
         if (mRecyclerView == null) {
             Log.e(TAG, "mRecyclerView is null");
         }
-        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), VERTICAL));
         mAdapter = new VipListAdapter(getActivity());
