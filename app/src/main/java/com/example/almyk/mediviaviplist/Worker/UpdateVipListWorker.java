@@ -18,7 +18,7 @@ import androidx.work.WorkerParameters;
 
 public class UpdateVipListWorker extends Worker {
     private final static String TAG = UpdateVipListWorker.class.getSimpleName();
-    private long mSleepTime = 60000;
+    private long mSleepTime = 20000;
 
     public UpdateVipListWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);

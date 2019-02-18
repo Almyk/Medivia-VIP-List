@@ -2,16 +2,20 @@ package com.example.almyk.mediviaviplist.Repository;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
+import android.util.Log;
 
 import com.example.almyk.mediviaviplist.Database.AppDatabase;
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
 import com.example.almyk.mediviaviplist.NotificationUitls;
 import com.example.almyk.mediviaviplist.Scraping.Scraper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class DataRepository {
+    private final static String TAG = DataRepository.class.getSimpleName();
+
     private static DataRepository sInstance;
     private Context mContext;
 
@@ -76,20 +80,29 @@ public class DataRepository {
     }
 
     private void updateDatabaseVipList(HashMap<String, PlayerEntity> onlineList, String server) {
+        List<String> loginList = new ArrayList<>();
         for(PlayerEntity player : mVipList.getValue()) {
             if(!player.getServer().equals(server)) {
                 continue;
             }
             String name = player.getName();
-            if(onlineList.containsKey(name)) {
-                if(!player.isOnline()) { // player logged in
-                    NotificationUitls.makeStatusNotification("Player " + name + " has logged in.", mContext);
+            if(onlineList.containsKey(name)) { // player is online
+                if(!getPlayerDB(name).isOnline()) { // player was offline
+                    loginList.add(name);
                 }
                 updatePlayerDB(onlineList.get(name));
+                Log.d(TAG, "Updated DB");
             } else {
                 player.setOnline(false);
                 updatePlayerDB(player);
             }
+        }
+        if(!loginList.isEmpty()) {
+            String names = loginList.toString();
+            names = names.replace('[', ' ');
+            names = names.replace(']', ' ');
+            NotificationUitls.makeStatusNotification("Player " + names + " has logged in.", mContext);
+            Log.d(TAG, "Created notification for " + names);
         }
     }
 }
