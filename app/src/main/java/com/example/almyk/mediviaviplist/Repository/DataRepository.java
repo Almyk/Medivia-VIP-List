@@ -1,9 +1,11 @@
 package com.example.almyk.mediviaviplist.Repository;
 
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
 
 import com.example.almyk.mediviaviplist.Database.AppDatabase;
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
+import com.example.almyk.mediviaviplist.NotificationUitls;
 import com.example.almyk.mediviaviplist.Scraping.Scraper;
 
 import java.util.HashMap;
@@ -11,24 +13,26 @@ import java.util.List;
 
 public class DataRepository {
     private static DataRepository sInstance;
+    private Context mContext;
 
     private final AppDatabase mDatabase;
     private final Scraper mScraper;
 
     private LiveData<List<PlayerEntity>> mVipList;
 
-    private DataRepository(final AppDatabase database) {
+    private DataRepository(final AppDatabase database, Context context) {
         this.mDatabase = database;
         mVipList = mDatabase.playerDao().getAll();
         mScraper = new Scraper();
+        this.mContext = context;
     }
 
 
-    public static DataRepository getInstance(final AppDatabase database) {
+    public static DataRepository getInstance(final AppDatabase database, Context context) {
         if(sInstance == null) {
             synchronized (DataRepository.class) {
                 if (sInstance == null) {
-                    sInstance = new DataRepository(database);
+                    sInstance = new DataRepository(database, context);
                 }
             }
         }
@@ -78,6 +82,9 @@ public class DataRepository {
             }
             String name = player.getName();
             if(onlineList.containsKey(name)) {
+                if(!player.isOnline()) { // player logged in
+                    NotificationUitls.makeStatusNotification("Player " + name + " has logged in.", mContext);
+                }
                 updatePlayerDB(onlineList.get(name));
             } else {
                 player.setOnline(false);
