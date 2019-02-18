@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.example.almyk.mediviaviplist.Database.AppDatabase;
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
-import com.example.almyk.mediviaviplist.NotificationUitls;
+import com.example.almyk.mediviaviplist.NotificationUtils;
 import com.example.almyk.mediviaviplist.Scraping.Scraper;
 
 import java.util.ArrayList;
@@ -101,7 +101,7 @@ public class DataRepository {
             String names = loginList.toString();
             names = names.replace('[', ' ');
             names = names.replace(']', ' ');
-            NotificationUitls.makeStatusNotification("Player " + names + " has logged in.", mContext);
+            NotificationUtils.makeStatusNotification("Player " + names + " has logged in.", mContext);
             Log.d(TAG, "Created notification for " + names);
         }
     }

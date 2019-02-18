@@ -9,7 +9,7 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import static com.example.almyk.mediviaviplist.Constants.CHANNEL_ID;
 
-public class NotificationUitls {
+public class NotificationUtils {
 
     public static void makeStatusNotification(String message, Context context) {
 
@@ -45,5 +45,5 @@ public class NotificationUitls {
         NotificationManagerCompat.from(context).notify(Constants.NOTIFICATION_ID, builder.build());
     }
 
-    public NotificationUitls() {}
+    public NotificationUtils() {}
 }
