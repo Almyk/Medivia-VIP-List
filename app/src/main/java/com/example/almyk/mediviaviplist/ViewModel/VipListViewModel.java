@@ -7,12 +7,20 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.almyk.mediviaviplist.AppExecutors;
+import com.example.almyk.mediviaviplist.Constants;
 import com.example.almyk.mediviaviplist.MediviaVipListApp;
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
 import com.example.almyk.mediviaviplist.Repository.DataRepository;
+import com.example.almyk.mediviaviplist.Worker.UpdateVipListWorker;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 
 public class VipListViewModel extends AndroidViewModel {
@@ -24,6 +32,7 @@ public class VipListViewModel extends AndroidViewModel {
 
     private static DataRepository mRepository;
     private static AppExecutors mExecutors;
+    private static WorkManager mWorkManager;
 
     private LiveData<List<PlayerEntity>> mVipList;
 
@@ -32,11 +41,22 @@ public class VipListViewModel extends AndroidViewModel {
 
         mRepository = ((MediviaVipListApp) application).getRepository();
         mExecutors = AppExecutors.getInstance();
+        mWorkManager = WorkManager.getInstance();
+        mWorkManager.cancelAllWork();
     }
 
     public void init() {
         setupVipList();
         updateVipList();
+        synchVipList();
+    }
+
+    private void synchVipList() {
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
+                UpdateVipListWorker.class, 10, TimeUnit.SECONDS)
+                .addTag(Constants.UPDATE_VIP_LIST_TAG)
+                .build();
+        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE,workRequest);
     }
 
     private void setupVipList() {
