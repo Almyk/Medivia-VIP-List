@@ -28,21 +28,26 @@ public class UpdateVipListWorker extends Worker {
     @Override
     public Result doWork() {
         updateVipList(((MediviaVipListApp) getApplicationContext()).getRepository());
-        Log.d(TAG, "updated vip list");
+        enqueueNextRequest();
+        return Result.success();
+    }
 
-
+    private void enqueueNextRequest() {
         // Create a new periodic work request so that we can have intervals <15m
+        sleep();
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
+                UpdateVipListWorker.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
+                .addTag(Constants.UPDATE_VIP_LIST_TAG)
+                .build();
+        WorkManager.getInstance().enqueueUniquePeriodicWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE,workRequest);
+    }
+
+    private void sleep() {
         try {
             Thread.sleep(mSleepTime, 0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
-                UpdateVipListWorker.class, 10, TimeUnit.SECONDS)
-                .addTag(Constants.UPDATE_VIP_LIST_TAG)
-                .build();
-        WorkManager.getInstance().enqueueUniquePeriodicWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE,workRequest);
-        return Result.success();
     }
 
     private void updateVipList(DataRepository repository) {
@@ -50,9 +55,10 @@ public class UpdateVipListWorker extends Worker {
         repository.updateVipList("Prophecy");
         repository.updateVipList("Destiny");
         repository.updateVipList("Legacy");
+        Log.d(TAG, "updated vip list");
     }
 
-    public void setmSleepTime(long SleepTime) {
+    public void setSleepTime(long SleepTime) {
         this.mSleepTime = SleepTime;
     }
 }
