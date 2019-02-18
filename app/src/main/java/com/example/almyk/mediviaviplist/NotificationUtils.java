@@ -11,7 +11,7 @@ import static com.example.almyk.mediviaviplist.Constants.CHANNEL_ID;
 
 public class NotificationUtils {
 
-    public static void makeStatusNotification(String message, Context context) {
+    public static void makeStatusNotification(String message, Context context, String server) {
 
         // Make a channel if necessary
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -34,6 +34,13 @@ public class NotificationUtils {
         }
 
         // Create the notification
+        int NOTIFICATION_ID = 0;
+        switch(server) {
+            case "Pendulum": NOTIFICATION_ID = 1; break;
+            case "Legacy": NOTIFICATION_ID = 2; break;
+            case "Destiny": NOTIFICATION_ID = 3; break;
+            case "Prophecy": NOTIFICATION_ID = 4; break;
+        }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(Constants.NOTIFICATION_TITLE)
@@ -42,7 +49,7 @@ public class NotificationUtils {
                 .setVibrate(new long[0]);
 
         // Show the notification
-        NotificationManagerCompat.from(context).notify(Constants.NOTIFICATION_ID, builder.build());
+        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder.build());
     }
 
     public NotificationUtils() {}

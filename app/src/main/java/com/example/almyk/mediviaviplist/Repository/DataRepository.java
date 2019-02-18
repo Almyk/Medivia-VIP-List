@@ -97,11 +97,12 @@ public class DataRepository {
                 updatePlayerDB(player);
             }
         }
+
         if(!loginList.isEmpty()) {
             String names = loginList.toString();
             names = names.replace('[', ' ');
             names = names.replace(']', ' ');
-            NotificationUtils.makeStatusNotification("Player " + names + " has logged in.", mContext);
+            NotificationUtils.makeStatusNotification("Player " + names + " has logged in.", mContext, server);
             Log.d(TAG, "Created notification for " + names);
         }
     }
