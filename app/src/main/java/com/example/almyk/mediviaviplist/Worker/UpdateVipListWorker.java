@@ -27,14 +27,11 @@ public class UpdateVipListWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        DataRepository repository = ((MediviaVipListApp) getApplicationContext()).getRepository();
-        if(repository == null) {
-            Log.d(TAG, "could not get repository");
-            return null;
-        }
-        updateVipList(repository);
+        updateVipList(((MediviaVipListApp) getApplicationContext()).getRepository());
         Log.d(TAG, "updated vip list");
 
+
+        // Create a new periodic work request so that we can have intervals <15m
         try {
             Thread.sleep(mSleepTime, 0);
         } catch (InterruptedException e) {
