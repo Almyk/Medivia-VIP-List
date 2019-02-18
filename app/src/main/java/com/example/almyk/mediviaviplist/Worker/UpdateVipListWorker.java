@@ -51,4 +51,8 @@ public class UpdateVipListWorker extends Worker {
         repository.updateVipList("Destiny");
         repository.updateVipList("Legacy");
     }
+
+    public void setmSleepTime(long SleepTime) {
+        this.mSleepTime = SleepTime;
+    }
 }
