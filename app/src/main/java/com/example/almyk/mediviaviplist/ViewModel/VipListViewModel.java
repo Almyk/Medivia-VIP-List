@@ -53,7 +53,7 @@ public class VipListViewModel extends AndroidViewModel {
 
     private void synchVipList() {
         PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
-                UpdateVipListWorker.class, 10, TimeUnit.SECONDS)
+                UpdateVipListWorker.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
                 .addTag(Constants.UPDATE_VIP_LIST_TAG)
                 .build();
         mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE,workRequest);
