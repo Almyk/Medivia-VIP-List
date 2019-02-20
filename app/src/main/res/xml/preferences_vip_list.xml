@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="notification_switch"
+        android:summaryOff="Notifications are turned OFF"
+        android:summaryOn="Notifications are turned ON"
+        android:title="Notifications" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="bkgsync_switch"
+        android:title="Update VIP list in background" />
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="bksync_text"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="Set how often you want the VIP list to refresh. Frequent updates may consume more battery and mobile data."
+        android:title="Update frequency"
+        android:hint="seconds"/>
+</PreferenceScreen>
