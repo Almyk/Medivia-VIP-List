@@ -35,9 +35,13 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mVipList = mDatabase.playerDao().getAll();
         mScraper = new Scraper();
         this.mContext = context;
-        mSyncInterval = Long.parseLong(
-                PreferenceManager.getDefaultSharedPreferences(context)
+        initializeSyncInterval(context);
+    }
+
+    private void initializeSyncInterval(Context context) {
+        Long val = Long.parseLong(PreferenceManager.getDefaultSharedPreferences(context)
                         .getString("bgsync_freq", "60000"));
+        setSyncInterval(val);
     }
 
 
@@ -121,12 +125,12 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         switch(key) {
             case "bgsync_freq":
                 String val = sharedPreferences.getString(key, "60000");
-                setSyncInterval(Long.parseLong(val) * 1000);
+                setSyncInterval(Long.parseLong(val));
         }
     }
 
-    private void setSyncInterval(long timeInMillis) {
-        this.mSyncInterval = timeInMillis;
+    private void setSyncInterval(long timeInSeconds) {
+        this.mSyncInterval = timeInSeconds * 1000;
     }
 
     public long getSyncInterval() {

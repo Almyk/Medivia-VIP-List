@@ -32,6 +32,7 @@ public class UpdateVipListWorker extends Worker {
     public Result doWork() {
         DataRepository repository = ((MediviaVipListApp) getApplicationContext()).getRepository();
         setSleepTime(repository.getSyncInterval());
+        Log.d(TAG, "mSleepTime: " + mSleepTime);
         updateVipList(repository);
         enqueueNextRequest();
         return Result.success();
