@@ -1,4 +1,4 @@
-package com.example.almyk.mediviaviplist;
+package com.example.almyk.mediviaviplist.Utilities;
 
 public final class Constants {
     public static final String UPDATE_VIP_LIST_TAG = "updateviplist_tag";

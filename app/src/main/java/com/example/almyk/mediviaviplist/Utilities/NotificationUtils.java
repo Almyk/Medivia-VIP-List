@@ -1,4 +1,4 @@
-package com.example.almyk.mediviaviplist;
+package com.example.almyk.mediviaviplist.Utilities;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,7 +7,10 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
-import static com.example.almyk.mediviaviplist.Constants.CHANNEL_ID;
+import com.example.almyk.mediviaviplist.R;
+import com.example.almyk.mediviaviplist.Utilities.Constants;
+
+import static com.example.almyk.mediviaviplist.Utilities.Constants.CHANNEL_ID;
 
 public class NotificationUtils {
 

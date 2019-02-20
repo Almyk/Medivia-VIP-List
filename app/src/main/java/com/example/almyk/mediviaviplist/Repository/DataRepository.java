@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.example.almyk.mediviaviplist.Database.AppDatabase;
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
-import com.example.almyk.mediviaviplist.NotificationUtils;
+import com.example.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.example.almyk.mediviaviplist.Scraping.Scraper;
 
 import java.util.ArrayList;

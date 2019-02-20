@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.almyk.mediviaviplist.Constants;
+import com.example.almyk.mediviaviplist.Utilities.Constants;
 import com.example.almyk.mediviaviplist.MediviaVipListApp;
 import com.example.almyk.mediviaviplist.Repository.DataRepository;
 

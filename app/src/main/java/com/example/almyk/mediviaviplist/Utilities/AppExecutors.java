@@ -1,4 +1,4 @@
-package com.example.almyk.mediviaviplist;
+package com.example.almyk.mediviaviplist.Utilities;
 
 import android.os.Handler;
 import android.os.Looper;
