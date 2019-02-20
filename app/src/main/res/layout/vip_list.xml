@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".UI.MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#f1e4da">
 
     <LinearLayout
         android:id="@+id/player_layout"
@@ -16,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Player name"
+            android:hint="Enter Player Name"
             android:inputType="text"
             android:maxLines="1"/>
 
@@ -24,7 +25,8 @@
             android:id="@+id/bt_add_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Player"/>
+            android:text="Add Player"
+            android:backgroundTint="#92c13f"/>
 
     </LinearLayout>
 

@@ -47,7 +47,6 @@ public class VipListViewModel extends AndroidViewModel {
 
     public void init() {
         setupVipList();
-        updateVipList();
         synchVipList();
     }
 

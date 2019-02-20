@@ -57,7 +57,7 @@ public class DataRepository {
     }
 
     public void addPlayer(String name) {
-        PlayerEntity player = mScraper.scrapePlayer(name);
+        PlayerEntity player = getPlayerWeb(name);
         if(player != null) {
             addPlayerDB(player);
         }
