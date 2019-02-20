@@ -97,7 +97,7 @@ public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public void onRefresh() {
-        mViewModel.updateVipList();
+        mViewModel.forceUpdateVipList();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

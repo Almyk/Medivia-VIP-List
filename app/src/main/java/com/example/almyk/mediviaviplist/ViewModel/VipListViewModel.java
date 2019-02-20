@@ -116,4 +116,8 @@ public class VipListViewModel extends AndroidViewModel {
             }
         });
     }
+
+    public void forceUpdateVipList() {
+        synchVipList();
+    }
 }
