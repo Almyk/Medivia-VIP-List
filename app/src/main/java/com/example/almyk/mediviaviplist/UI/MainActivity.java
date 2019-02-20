@@ -1,5 +1,6 @@
 package com.example.almyk.mediviaviplist.UI;
 
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences_vip_list, false);
 
         if(savedInstanceState == null) {
             VipListFragment vipListFragment = VipListFragment.newInstance();

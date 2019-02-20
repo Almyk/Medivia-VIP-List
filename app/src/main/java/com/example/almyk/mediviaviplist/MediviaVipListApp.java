@@ -12,6 +12,6 @@ public class MediviaVipListApp extends Application {
     }
 
     public DataRepository getRepository() {
-        return DataRepository.getInstance(getDatabase(), getApplicationContext());
+        return DataRepository.getInstance(getDatabase(), this);
     }
 }

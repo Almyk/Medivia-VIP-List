@@ -5,5 +5,8 @@
     <string name="notification_switch_title">Notifications</string>
     <string name="bgsync_switch_title">Update VIP list in background</string>
     <string name="bsync_freq_summary">Set how often you want the VIP list to refresh. Frequent updates may consume more battery and mobile data.</string>
-    <string name="bgsync_freq_title">Update frequency</string>
+    <string name="bgsync_freq_title">Update Frequency (seconds)</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

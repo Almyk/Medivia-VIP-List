@@ -1,6 +1,8 @@
 package com.example.almyk.mediviaviplist.Worker;
 
+import android.app.Application;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -10,6 +12,7 @@ import com.example.almyk.mediviaviplist.Repository.DataRepository;
 
 import java.util.concurrent.TimeUnit;
 
+import androidx.work.Data;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
@@ -18,7 +21,7 @@ import androidx.work.WorkerParameters;
 
 public class UpdateVipListWorker extends Worker {
     private final static String TAG = UpdateVipListWorker.class.getSimpleName();
-    private long mSleepTime = 60000;
+    private static long mSleepTime = 60000;
 
     public UpdateVipListWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -27,7 +30,9 @@ public class UpdateVipListWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        updateVipList(((MediviaVipListApp) getApplicationContext()).getRepository());
+        DataRepository repository = ((MediviaVipListApp) getApplicationContext()).getRepository();
+        setSleepTime(repository.getSyncInterval());
+        updateVipList(repository);
         enqueueNextRequest();
         return Result.success();
     }

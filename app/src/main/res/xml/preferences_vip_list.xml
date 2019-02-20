@@ -12,10 +12,11 @@
         android:key="bgsync_switch"
         android:title="@string/bgsync_switch_title" />
     <EditTextPreference
-        android:defaultValue="Default value"
-        android:key="bgsync_freq_text"
+        android:defaultValue="60"
+        android:key="bgsync_freq"
         android:selectAllOnFocus="true"
         android:singleLine="true"
+        android:inputType="number"
         android:summary="@string/bsync_freq_summary"
         android:title="@string/bgsync_freq_title"
         android:hint="seconds"/>

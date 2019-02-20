@@ -2,10 +2,14 @@ package com.example.almyk.mediviaviplist.Repository;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.almyk.mediviaviplist.Database.AppDatabase;
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
+import com.example.almyk.mediviaviplist.R;
 import com.example.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.example.almyk.mediviaviplist.Scraping.Scraper;
 
@@ -13,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DataRepository {
+public class DataRepository implements SharedPreferences.OnSharedPreferenceChangeListener{
     private final static String TAG = DataRepository.class.getSimpleName();
 
     private static DataRepository sInstance;
@@ -24,11 +28,16 @@ public class DataRepository {
 
     private LiveData<List<PlayerEntity>> mVipList;
 
+    private long mSyncInterval;
+
     private DataRepository(final AppDatabase database, Context context) {
         this.mDatabase = database;
         mVipList = mDatabase.playerDao().getAll();
         mScraper = new Scraper();
         this.mContext = context;
+        mSyncInterval = Long.parseLong(
+                PreferenceManager.getDefaultSharedPreferences(context)
+                        .getString("bgsync_freq", "60000"));
     }
 
 
@@ -105,5 +114,22 @@ public class DataRepository {
             NotificationUtils.makeStatusNotification("Player " + names + " has logged in.", mContext, server);
             Log.d(TAG, "Created notification for " + names);
         }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        switch(key) {
+            case "bgsync_freq":
+                String val = sharedPreferences.getString(key, "60000");
+                setSyncInterval(Long.parseLong(val) * 1000);
+        }
+    }
+
+    private void setSyncInterval(long timeInMillis) {
+        this.mSyncInterval = timeInMillis;
+    }
+
+    public long getSyncInterval() {
+        return mSyncInterval;
     }
 }

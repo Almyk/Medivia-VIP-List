@@ -2,6 +2,7 @@ package com.example.almyk.mediviaviplist.UI;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -143,6 +144,8 @@ public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
         switch(item.getItemId()) {
             case R.id.action_settings:
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

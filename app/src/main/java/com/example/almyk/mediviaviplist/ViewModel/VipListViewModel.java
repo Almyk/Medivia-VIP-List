@@ -3,8 +3,10 @@ package com.example.almyk.mediviaviplist.ViewModel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
+import com.example.almyk.mediviaviplist.R;
 import com.example.almyk.mediviaviplist.Utilities.AppExecutors;
 import com.example.almyk.mediviaviplist.Utilities.Constants;
 import com.example.almyk.mediviaviplist.MediviaVipListApp;
@@ -40,6 +42,7 @@ public class VipListViewModel extends AndroidViewModel {
         mExecutors = AppExecutors.getInstance();
         mWorkManager = WorkManager.getInstance();
         mWorkManager.cancelAllWork();
+        PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(mRepository);
     }
 
     public void init() {
