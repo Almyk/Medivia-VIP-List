@@ -1,4 +1,4 @@
-package com.example.almyk.mediviaviplist.UI;
+package com.example.almyk.mediviaviplist.UI.Settings;
 
 
 import android.content.SharedPreferences;

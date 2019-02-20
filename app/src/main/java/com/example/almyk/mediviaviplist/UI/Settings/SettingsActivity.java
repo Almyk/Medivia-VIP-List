@@ -1,4 +1,4 @@
-package com.example.almyk.mediviaviplist.UI;
+package com.example.almyk.mediviaviplist.UI.Settings;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

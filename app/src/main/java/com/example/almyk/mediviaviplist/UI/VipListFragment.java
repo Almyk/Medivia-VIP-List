@@ -25,6 +25,7 @@ import android.widget.EditText;
 
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
 import com.example.almyk.mediviaviplist.R;
+import com.example.almyk.mediviaviplist.UI.Settings.SettingsActivity;
 import com.example.almyk.mediviaviplist.ViewModel.VipListViewModel;
 
 import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
