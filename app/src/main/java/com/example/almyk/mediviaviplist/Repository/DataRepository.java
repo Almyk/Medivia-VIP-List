@@ -138,6 +138,13 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
             case "bgsync_freq":
                 String val = sharedPreferences.getString(key, "60");
                 setSyncInterval(Long.parseLong(val));
+                break;
+            case "bgsync_switch":
+                mDoBackgroundSync = sharedPreferences.getBoolean("bgsync_switch", true);
+                break;
+            case "notification_switch":
+                mShowNotifications = sharedPreferences.getBoolean("notification_switch", true);
+                break;
         }
     }
 
