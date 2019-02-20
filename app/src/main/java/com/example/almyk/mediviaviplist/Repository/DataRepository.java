@@ -4,12 +4,10 @@ import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.almyk.mediviaviplist.Database.AppDatabase;
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
-import com.example.almyk.mediviaviplist.R;
 import com.example.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.example.almyk.mediviaviplist.Scraping.Scraper;
 
@@ -28,20 +26,29 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     private LiveData<List<PlayerEntity>> mVipList;
 
+    // user preferences
     private long mSyncInterval;
+    private boolean mDoBackgroundSync;
+    private boolean mShowNotifications;
 
     private DataRepository(final AppDatabase database, Context context) {
         this.mDatabase = database;
         mVipList = mDatabase.playerDao().getAll();
         mScraper = new Scraper();
         this.mContext = context;
-        initializeSyncInterval(context);
+        initializeUserPreferences(context);
     }
 
-    private void initializeSyncInterval(Context context) {
-        Long val = Long.parseLong(PreferenceManager.getDefaultSharedPreferences(context)
-                        .getString("bgsync_freq", "60000"));
-        setSyncInterval(val);
+    private void initializeUserPreferences(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        // Because user sets interval in seconds, we use seconds as a unit here, which changes to millis in setSyncInterval()
+        Long syncInterval = Long.parseLong(preferences.getString("bgsync_freq", "60"));
+        if(syncInterval == null) {
+            syncInterval = new Long(60);
+        }
+        setSyncInterval(syncInterval);
+        mDoBackgroundSync = preferences.getBoolean("bgsync_switch", true);
+        mShowNotifications = preferences.getBoolean("notification_switch", true);
     }
 
 
@@ -111,12 +118,17 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
             }
         }
 
+        if(mShowNotifications) {
+            createNotification(server, loginList);
+        }
+    }
+
+    private void createNotification(String server, List<String> loginList) {
         if(!loginList.isEmpty()) {
             String names = loginList.toString();
             names = names.replace('[', ' ');
             names = names.replace(']', ' ');
             NotificationUtils.makeStatusNotification("Player " + names + " has logged in.", mContext, server);
-            Log.d(TAG, "Created notification for " + names);
         }
     }
 
@@ -124,7 +136,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch(key) {
             case "bgsync_freq":
-                String val = sharedPreferences.getString(key, "60000");
+                String val = sharedPreferences.getString(key, "60");
                 setSyncInterval(Long.parseLong(val));
         }
     }
