@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Medivia VIP List</string>
+    <string name="notification_switch_off">Notifications are turned OFF</string>
+    <string name="notification_switch_on">Notifications are turned ON</string>
+    <string name="notification_switch_title">Notifications</string>
+    <string name="bgsync_switch_title">Update VIP list in background</string>
+    <string name="bsync_freq_summary">Set how often you want the VIP list to refresh. Frequent updates may consume more battery and mobile data.</string>
+    <string name="bgsync_freq_title">Update frequency</string>
 </resources>
