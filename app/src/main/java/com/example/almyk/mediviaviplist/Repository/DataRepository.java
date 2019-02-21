@@ -173,16 +173,16 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 setSyncInterval(Long.parseLong(val));
                 break;
             case "bgsync_switch":
-                mDoBackgroundSync = sharedPreferences.getBoolean("bgsync_switch", true);
+                mDoBackgroundSync = sharedPreferences.getBoolean(key, true);
                 if(!mDoBackgroundSync) {
-                    mWorkManager.cancelAllWork();
+                    mWorkManager.cancelUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME);
                     Toast.makeText(mContext, "Background sync turned off, to manually update pull down on vip list.", Toast.LENGTH_LONG).show();
                 } else {
                     initializeVipListBackgroundSync();
                 }
                 break;
             case "notification_switch":
-                mShowNotifications = sharedPreferences.getBoolean("notification_switch", true);
+                mShowNotifications = sharedPreferences.getBoolean(key, true);
                 break;
         }
     }
