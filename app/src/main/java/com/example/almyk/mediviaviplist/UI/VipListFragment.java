@@ -27,6 +27,7 @@ import com.example.almyk.mediviaviplist.Database.PlayerEntity;
 import com.example.almyk.mediviaviplist.R;
 import com.example.almyk.mediviaviplist.UI.Settings.SettingsActivity;
 import com.example.almyk.mediviaviplist.ViewModel.VipListViewModel;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 
@@ -34,6 +35,8 @@ import java.util.List;
 
 public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = VipListFragment.class.getSimpleName();
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private VipListViewModel mViewModel;
 
@@ -88,6 +91,7 @@ public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
     }
 
     private void setupViewModel() {
