@@ -146,10 +146,10 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 if(!mDoBackgroundSync) {
                     mBackgroundSyncLastCancel = new Date().getTime();
                     Toast.makeText(mContext, "Background sync turned off, to manually update pull down on vip list.", Toast.LENGTH_LONG).show();
-                } else {
-                    if(mBackgroundSyncLastCancel - mBackgroundSyncLastSleep > mSyncInterval) {
+                } else if( // if we have a sleeping thread we don't start a new one
+                        // or when app was started and sync was off, but now turned on, then we need to start new thread
+                        mBackgroundSyncLastCancel - mBackgroundSyncLastSleep > mSyncInterval || mBackgroundSyncLastCancel == 0) {
                         initializeVipListBackgroundSync(ExistingWorkPolicy.REPLACE);
-                    }
                 }
                 break;
             case "notification_switch":
