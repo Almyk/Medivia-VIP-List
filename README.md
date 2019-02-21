@@ -1,11 +1,12 @@
 
 # Medivia-VIP-List
 
+<img align="right" src="https://i.imgur.com/TxlGFvu.jpg" width="250" height="500" />
+<img align="right" src="https://i.imgur.com/6Tnqhjl.jpg" width="250" height="500" />
+
 Medivia VIP List is an Android application for showing your VIPs' online status in the game Medivia.online
 
 # Features
-
-<img align="right" src="https://i.imgur.com/wLfWVXW.jpg" width="250" height="500" />
 
 - Add players to VIP list
 - Swipe to remove player
