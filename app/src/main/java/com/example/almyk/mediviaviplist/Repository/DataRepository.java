@@ -96,42 +96,6 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         return sInstance;
     }
 
-    public LiveData<List<PlayerEntity>> getVipList() {
-        return mVipList;
-    }
-
-    public void updateVipList(String server) {
-        HashMap<String, PlayerEntity> map = mScraper.scrapeOnline(server);
-        updateDatabaseVipList(map, server);
-    }
-
-    public PlayerEntity getPlayerWeb(String name) {
-        return mScraper.scrapePlayer(name);
-    }
-
-    public void addPlayer(String name) {
-        PlayerEntity player = getPlayerWeb(name);
-        if(player != null) {
-            addPlayerDB(player);
-        }
-    }
-
-    public PlayerEntity getPlayerDB(String name) {
-        return mDatabase.playerDao().getPlayer(name);
-    }
-
-    public void addPlayerDB(PlayerEntity player) {
-        mDatabase.playerDao().insert(player);
-    }
-
-    public void removePlayerDB(PlayerEntity player) {
-        mDatabase.playerDao().delete(player);
-    }
-
-    public void updatePlayerDB(PlayerEntity player) {
-        mDatabase.playerDao().update(player);
-    }
-
     private void updateDatabaseVipList(HashMap<String, PlayerEntity> onlineList, String server) {
         List<String> loginList = new ArrayList<>();
         for(PlayerEntity player : mVipList.getValue()) {
@@ -191,18 +155,54 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         this.mSyncInterval = timeInSeconds * 1000;
     }
 
+    public void forceUpdateVipList() {
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class)
+                .addTag(Constants.UPDATE_VIP_LIST_TAG)
+                .build();
+        mWorkManager.enqueue(workRequest);
+    }
+
+    public void updateVipList(String server) {
+        HashMap<String, PlayerEntity> map = mScraper.scrapeOnline(server);
+        updateDatabaseVipList(map, server);
+    }
+
+    public LiveData<List<PlayerEntity>> getVipList() {
+        return mVipList;
+    }
+
+    public PlayerEntity getPlayerWeb(String name) {
+        return mScraper.scrapePlayer(name);
+    }
+
+    public void addPlayer(String name) {
+        PlayerEntity player = getPlayerWeb(name);
+        if(player != null) {
+            addPlayerDB(player);
+        }
+    }
+
+    public PlayerEntity getPlayerDB(String name) {
+        return mDatabase.playerDao().getPlayer(name);
+    }
+
+    public void addPlayerDB(PlayerEntity player) {
+        mDatabase.playerDao().insert(player);
+    }
+
+    public void removePlayerDB(PlayerEntity player) {
+        mDatabase.playerDao().delete(player);
+    }
+
+    public void updatePlayerDB(PlayerEntity player) {
+        mDatabase.playerDao().update(player);
+    }
+
     public long getSyncInterval() {
         return mSyncInterval;
     }
 
     public boolean isDoBackgroundSync() {
         return mDoBackgroundSync;
-    }
-
-    public void forceUpdateVipList() {
-        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class)
-                .addTag(Constants.UPDATE_VIP_LIST_TAG)
-                .build();
-        mWorkManager.enqueue(workRequest);
     }
 }
