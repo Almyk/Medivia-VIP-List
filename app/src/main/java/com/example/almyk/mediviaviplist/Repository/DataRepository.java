@@ -5,15 +5,26 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.almyk.mediviaviplist.Database.AppDatabase;
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
+import com.example.almyk.mediviaviplist.Utilities.Constants;
 import com.example.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.example.almyk.mediviaviplist.Scraping.Scraper;
+import com.example.almyk.mediviaviplist.Worker.UpdateVipListWorker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import androidx.work.Data;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 public class DataRepository implements SharedPreferences.OnSharedPreferenceChangeListener{
     private final static String TAG = DataRepository.class.getSimpleName();
@@ -23,8 +34,9 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     private final AppDatabase mDatabase;
     private final Scraper mScraper;
+    private static WorkManager mWorkManager;
 
-    private LiveData<List<PlayerEntity>> mVipList;
+    private final LiveData<List<PlayerEntity>> mVipList;
 
     // user preferences
     private long mSyncInterval;
@@ -37,6 +49,27 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mScraper = new Scraper();
         this.mContext = context;
         initializeUserPreferences(context);
+        setupWorkManager();
+    }
+
+    private void setupWorkManager() {
+        mWorkManager = WorkManager.getInstance();
+        if(mDoBackgroundSync) {
+            initializeVipListBackgroundSync();
+        } else {
+            mWorkManager.cancelAllWork();
+        }
+
+    }
+
+    private void initializeVipListBackgroundSync() {
+        mWorkManager.cancelAllWork();
+        Data data = new Data.Builder().putBoolean(Constants.DO_BGSYNC, mDoBackgroundSync).build();
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class)
+                .addTag(Constants.UPDATE_VIP_LIST_TAG)
+                .setInputData(data)
+                .build();
+        mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, ExistingWorkPolicy.REPLACE, workRequest);
     }
 
     private void initializeUserPreferences(Context context) {
@@ -141,6 +174,12 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 break;
             case "bgsync_switch":
                 mDoBackgroundSync = sharedPreferences.getBoolean("bgsync_switch", true);
+                if(!mDoBackgroundSync) {
+                    mWorkManager.cancelAllWork();
+                    Toast.makeText(mContext, "Background sync turned off, to manually update pull down on vip list.", Toast.LENGTH_LONG).show();
+                } else {
+                    initializeVipListBackgroundSync();
+                }
                 break;
             case "notification_switch":
                 mShowNotifications = sharedPreferences.getBoolean("notification_switch", true);
@@ -154,5 +193,16 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public long getSyncInterval() {
         return mSyncInterval;
+    }
+
+    public boolean isDoBackgroundSync() {
+        return mDoBackgroundSync;
+    }
+
+    public void forceUpdateVipList() {
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class)
+                .addTag(Constants.UPDATE_VIP_LIST_TAG)
+                .build();
+        mWorkManager.enqueue(workRequest);
     }
 }

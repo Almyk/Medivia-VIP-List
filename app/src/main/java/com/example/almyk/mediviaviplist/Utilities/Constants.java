@@ -13,5 +13,7 @@ public final class Constants {
     public static final String CHANNEL_ID = "LOGIN_NOTIFICATION" ;
     public static final int NOTIFICATION_ID = 1;
 
+    public static final String DO_BGSYNC = "BACKGROUND_SYNCHRONIZATION";
+
     public Constants() {}
 }

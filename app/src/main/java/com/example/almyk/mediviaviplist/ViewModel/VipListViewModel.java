@@ -6,20 +6,12 @@ import android.arch.lifecycle.LiveData;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
-import com.example.almyk.mediviaviplist.R;
 import com.example.almyk.mediviaviplist.Utilities.AppExecutors;
-import com.example.almyk.mediviaviplist.Utilities.Constants;
 import com.example.almyk.mediviaviplist.MediviaVipListApp;
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
 import com.example.almyk.mediviaviplist.Repository.DataRepository;
-import com.example.almyk.mediviaviplist.Worker.UpdateVipListWorker;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 
 
 public class VipListViewModel extends AndroidViewModel {
@@ -31,7 +23,6 @@ public class VipListViewModel extends AndroidViewModel {
 
     private static DataRepository mRepository;
     private static AppExecutors mExecutors;
-    private static WorkManager mWorkManager;
 
     private LiveData<List<PlayerEntity>> mVipList;
 
@@ -40,31 +31,15 @@ public class VipListViewModel extends AndroidViewModel {
 
         mRepository = ((MediviaVipListApp) application).getRepository();
         mExecutors = AppExecutors.getInstance();
-        mWorkManager = WorkManager.getInstance();
-        mWorkManager.cancelAllWork();
         PreferenceManager.getDefaultSharedPreferences(application).registerOnSharedPreferenceChangeListener(mRepository);
     }
 
     public void init() {
         setupVipList();
-        synchVipList();
-    }
-
-    private void synchVipList() {
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
-                UpdateVipListWorker.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
-                .addTag(Constants.UPDATE_VIP_LIST_TAG)
-                .build();
-        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE,workRequest);
     }
 
     private void setupVipList() {
-        mExecutors.diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                mVipList = mRepository.getVipList();
-            }
-        });
+        mVipList = mRepository.getVipList();
     }
 
     public void updateVipList() {
@@ -118,6 +93,6 @@ public class VipListViewModel extends AndroidViewModel {
     }
 
     public void forceUpdateVipList() {
-        synchVipList();
+        mRepository.forceUpdateVipList();
     }
 }
