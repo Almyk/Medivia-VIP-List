@@ -72,15 +72,26 @@ public class Scraper {
         if(elements.size() == 0) {
             return null;
         }
-        text = elements.get(1).text(); // name
+        int i = 1;
+        text = elements.get(i).text(); // name
         player.setName(text);
-        text = elements.get(7).text(); // vocation
+
+        if(elements.get(2).text().equals("previous name:")) {
+            i += 2; // take previous name into account when finding vocation
+        }
+
+
+        i += 6; // 7 or 9
+        text = elements.get(i).text(); // vocation
         player.setVocation(text);
-        text = elements.get(9).text(); // level
+        i += 2; // 9
+        text = elements.get(i).text(); // level
         player.setLevel(text);
-        text = elements.get(11).text(); // server
+        i += 2; // 11
+        text = elements.get(i).text(); // server
         player.setServer(text);
-        text = elements.get(17).text(); // online status
+        i += 6; // 17
+        text = elements.get(i).text(); // online status
         if(text.equals("Online")) {
             player.setOnline(true);
         } else {
