@@ -90,6 +90,15 @@ public class Scraper {
         i += 2; // 11
         text = elements.get(i).text(); // server
         player.setServer(text);
+
+        if(elements.get(i+3).text().equals("guild:")) {
+            i += 2; // if player has a guild
+        }
+
+        if(elements.get(i+3).text().equals("house:")) {
+            i += 2; // if player has a house
+        }
+
         i += 6; // 17
         text = elements.get(i).text(); // online status
         if(text.equals("Online")) {
