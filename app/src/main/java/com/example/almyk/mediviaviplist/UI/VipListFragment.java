@@ -14,18 +14,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.almyk.mediviaviplist.Database.PlayerEntity;
 import com.example.almyk.mediviaviplist.R;
 import com.example.almyk.mediviaviplist.UI.Settings.SettingsActivity;
+import com.example.almyk.mediviaviplist.Utilities.EditTextBackEvent;
 import com.example.almyk.mediviaviplist.ViewModel.VipListViewModel;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -33,7 +37,8 @@ import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 
 import java.util.List;
 
-public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class VipListFragment extends Fragment
+        implements SwipeRefreshLayout.OnRefreshListener, TextView.OnEditorActionListener {
     private static final String TAG = VipListFragment.class.getSimpleName();
 
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -45,7 +50,7 @@ public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private VipListAdapter mAdapter;
 
     private Button mAddPlayerButton;
-    private EditText mNewPlayerView;
+    private EditTextBackEvent mNewPlayerTextView;
 
     @Nullable
     @Override
@@ -68,13 +73,22 @@ public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRe
         setupTouchHelper();
 
 
-        mNewPlayerView = rootView.findViewById(R.id.et_player_name);
+        mNewPlayerTextView = rootView.findViewById(R.id.et_player_name);
+        mNewPlayerTextView.setOnEditorActionListener(this);
+        mNewPlayerTextView.setOnEditTextImeBackListener(new EditTextBackEvent.EditTextImeBackListener() {
+            @Override
+            public void onImeBack(EditTextBackEvent ctrl, String text) {
+                mNewPlayerTextView.clearFocus();
+            }
+        });
+
         mAddPlayerButton = rootView.findViewById(R.id.bt_add_player);
         mAddPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewModel.addPlayer(mNewPlayerView.getText().toString());
-                mNewPlayerView.getText().clear();
+                mViewModel.addPlayer(mNewPlayerTextView.getText().toString());
+                mNewPlayerTextView.getText().clear();
+                mNewPlayerTextView.clearFocus();
             }
         });
 
@@ -154,6 +168,21 @@ public class VipListFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        Log.d(TAG, "ActionId: " + actionId);
+        switch(actionId) {
+            case EditorInfo.IME_ACTION_DONE:
+                mViewModel.addPlayer(mNewPlayerTextView.getText().toString());
+                mNewPlayerTextView.getText().clear();
+                mNewPlayerTextView.clearFocus();
+            case KeyEvent.KEYCODE_BACK:
+                mNewPlayerTextView.clearFocus();
+            default:
+                return false;
         }
     }
 }
