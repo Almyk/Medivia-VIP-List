@@ -17,9 +17,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Enter Player Name"
+            android:hint="@string/add_player_name_hint"
             android:inputType="text"
-            android:maxLines="1"/>
+            android:singleLine="true"/>
 
         <Button
             android:id="@+id/bt_add_player"
