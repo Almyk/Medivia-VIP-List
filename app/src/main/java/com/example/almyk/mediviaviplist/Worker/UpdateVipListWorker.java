@@ -1,10 +1,7 @@
 package com.example.almyk.mediviaviplist.Worker;
 
-import android.app.Application;
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -12,15 +9,14 @@ import com.example.almyk.mediviaviplist.Utilities.Constants;
 import com.example.almyk.mediviaviplist.MediviaVipListApp;
 import com.example.almyk.mediviaviplist.Repository.DataRepository;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Date;
+import java.util.List;
 
 import androidx.work.Data;
-import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
-import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -35,10 +31,10 @@ public class UpdateVipListWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        boolean doBackgroundSync = getInputData().getBoolean(Constants.DO_BGSYNC, false);
         DataRepository repository = ((MediviaVipListApp) getApplicationContext()).getRepository();
         setSleepTime(repository.getSyncInterval());
         updateVipList(repository);
+        boolean doBackgroundSync = getInputData().getBoolean(Constants.DO_BGSYNC, false);
         if(doBackgroundSync) {
             enqueueNextRequest(repository);
         }
@@ -48,14 +44,17 @@ public class UpdateVipListWorker extends Worker {
     private void enqueueNextRequest(DataRepository repository) {
         // Create a new work request so that we can have intervals <15m
         Log.d(TAG, "Sleeping for: " + mSleepTime);
+        repository.setBackgroundSyncLastSleep(new Date().getTime());
         sleep();
         Log.d(TAG, "Waking up");
         Data data = new Data.Builder().putBoolean(Constants.DO_BGSYNC, repository.isDoBackgroundSync()).build();
+        WorkManager workManager = repository.getWorkManager();
+        Log.d(TAG, "New work scheduled");
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class)
                 .addTag(Constants.UPDATE_VIP_LIST_TAG)
                 .setInputData(data)
                 .build();
-        WorkManager.getInstance().enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, ExistingWorkPolicy.REPLACE, workRequest);
+        workManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, ExistingWorkPolicy.APPEND, workRequest);
     }
 
     private void sleep() {

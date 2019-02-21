@@ -15,6 +15,7 @@ import com.example.almyk.mediviaviplist.Scraping.Scraper;
 import com.example.almyk.mediviaviplist.Worker.UpdateVipListWorker;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -42,12 +43,16 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private long mSyncInterval;
     private boolean mDoBackgroundSync;
     private boolean mShowNotifications;
+    private long mBackgroundSyncLastSleep;
+    private long mBackgroundSyncLastCancel;
 
     private DataRepository(final AppDatabase database, Context context) {
         this.mDatabase = database;
         mVipList = mDatabase.playerDao().getAll();
         mScraper = new Scraper();
         this.mContext = context;
+        this.mBackgroundSyncLastCancel = 0;
+        this.mBackgroundSyncLastSleep = 0;
         initializeUserPreferences(context);
         setupWorkManager();
     }
@@ -55,21 +60,21 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private void setupWorkManager() {
         mWorkManager = WorkManager.getInstance();
         if(mDoBackgroundSync) {
-            initializeVipListBackgroundSync();
+            initializeVipListBackgroundSync(ExistingWorkPolicy.REPLACE);
         } else {
             mWorkManager.cancelAllWork();
         }
 
     }
 
-    private void initializeVipListBackgroundSync() {
-        mWorkManager.cancelAllWork();
+    private void initializeVipListBackgroundSync(ExistingWorkPolicy policy) {
+        mWorkManager.cancelUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME);
         Data data = new Data.Builder().putBoolean(Constants.DO_BGSYNC, mDoBackgroundSync).build();
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class)
                 .addTag(Constants.UPDATE_VIP_LIST_TAG)
                 .setInputData(data)
                 .build();
-        mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, ExistingWorkPolicy.REPLACE, workRequest);
+        mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, policy, workRequest);
     }
 
     private void initializeUserPreferences(Context context) {
@@ -139,10 +144,12 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
             case "bgsync_switch":
                 mDoBackgroundSync = sharedPreferences.getBoolean(key, true);
                 if(!mDoBackgroundSync) {
-                    mWorkManager.cancelUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME);
+                    mBackgroundSyncLastCancel = new Date().getTime();
                     Toast.makeText(mContext, "Background sync turned off, to manually update pull down on vip list.", Toast.LENGTH_LONG).show();
                 } else {
-                    initializeVipListBackgroundSync();
+                    if(mBackgroundSyncLastCancel - mBackgroundSyncLastSleep > mSyncInterval) {
+                        initializeVipListBackgroundSync(ExistingWorkPolicy.REPLACE);
+                    }
                 }
                 break;
             case "notification_switch":
@@ -157,7 +164,6 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public void forceUpdateVipList() {
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class)
-                .addTag(Constants.UPDATE_VIP_LIST_TAG)
                 .build();
         mWorkManager.enqueue(workRequest);
     }
@@ -204,5 +210,13 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public boolean isDoBackgroundSync() {
         return mDoBackgroundSync;
+    }
+
+    public WorkManager getWorkManager() {
+        return mWorkManager;
+    }
+
+    public void setBackgroundSyncLastSleep(long time) {
+        this.mBackgroundSyncLastSleep = time;
     }
 }
