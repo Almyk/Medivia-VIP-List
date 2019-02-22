@@ -74,42 +74,60 @@ public class Scraper {
         if(elements.size() == 0) {
             return null;
         }
-        int i = 1;
-        text = elements.get(i).text(); // name
-        player.setName(text);
 
-        if(elements.get(2).text().equals("previous name:")) {
-            i += 2; // take previous name into account when finding vocation
-        }
+        for(int i = 0; i < elements.size(); i += 2) {
+            String key = elements.get(i).text();
+            String value = elements.get(i+1).text();
 
-
-        i += 6; // 7 or 9
-        text = elements.get(i).text(); // vocation
-        player.setVocation(text);
-        i += 2; // 9
-        text = elements.get(i).text(); // level
-        player.setLevel(text);
-        i += 2; // 11
-        text = elements.get(i).text(); // server
-        player.setServer(text);
-
-        if(elements.get(i+3).text().equals("guild:")) {
-            i += 2; // if player has a guild
-        }
-
-        if(elements.get(i+3).text().equals("house:")) {
-            i += 2; // if player has a house
-        }
-
-        i += 6; // 17
-        text = elements.get(i).text(); // online status
-        if(text.equals("Online")) {
-            player.setOnline(true);
-        } else {
-            player.setOnline(false);
+            switch (key) {
+                case "name:":
+                    player.setName(value);
+                    break;
+                case "previous name:":
+                    player.setPreviousName(value);
+                    break;
+                case "sex:":
+                    player.setSex(value);
+                    break;
+                case "profession:":
+                    player.setVocation(value);
+                    break;
+                case "level:":
+                    player.setLevel(value);
+                    break;
+                case "world:":
+                    player.setServer(value);
+                    break;
+                case "residence:":
+                    player.setResidence(value);
+                    break;
+                case "guild:":
+                    player.setGuild(value);
+                    break;
+                case "house:":
+                    player.setHouse(value);
+                    break;
+                case "last login:":
+                    break;
+                case "status:":
+                    if(value.equals("Online")) {
+                        player.setOnline(true);
+                    } else {
+                        player.setOnline(false);
+                    }
+                    break;
+                case "account status:":
+                    player.setAccountStatus(value);
+                    break;
+                case "comment:":
+                    player.setComment(value);
+                    break;
+            }
         }
 
         Log.d(TAG, "Player: " + player.getName() + " " + player.getLevel() + " " + player.getVocation() + " " + player.getServer());
+        Log.d(TAG, player.getGuild() + " " + player.getHouse() + " " + player.getSex() + " " + player.getComment());
+        Log.d(TAG, player.getAccountStatus());
 
         return player;
     }

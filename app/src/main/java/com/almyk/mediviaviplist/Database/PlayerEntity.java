@@ -14,6 +14,9 @@ public class PlayerEntity {
     @NonNull
     private String name;
 
+    @ColumnInfo(name = "previous_name")
+    private String previousName;
+
     @ColumnInfo(name = "server_name")
     private String server;
 
@@ -25,6 +28,24 @@ public class PlayerEntity {
 
     @ColumnInfo(name = "online")
     private boolean online;
+
+    @ColumnInfo(name = "residence")
+    private String residence;
+
+    @ColumnInfo(name = "guild")
+    private String guild;
+
+    @ColumnInfo(name = "house")
+    private String house;
+
+    @ColumnInfo(name = "sex")
+    private String sex;
+
+    @ColumnInfo(name = "account_status")
+    private String accountStatus;
+
+    @ColumnInfo(name = "comment")
+    private String comment;
 
     @Ignore
     public PlayerEntity() {
@@ -75,5 +96,61 @@ public class PlayerEntity {
 
     public void setVocation(String vocation) {
         this.vocation = vocation;
+    }
+
+    public String getPreviousName() {
+        return previousName;
+    }
+
+    public void setPreviousName(String previousName) {
+        this.previousName = previousName;
+    }
+
+    public String getResidence() {
+        return residence;
+    }
+
+    public void setResidence(String residence) {
+        this.residence = residence;
+    }
+
+    public String getGuild() {
+        return guild;
+    }
+
+    public void setGuild(String guild) {
+        this.guild = guild;
+    }
+
+    public String getHouse() {
+        return house;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(String accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
