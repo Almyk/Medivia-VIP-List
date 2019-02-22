@@ -43,30 +43,9 @@ public class VipListViewModel extends AndroidViewModel {
     }
 
     public void updateVipList() {
-        mExecutors.networkIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                mRepository.updateVipList(PROPHECY);
-            }
-        });
-        mExecutors.networkIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                mRepository.updateVipList(LEGACY);
-            }
-        });
-        mExecutors.networkIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                mRepository.updateVipList(PENDULUM);
-            }
-        });
-        mExecutors.networkIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                mRepository.updateVipList(DESTINY);
-            }
-        });
+        for(PlayerEntity player : mVipList.getValue()) {
+            mRepository.updatePlayer(player.getName());
+        }
     }
 
     public LiveData<List<PlayerEntity>> getVipList() {

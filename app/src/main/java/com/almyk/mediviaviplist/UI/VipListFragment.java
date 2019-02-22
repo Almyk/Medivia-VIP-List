@@ -168,6 +168,9 @@ public class VipListFragment extends Fragment
                 Intent intent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.action_update_all:
+                mViewModel.updateVipList();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

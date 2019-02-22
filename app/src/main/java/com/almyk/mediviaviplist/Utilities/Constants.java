@@ -18,5 +18,7 @@ public final class Constants {
     public static final String PLAYER_NOTIFICATION_ON = "Turn ON Notifications";
     public static final String PLAYER_NOTIFICATION_OFF = "Turn OFF Notifications";
 
+    public static final String UPDATE_PLAYER_KEY = "update player";
+
     public Constants() {}
 }

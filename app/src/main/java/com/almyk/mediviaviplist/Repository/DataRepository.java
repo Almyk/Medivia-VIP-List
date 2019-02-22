@@ -12,6 +12,7 @@ import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.almyk.mediviaviplist.Scraping.Scraper;
+import com.almyk.mediviaviplist.Worker.UpdatePlayerWorker;
 import com.almyk.mediviaviplist.Worker.UpdateVipListWorker;
 
 import java.util.ArrayList;
@@ -189,6 +190,14 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         if(player != null) {
             addPlayerDB(player);
         }
+    }
+
+    public void updatePlayer(String name) {
+        Data data = new Data.Builder().putString(Constants.UPDATE_PLAYER_KEY, name).build();
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdatePlayerWorker.class)
+                .setInputData(data)
+                .build();
+        mWorkManager.enqueue(workRequest);
     }
 
     public PlayerEntity getPlayerDB(String name) {
