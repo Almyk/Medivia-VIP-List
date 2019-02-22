@@ -66,16 +66,18 @@ public class Scraper {
         }
 
         PlayerEntity player = new PlayerEntity();
-        String text;
+        boolean hasGuild = false;
+        boolean hasHouse = false;
 
-        Elements elements = mDoc.select("div[class='med-width-50 med-white-space-normal']");
-        elements = elements.select("div[class='med-width-50']");
+//        Elements elements = mDoc.select("div[class='med-width-50 med-white-space-normal']");
+        Elements allElements = mDoc.select("div[class='med-p-10']");
+        Elements elements = allElements.select("div[class='med-width-50']");
 
         if(elements.size() == 0) {
             return null;
         }
 
-        for(int i = 0; i < elements.size(); i += 2) {
+        for(int i = 0; i+1 < elements.size(); i++) {
             String key = elements.get(i).text();
             String value = elements.get(i+1).text();
 
@@ -102,10 +104,10 @@ public class Scraper {
                     player.setResidence(value);
                     break;
                 case "guild:":
-                    player.setGuild(value);
+                    hasGuild = true;
                     break;
                 case "house:":
-                    player.setHouse(value);
+                    hasHouse = true;
                     break;
                 case "last login:":
                     break;
@@ -119,15 +121,33 @@ public class Scraper {
                 case "account status:":
                     player.setAccountStatus(value);
                     break;
-                case "comment:":
-                    player.setComment(value);
+                default:
                     break;
             }
         }
 
-        Log.d(TAG, "Player: " + player.getName() + " " + player.getLevel() + " " + player.getVocation() + " " + player.getServer());
-        Log.d(TAG, player.getGuild() + " " + player.getHouse() + " " + player.getSex() + " " + player.getComment());
-        Log.d(TAG, player.getAccountStatus());
+        Elements guildAndHouse = allElements.select("div[class='med-width-50 black-link']");
+        if(hasGuild) {
+            String value = guildAndHouse.get(0).text();
+            player.setGuild(value);
+            if(hasHouse) {
+                value = guildAndHouse.get(1).text();
+                player.setHouse(value);
+            }
+        } else if(hasHouse) {
+            String value = guildAndHouse.get(0).text();
+            player.setHouse(value);
+        }
+
+        Elements comment = allElements.select("div[class='med-width-75 med-text-italic med-vertical-middle']");
+        if(comment != null && comment.size() > 0) {
+            String value = comment.get(0).text();
+            player.setComment(value);
+        }
+
+//        Log.d(TAG, "Player: " + player.getName() + " " + player.getLevel() + " " + player.getVocation() + " " + player.getServer());
+//        Log.d(TAG, player.getGuild() + " " + player.getHouse() + " " + player.getSex() + " " + player.getComment());
+//        Log.d(TAG, "" + player.getAccountStatus());
 
         return player;
     }

@@ -51,11 +51,27 @@ public class PlayerEntity {
     public PlayerEntity() {
     }
 
+    @Ignore
     public PlayerEntity(String name, String server, String level, String vocation) {
         this.name = name;
         this.server = server;
         this.level = level;
         this.vocation = vocation;
+    }
+
+    public PlayerEntity(@NonNull String name, String previousName, String server, String level, String vocation, boolean online, String residence, String guild, String house, String sex, String accountStatus, String comment) {
+        this.name = name;
+        this.previousName = previousName;
+        this.server = server;
+        this.level = level;
+        this.vocation = vocation;
+        this.online = online;
+        this.residence = residence;
+        this.guild = guild;
+        this.house = house;
+        this.sex = sex;
+        this.accountStatus = accountStatus;
+        this.comment = comment;
     }
 
     public boolean isOnline() {
