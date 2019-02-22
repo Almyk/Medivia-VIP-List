@@ -17,10 +17,6 @@ import java.util.List;
 
 public class VipListViewModel extends AndroidViewModel {
     private static final String TAG = VipListViewModel.class.getSimpleName();
-    private static final String PROPHECY = "Prophecy";
-    private static final String LEGACY = "Legacy";
-    private static final String DESTINY = "Destiny";
-    private static final String PENDULUM = "Pendulum";
 
     private static DataRepository mRepository;
     private static AppExecutors mExecutors;

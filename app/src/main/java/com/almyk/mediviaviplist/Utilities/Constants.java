@@ -20,5 +20,10 @@ public final class Constants {
 
     public static final String UPDATE_PLAYER_KEY = "update player";
 
+    public static final String PROPHECY = "Prophecy";
+    public static final String LEGACY = "Legacy";
+    public static final String DESTINY = "Destiny";
+    public static final String PENDULUM = "Pendulum";
+
     public Constants() {}
 }
