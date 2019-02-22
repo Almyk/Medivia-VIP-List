@@ -100,13 +100,16 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     private void updateDatabaseVipList(HashMap<String, PlayerEntity> onlineList, String server) {
         List<String> loginList = new ArrayList<>();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+
         for(PlayerEntity player : mVipList.getValue()) {
             if(!player.getServer().equals(server)) {
                 continue;
             }
             String name = player.getName();
+            boolean isMuted = preferences.getBoolean(name + "_muted", false);
             if(onlineList.containsKey(name)) { // player is online
-                if(!getPlayerDB(name).isOnline()) { // player was offline
+                if(!getPlayerDB(name).isOnline() && !isMuted) { // player was offline
                     loginList.add(name);
                 }
                 updatePlayerDB(onlineList.get(name));

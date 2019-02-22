@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.R;
@@ -67,6 +69,7 @@ public class VipListFragment extends Fragment
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), VERTICAL));
         mAdapter = new VipListAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
+
         mSwipeContainer = rootView.findViewById(R.id.swipe_container);
         mSwipeContainer.setOnRefreshListener(this);
         setupTouchHelper();
