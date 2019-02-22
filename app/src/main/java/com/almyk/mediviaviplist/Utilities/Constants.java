@@ -10,7 +10,7 @@ public final class Constants {
     public static String LOGIN_NOTIFICATION_CHANNEL_DESCRIPTION =
             "Shows notifications whenever a player login";
     public static final CharSequence NOTIFICATION_TITLE = "Player has logged in";
-    public static final String CHANNEL_ID = "LOGIN_NOTIFICATION" ;
+    public static final String LOGIN_CHANNEL_ID = "LOGIN_NOTIFICATION" ;
     public static final int NOTIFICATION_ID = 1;
 
     public static final String DO_BGSYNC = "BACKGROUND_SYNCHRONIZATION";
