@@ -167,6 +167,9 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public void updateVipList(String server) {
         HashMap<String, PlayerEntity> map = mScraper.scrapeOnline(server);
+        if(map == null) {
+            Log.d(TAG, "Scraper returned null");
+        }
         updateDatabaseVipList(map, server);
     }
 

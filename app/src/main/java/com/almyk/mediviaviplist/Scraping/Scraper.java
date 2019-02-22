@@ -17,8 +17,7 @@ public class Scraper {
 
     private static final String BASE_URL_ONLINE = "https://medivia.online/community/online/";
     private static final String PROPHECY = "prophecy";
-    private HashMap<String, PlayerEntity> mOnlineList = new HashMap<>();
-    //private List<PlayerEntity> mOnlineList;
+    //private HashMap<String, PlayerEntity> mOnlineList = new HashMap<>();
 
     private static final String BASE_URL_PLAYER = "https://medivia.online/community/character/";
 
@@ -28,12 +27,12 @@ public class Scraper {
     }
 
     public HashMap<String, PlayerEntity> scrapeOnline(String server) {
-        getDocument(BASE_URL_ONLINE+server);
-        int count = 0;
-
-        if(!mOnlineList.isEmpty()) {
-            mOnlineList.clear();
+        HashMap<String, PlayerEntity> onlineList = new HashMap<>();
+        boolean success = getDocument(BASE_URL_ONLINE+server);
+        if(!success) {
+            return null;
         }
+//        int count = 0;
 
         Element table = mDoc.selectFirst("div[class='med-width-100 med-text-left']");
         Elements entries = table.select("li");
@@ -52,16 +51,20 @@ public class Scraper {
             player.setOnline(true);
 //            Log.d(TAG, "Player: " + player.getName() + " " + player.getLevel() + " " + player.getVocation() + " " + player.getServer());
 
-            mOnlineList.put(player.getName(), player);
-            count++;
+            onlineList.put(player.getName(), player);
+//            count++;
         }
 
 //        Log.d(TAG, count + " Players online.");
-        return mOnlineList;
+        return onlineList;
     }
 
     public PlayerEntity scrapePlayer(String name) {
-        getDocument(BASE_URL_PLAYER+name);
+        boolean success = getDocument(BASE_URL_PLAYER+name);
+        if(!success) {
+            return null;
+        }
+
         PlayerEntity player = new PlayerEntity();
         String text;
 
@@ -111,12 +114,14 @@ public class Scraper {
         return player;
     }
 
-    private void getDocument(String url) {
+    private boolean getDocument(String url) {
         try {
             mDoc = Jsoup.connect(url).get();
 //            Log.d(TAG, "Succesfully connected to " + url);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 }
