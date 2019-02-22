@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Utilities.AppExecutors;
 import com.almyk.mediviaviplist.MediviaVipListApp;
@@ -43,6 +44,7 @@ public class VipListViewModel extends AndroidViewModel {
     }
 
     public void updateVipList() {
+        Toast.makeText(getApplication(), "Update all players' data (Levels, name, guild, house etc)", Toast.LENGTH_LONG).show();
         for(PlayerEntity player : mVipList.getValue()) {
             mRepository.updatePlayer(player.getName());
         }
