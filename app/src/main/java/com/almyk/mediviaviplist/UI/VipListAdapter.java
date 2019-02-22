@@ -1,10 +1,13 @@
 package com.almyk.mediviaviplist.UI;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
+import com.almyk.mediviaviplist.MediviaVipListApp;
 import com.almyk.mediviaviplist.R;
 import com.almyk.mediviaviplist.Utilities.Constants;
 
@@ -30,7 +34,7 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
     private List<PlayerEntity> mPlayers;
 
     public VipListAdapter(Context context) {
-        mContext = context;
+        this.mContext = context;
     }
 
     @NonNull
@@ -135,6 +139,14 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                     return true;
                 case "Player Details":
                     Toast.makeText(mContext, "Player Details", Toast.LENGTH_SHORT).show();
+                    PlayerDetailFragment fragment = PlayerDetailFragment.newInstance();
+                    FragmentManager fragmentManager = ((MainActivity) mContext).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    fragmentTransaction.replace(R.id.fragment_container, fragment)
+                            .addToBackStack(null)
+                            .commit();
+
                     return true;
                 default:
                     return false;
