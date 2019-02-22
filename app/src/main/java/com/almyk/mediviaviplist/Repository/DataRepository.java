@@ -113,7 +113,11 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 if(!getPlayerDB(name).isOnline() && !isMuted) { // player was offline
                     loginList.add(name);
                 }
-                updatePlayerDB(onlineList.get(name));
+                PlayerEntity newData = onlineList.get(name);
+                player.setLevel(newData.getLevel());
+                player.setVocation(newData.getVocation());
+                player.setOnline(newData.isOnline());
+                updatePlayerDB(player);
                 Log.d(TAG, "Updated DB");
             } else {
                 player.setOnline(false);

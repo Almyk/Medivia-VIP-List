@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -140,6 +141,9 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                 case "Player Details":
                     Toast.makeText(mContext, "Player Details", Toast.LENGTH_SHORT).show();
                     PlayerDetailFragment fragment = PlayerDetailFragment.newInstance();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.PLAYER_NAME, mName.getText().toString());
+                    fragment.setPlayer(mPlayers.get(getAdapterPosition()));
                     FragmentManager fragmentManager = ((MainActivity) mContext).getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

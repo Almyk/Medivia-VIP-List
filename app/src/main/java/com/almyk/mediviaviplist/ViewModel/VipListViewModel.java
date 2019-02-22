@@ -18,7 +18,7 @@ import java.util.List;
 public class VipListViewModel extends AndroidViewModel {
     private static final String TAG = VipListViewModel.class.getSimpleName();
 
-    private static DataRepository mRepository;
+    private DataRepository mRepository;
     private static AppExecutors mExecutors;
 
     private LiveData<List<PlayerEntity>> mVipList;
