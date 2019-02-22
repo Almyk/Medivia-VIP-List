@@ -15,5 +15,8 @@ public final class Constants {
 
     public static final String DO_BGSYNC = "BACKGROUND_SYNCHRONIZATION";
 
+    public static final String PLAYER_NOTIFICATION_ON = "Turn ON Notifications";
+    public static final String PLAYER_NOTIFICATION_OFF = "Turn OFF Notifications";
+
     public Constants() {}
 }

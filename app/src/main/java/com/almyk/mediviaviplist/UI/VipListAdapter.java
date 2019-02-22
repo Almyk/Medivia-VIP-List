@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.R;
+import com.almyk.mediviaviplist.Utilities.Constants;
 
 import java.util.List;
 
@@ -110,24 +111,30 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                 @Override
                 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                     if(isMuted) {
-                        menu.add("Turn ON Notifications for " + mName.getText()).setOnMenuItemClickListener(VipListAdapter.VipListViewHolder.this);
+                        menu.add("Turn ON Notifications").setOnMenuItemClickListener(VipListViewHolder.this);
                     } else {
-                        menu.add("Turn OFF Notifications for " + mName.getText()).setOnMenuItemClickListener(VipListAdapter.VipListViewHolder.this);
+                        menu.add("Turn OFF Notifications").setOnMenuItemClickListener(VipListViewHolder.this);
                     }
+                    menu.add("Player Details").setOnMenuItemClickListener(VipListViewHolder.this);
                 }
             });
         }
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            Toast.makeText(mContext, "itemId: " + item.getItemId() + ", Clicked on player: " + mName.getText(), Toast.LENGTH_LONG).show();
-            switch (item.getItemId()) {
-                case 0:
+            String title = item.getTitle().toString();
+            switch (title) {
+                case "Turn OFF Notifications": // notification buttons
+                case "Turn ON Notifications":
                     isMuted = !isMuted;
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
                     preferences.edit().putBoolean(mName.getText() + "_muted", isMuted).commit();
                     int visibility = isMuted ? View.VISIBLE : View.GONE;
                     mMutedIcon.setVisibility(visibility);
+                    Toast.makeText(mContext, title + " for " + mName.getText(), Toast.LENGTH_SHORT).show();
+                    return true;
+                case "Player Details":
+                    Toast.makeText(mContext, "Player Details", Toast.LENGTH_SHORT).show();
                     return true;
                 default:
                     return false;
