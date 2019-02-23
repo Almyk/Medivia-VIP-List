@@ -37,7 +37,7 @@ public class PlayerDetailFragment extends Fragment {
     private LinearLayout mHouseContainer;
     private LinearLayout mCommentContainer;
 
-    private PlayerEntity mPlayer;
+    private static PlayerEntity mPlayer;
 
 
     public PlayerDetailFragment() {
