@@ -102,7 +102,8 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
         return mPlayers;
     }
 
-    public class VipListViewHolder extends RecyclerView.ViewHolder implements MenuItem.OnMenuItemClickListener {
+    public class VipListViewHolder extends RecyclerView.ViewHolder
+            implements MenuItem.OnMenuItemClickListener, View.OnClickListener {
         private TextView mName;
         private TextView mLevel;
         private TextView mVocation;
@@ -132,11 +133,12 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                     } else {
                         menu.add(0, 1, 0,"Turn OFF Notifications").setOnMenuItemClickListener(VipListViewHolder.this);
                     }
-                    menu.add(1, 2, 2, "Player Details").setOnMenuItemClickListener(VipListViewHolder.this);
-                    menu.add(2, 3, 1, "Toggle Enemy").setOnMenuItemClickListener(VipListViewHolder.this);
+                    menu.add(1, 2, 1, "Toggle Enemy").setOnMenuItemClickListener(VipListViewHolder.this);
                     MenuCompat.setGroupDividerEnabled(menu, true);
                 }
             });
+
+            itemView.setOnClickListener(VipListViewHolder.this);
         }
 
         @Override
@@ -153,22 +155,6 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                     mMutedIcon.setVisibility(visibility);
                     Toast.makeText(mContext, title + " for " + mName.getText(), Toast.LENGTH_SHORT).show();
                     return true;
-                case "Player Details":
-                    int pos = getAdapterPosition();
-                    if(pos != -1) {
-                        PlayerDetailFragment fragment = PlayerDetailFragment.newInstance();
-                        fragment.setPlayer(mPlayers.get(pos));
-                        FragmentManager fragmentManager = ((MainActivity) mContext).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-                        fragmentTransaction.replace(R.id.fragment_container, fragment)
-                                .addToBackStack(null)
-                                .commit();
-                    } else {
-                        Toast.makeText(mContext, "Player data is updating, please try again shortly", Toast.LENGTH_LONG).show();
-                    }
-
-                    return true;
                 case "Toggle Enemy":
                     isEnemy = !isEnemy;
                     preferences.edit().putBoolean(mName.getText() + "_enemy", isEnemy).commit();
@@ -182,6 +168,23 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                     return true;
                 default:
                     return false;
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            int pos = getAdapterPosition();
+            if(pos != -1) {
+                PlayerDetailFragment fragment = PlayerDetailFragment.newInstance();
+                fragment.setPlayer(mPlayers.get(pos));
+                FragmentManager fragmentManager = ((MainActivity) mContext).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            } else {
+                Toast.makeText(mContext, "Player data is updating, please try again shortly", Toast.LENGTH_LONG).show();
             }
         }
     }
