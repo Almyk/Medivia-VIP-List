@@ -4,6 +4,7 @@ package com.almyk.mediviaviplist.UI;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,7 +19,7 @@ import com.almyk.mediviaviplist.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PlayerDetailFragment extends Fragment {
+public class PlayerDetailFragment extends DialogFragment {
     private TextView mNameView;
     private TextView mPrevNameView;
     private TextView mServerView;
