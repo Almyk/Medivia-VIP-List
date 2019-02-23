@@ -12,6 +12,7 @@ import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.almyk.mediviaviplist.Scraping.Scraper;
+import com.almyk.mediviaviplist.Worker.UpdateAllPlayersWorker;
 import com.almyk.mediviaviplist.Worker.UpdatePlayerWorker;
 import com.almyk.mediviaviplist.Worker.UpdateVipListWorker;
 
@@ -19,10 +20,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import androidx.work.Data;
+import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 public class DataRepository implements SharedPreferences.OnSharedPreferenceChangeListener{
@@ -73,6 +77,11 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 .setInputData(data)
                 .build();
         mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, policy, workRequest);
+
+        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(UpdateAllPlayersWorker.class, 30, TimeUnit.MINUTES)
+                .addTag(Constants.UPDATE_VIP_DETAIL_TAG)
+                .build();
+        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, periodicWorkRequest);
     }
 
     private void initializeUserPreferences(Context context) {
@@ -149,6 +158,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
             case "bgsync_switch":
                 mDoBackgroundSync = sharedPreferences.getBoolean(key, true);
                 if(!mDoBackgroundSync) {
+                    mWorkManager.cancelUniqueWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME);
                     mBackgroundSyncLastCancel = new Date().getTime();
                     Toast.makeText(mContext, "Background sync turned off, to manually update pull down on vip list.", Toast.LENGTH_LONG).show();
                 } else if( // if we have a sleeping thread we don't start a new one

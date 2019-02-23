@@ -4,6 +4,9 @@ public final class Constants {
     public static final String UPDATE_VIP_LIST_TAG = "updateviplist_tag";
     public static final String UPDATE_VIP_LIST_UNIQUE_NAME = "updateviplist_name";
 
+    public static final String UPDATE_VIP_DETAIL_TAG = "updatevipdetail_tag";
+    public static final String UPDATE_VIP_DETAIL_UNIQUE_NAME = "updatevipdetail_name";
+
     // Name of Notification Channel for verbose notifications of background work
     public static final CharSequence LOGIN_NOTIFICATION_CHANNEL_NAME =
             "Player Login Notifications";
