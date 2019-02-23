@@ -15,6 +15,7 @@ Medivia VIP List is an Android application for showing your VIPs' online status 
 - Notification when player logs in
 - Ability to change update frequency in settings
 - Disable notifications in settings
+- Turn notifications on/off for individual players
 
 # Planned Features
 
@@ -22,5 +23,4 @@ Medivia VIP List is an Android application for showing your VIPs' online status 
 - Categorize players, enemy/friend
 - Online lists for the servers
 - Highscores
-- Turn notifications on/off for individual players
 - Click on player for detailed view
