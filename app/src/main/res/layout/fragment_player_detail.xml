@@ -11,28 +11,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".UI.PlayerDetailFragment"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:clickable="true"
+        android:id="@+id/top_container"
+        android:padding="6dp">
 
         <LinearLayout
             android:id="@+id/name_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="6dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Name:"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
@@ -41,22 +43,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone"
-            android:padding="6dp">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Previous Name:"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tv_prev_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
@@ -64,22 +65,21 @@
             android:id="@+id/gender_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="6dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Gender:"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tv_gender"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
@@ -87,22 +87,21 @@
             android:id="@+id/vocation_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="6dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Vocation:"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tv_vocation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
@@ -110,22 +109,21 @@
             android:id="@+id/level_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="6dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Level:"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tv_level"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
@@ -133,22 +131,21 @@
             android:id="@+id/server_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="6dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Server:"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tv_server"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
@@ -156,22 +153,21 @@
             android:id="@+id/residence_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="6dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Residence:"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tv_residence"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
@@ -180,22 +176,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone"
-            android:padding="6dp">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Guild:"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tv_guild"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20sp"/>
+                android:textSize="16sp"/>
 
         </LinearLayout>
 
@@ -204,22 +199,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone"
-            android:padding="6dp">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="House:"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tv_house"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
@@ -227,22 +221,21 @@
             android:id="@+id/online_status_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="6dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Online Status:"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tv_online"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
@@ -250,22 +243,21 @@
             android:id="@+id/account_status_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="6dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Account Status:"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tv_account_status"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20sp"/>
+                android:textSize="16sp"/>
 
         </LinearLayout>
 
@@ -274,22 +266,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone"
-            android:padding="6dp">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Comment:"
-                android:textSize="24sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/tv_comment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20sp"/>
+                android:textSize="16sp"/>
 
         </LinearLayout>
 
