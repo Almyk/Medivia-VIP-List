@@ -139,17 +139,19 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                     Toast.makeText(mContext, title + " for " + mName.getText(), Toast.LENGTH_SHORT).show();
                     return true;
                 case "Player Details":
-                    Toast.makeText(mContext, "Player Details", Toast.LENGTH_SHORT).show();
-                    PlayerDetailFragment fragment = PlayerDetailFragment.newInstance();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(Constants.PLAYER_NAME, mName.getText().toString());
-                    fragment.setPlayer(mPlayers.get(getAdapterPosition()));
-                    FragmentManager fragmentManager = ((MainActivity) mContext).getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    int pos = getAdapterPosition();
+                    if(pos != -1) {
+                        PlayerDetailFragment fragment = PlayerDetailFragment.newInstance();
+                        fragment.setPlayer(mPlayers.get(pos));
+                        FragmentManager fragmentManager = ((MainActivity) mContext).getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                    fragmentTransaction.replace(R.id.fragment_container, fragment)
-                            .addToBackStack(null)
-                            .commit();
+                        fragmentTransaction.replace(R.id.fragment_container, fragment)
+                                .addToBackStack(null)
+                                .commit();
+                    } else {
+                        Toast.makeText(mContext, "Player data is updating, please try again shortly", Toast.LENGTH_LONG).show();
+                    }
 
                     return true;
                 default:

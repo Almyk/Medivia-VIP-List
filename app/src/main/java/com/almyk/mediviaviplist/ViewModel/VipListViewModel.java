@@ -40,7 +40,7 @@ public class VipListViewModel extends AndroidViewModel {
     }
 
     public void updateVipList() {
-        Toast.makeText(getApplication(), "Update all players' data (Levels, name, guild, house etc)", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplication(), "Update all players data\n(Levels, name, guild, house etc)", Toast.LENGTH_LONG).show();
         for(PlayerEntity player : mVipList.getValue()) {
             mRepository.updatePlayer(player.getName());
         }
