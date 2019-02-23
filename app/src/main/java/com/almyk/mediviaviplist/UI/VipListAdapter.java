@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -73,6 +74,10 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
         if(holder.isMuted) {
             holder.mMutedIcon.setVisibility(View.VISIBLE);
         }
+        holder.isEnemy = preferences.getBoolean(name + "_enemy", false);
+        if(holder.isEnemy) {
+            holder.mRedskullIcon.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -100,7 +105,9 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
         private TextView mServer;
         private TextView mOnline;
         private ImageView mMutedIcon;
+        private ImageView mRedskullIcon;
         private boolean isMuted;
+        private boolean isEnemy;
 
 
         public VipListViewHolder(@NonNull View itemView) {
@@ -111,16 +118,20 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
             mServer = itemView.findViewById(R.id.tv_server);
             mOnline = itemView.findViewById(R.id.tv_online);
             mMutedIcon = itemView.findViewById(R.id.ic_muted);
+            mRedskullIcon = itemView.findViewById(R.id.ic_red_skull);
 
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
                 @Override
                 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                    // TODO use menu inflator instead
                     if(isMuted) {
-                        menu.add("Turn ON Notifications").setOnMenuItemClickListener(VipListViewHolder.this);
+                        menu.add(0, 0, 0,"Turn ON Notifications").setOnMenuItemClickListener(VipListViewHolder.this);
                     } else {
-                        menu.add("Turn OFF Notifications").setOnMenuItemClickListener(VipListViewHolder.this);
+                        menu.add(0, 1, 0,"Turn OFF Notifications").setOnMenuItemClickListener(VipListViewHolder.this);
                     }
-                    menu.add("Player Details").setOnMenuItemClickListener(VipListViewHolder.this);
+                    menu.add(1, 2, 2, "Player Details").setOnMenuItemClickListener(VipListViewHolder.this);
+                    menu.add(2, 3, 1, "Toggle Enemy").setOnMenuItemClickListener(VipListViewHolder.this);
+                    MenuCompat.setGroupDividerEnabled(menu, true);
                 }
             });
         }
@@ -128,13 +139,14 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             String title = item.getTitle().toString();
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+            int visibility;
             switch (title) {
                 case "Turn OFF Notifications": // notification buttons
                 case "Turn ON Notifications":
                     isMuted = !isMuted;
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
                     preferences.edit().putBoolean(mName.getText() + "_muted", isMuted).commit();
-                    int visibility = isMuted ? View.VISIBLE : View.GONE;
+                    visibility = isMuted ? View.VISIBLE : View.INVISIBLE;
                     mMutedIcon.setVisibility(visibility);
                     Toast.makeText(mContext, title + " for " + mName.getText(), Toast.LENGTH_SHORT).show();
                     return true;
@@ -153,6 +165,17 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                         Toast.makeText(mContext, "Player data is updating, please try again shortly", Toast.LENGTH_LONG).show();
                     }
 
+                    return true;
+                case "Toggle Enemy":
+                    isEnemy = !isEnemy;
+                    preferences.edit().putBoolean(mName.getText() + "_enemy", isEnemy).commit();
+                    visibility = isEnemy ? View.VISIBLE : View.INVISIBLE;
+                    mRedskullIcon.setVisibility(visibility);
+                    if(isEnemy) {
+                        Toast.makeText(mContext, "Set " + mName.getText() + " status as enemy", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(mContext, "Remove enemy status from " + mName.getText(), Toast.LENGTH_SHORT).show();
+                    }
                     return true;
                 default:
                     return false;
