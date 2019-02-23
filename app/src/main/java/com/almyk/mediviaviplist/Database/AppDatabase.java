@@ -11,7 +11,7 @@ import android.util.Log;
 
 
 
-@Database(entities = {PlayerEntity.class}, version = 2, exportSchema = false)
+@Database(entities = {PlayerEntity.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
@@ -25,7 +25,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 Log.d(LOG_TAG, "Creating new database instance");
                 sInstance = Room.databaseBuilder(context.getApplicationContext(),
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
-                        .addMigrations(MIGRATION_1_2)
+                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                         .build();
             }
         }
@@ -45,6 +45,13 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE vip_list ADD COLUMN sex TEXT");
             database.execSQL("ALTER TABLE vip_list ADD COLUMN account_status TEXT");
             database.execSQL("ALTER TABLE vip_list ADD COLUMN comment TEXT");
+        }
+    };
+
+    private static final Migration MIGRATION_2_3 = new Migration(2,3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE vip_list ADD COLUMN last_login TEXT");
         }
     };
 }

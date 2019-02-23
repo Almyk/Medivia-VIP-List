@@ -34,6 +34,7 @@ public class PlayerDetailFragment extends DialogFragment {
     private TextView mGenderView;
     private TextView mAccountStatusView;
     private TextView mCommentView;
+    private TextView mLastLogin;
 
     private LinearLayout mPrevNameContainer;
     private LinearLayout mGuildContainer;
@@ -75,6 +76,7 @@ public class PlayerDetailFragment extends DialogFragment {
         mGenderView = rootView.findViewById(R.id.tv_gender);
         mAccountStatusView = rootView.findViewById(R.id.tv_account_status);
         mCommentView = rootView.findViewById(R.id.tv_comment);
+        mLastLogin = rootView.findViewById(R.id.tv_last_login);
 
         return rootView;
     }
@@ -107,6 +109,7 @@ public class PlayerDetailFragment extends DialogFragment {
         mResidenceView.setText(player.getResidence());
         mGenderView.setText(player.getSex());
         mAccountStatusView.setText(player.getAccountStatus());
+        mLastLogin.setText(player.getLastLogin());
 
         boolean online = player.isOnline();
         if(online) {

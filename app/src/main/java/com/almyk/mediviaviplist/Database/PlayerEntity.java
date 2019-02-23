@@ -47,6 +47,9 @@ public class PlayerEntity {
     @ColumnInfo(name = "comment")
     private String comment;
 
+    @ColumnInfo(name = "last_login")
+    private String lastLogin;
+
     @Ignore
     public PlayerEntity() {
     }
@@ -59,7 +62,7 @@ public class PlayerEntity {
         this.vocation = vocation;
     }
 
-    public PlayerEntity(@NonNull String name, String previousName, String server, String level, String vocation, boolean online, String residence, String guild, String house, String sex, String accountStatus, String comment) {
+    public PlayerEntity(@NonNull String name, String previousName, String server, String level, String vocation, boolean online, String residence, String guild, String house, String sex, String accountStatus, String comment, String lastLogin) {
         this.name = name;
         this.previousName = previousName;
         this.server = server;
@@ -72,6 +75,7 @@ public class PlayerEntity {
         this.sex = sex;
         this.accountStatus = accountStatus;
         this.comment = comment;
+        this.lastLogin = lastLogin;
     }
 
     public boolean isOnline() {
@@ -168,5 +172,13 @@ public class PlayerEntity {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(String lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }

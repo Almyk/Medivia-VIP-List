@@ -110,6 +110,7 @@ public class Scraper {
                     hasHouse = true;
                     break;
                 case "last login:":
+                    player.setLastLogin(value);
                     break;
                 case "status:":
                     if(value.equals("Online")) {
