@@ -127,7 +127,6 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
                 @Override
                 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                    // TODO use menu inflator instead
                     if(isMuted) {
                         menu.add(0, 0, 0,"Turn ON Notifications").setOnMenuItemClickListener(VipListViewHolder.this);
                     } else {
@@ -185,10 +184,5 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                     return false;
             }
         }
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull VipListViewHolder holder, int position, @NonNull List<Object> payloads) {
-        super.onBindViewHolder(holder, position, payloads);
     }
 }
