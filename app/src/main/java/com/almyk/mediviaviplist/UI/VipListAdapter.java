@@ -73,10 +73,14 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
         holder.isMuted = preferences.getBoolean(name + "_muted", false);
         if(holder.isMuted) {
             holder.mMutedIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.mMutedIcon.setVisibility(View.INVISIBLE);
         }
         holder.isEnemy = preferences.getBoolean(name + "_enemy", false);
         if(holder.isEnemy) {
             holder.mRedskullIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.mRedskullIcon.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -181,5 +185,10 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                     return false;
             }
         }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull VipListViewHolder holder, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
     }
 }
