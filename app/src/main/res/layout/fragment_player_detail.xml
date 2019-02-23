@@ -25,14 +25,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Name:"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
         </LinearLayout>
 
@@ -49,14 +49,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Previous Name:"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/tv_prev_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
         </LinearLayout>
 
@@ -72,14 +72,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Gender:"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/tv_gender"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
         </LinearLayout>
 
@@ -95,14 +95,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Vocation:"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/tv_vocation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
         </LinearLayout>
 
@@ -118,14 +118,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Level:"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/tv_level"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
         </LinearLayout>
 
@@ -141,14 +141,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Server:"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/tv_server"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
         </LinearLayout>
 
@@ -164,14 +164,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Residence:"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/tv_residence"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
         </LinearLayout>
 
@@ -188,14 +188,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Guild:"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/tv_guild"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20dp"/>
+                android:textSize="20sp"/>
 
         </LinearLayout>
 
@@ -212,14 +212,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="House:"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/tv_house"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
         </LinearLayout>
 
@@ -235,14 +235,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Online Status:"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/tv_online"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
         </LinearLayout>
 
@@ -258,14 +258,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Account Status:"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/tv_account_status"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20dp"/>
+                android:textSize="20sp"/>
 
         </LinearLayout>
 
@@ -282,14 +282,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Comment:"
-                android:textSize="24dp"/>
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/tv_comment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="20dp"/>
+                android:textSize="20sp"/>
 
         </LinearLayout>
 
