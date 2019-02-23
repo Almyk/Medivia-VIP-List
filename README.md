@@ -1,9 +1,6 @@
 
 # Medivia-VIP-List
 
-<img align="right" src="https://i.imgur.com/TxlGFvu.jpg" width="250" height="500" />
-<img align="right" src="https://i.imgur.com/6Tnqhjl.jpg" width="250" height="500" />
-
 Medivia VIP List is an Android application for showing your VIPs' online status in the game Medivia.online
 
 # Features
@@ -16,11 +13,13 @@ Medivia VIP List is an Android application for showing your VIPs' online status 
 - Ability to change update frequency in settings
 - Disable notifications in settings
 - Turn notifications on/off for individual players
+- Categorize players, enemy/friend
+- Click on player for detailed view
+
+<img src="https://i.imgur.com/Ht029UR.jpg" width="250" height="500" /> <img src="https://i.imgur.com/ONGWxhm.jpg" width="250" height="500" /> <img src="https://i.imgur.com/A7vUrKC.jpg" width="250" height="500" /> <img src="https://i.imgur.com/25giA2f.jpg" width="250" height="500" />
 
 # Planned Features
 
 - Filter VIP list to show only players from wanted server and by online status
-- Categorize players, enemy/friend
 - Online lists for the servers
 - Highscores
-- Click on player for detailed view
