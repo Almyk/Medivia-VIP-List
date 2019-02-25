@@ -109,6 +109,10 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     }
 
     private void updateDatabaseVipList(HashMap<String, PlayerEntity> onlineList, String server) {
+        if(onlineList == null) {
+            Log.e(TAG, "onlineList is null in updateDatabaseVipList()");
+            return;
+        }
         List<String> loginList = new ArrayList<>();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 
@@ -186,7 +190,8 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     public void updateVipList(String server) {
         HashMap<String, PlayerEntity> map = mScraper.scrapeOnline(server);
         if(map == null) {
-            Log.d(TAG, "Scraper returned null");
+            Log.e(TAG, "Scraper.scrapeOnline("+server+") returned null");
+            return;
         }
         updateDatabaseVipList(map, server);
     }
