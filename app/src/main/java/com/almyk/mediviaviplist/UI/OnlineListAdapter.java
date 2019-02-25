@@ -15,7 +15,7 @@ import java.util.List;
 
 public class OnlineListAdapter extends RecyclerView.Adapter<OnlineListAdapter.OnlineListViewHolder> {
     private Context mContext;
-    private List<PlayerEntity> mOnlineList;
+    private static List<PlayerEntity> mOnlineList;
 
     public OnlineListAdapter(Context context) {
         this.mContext = context;

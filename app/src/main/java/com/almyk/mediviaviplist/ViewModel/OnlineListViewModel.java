@@ -14,7 +14,7 @@ import java.util.List;
 public class OnlineListViewModel extends AndroidViewModel {
     private DataRepository mRepository;
 
-    private LiveData<List<PlayerEntity>> mOnlineList;
+    private static LiveData<List<PlayerEntity>> mOnlineList;
 
     public OnlineListViewModel(@NonNull Application application) {
         super(application);

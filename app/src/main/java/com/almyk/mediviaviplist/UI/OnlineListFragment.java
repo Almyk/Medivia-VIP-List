@@ -33,7 +33,7 @@ public class OnlineListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private OnlineListAdapter mAdapter;
 
-    private String mServer;
+    private static String mServer;
 
     public static OnlineListFragment newInstance() {
         return new OnlineListFragment();
