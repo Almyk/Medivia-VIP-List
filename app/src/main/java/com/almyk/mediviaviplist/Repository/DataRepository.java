@@ -19,6 +19,8 @@ import com.almyk.mediviaviplist.Worker.UpdateVipListWorker;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -211,6 +213,12 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private void updateOnlineList(HashMap<String, PlayerEntity> map, String server) {
         Collection<PlayerEntity> players = map.values();
         List<PlayerEntity> onlineList = new ArrayList<>(players);
+        Collections.sort(onlineList, new Comparator<PlayerEntity>() {
+            @Override
+            public int compare(PlayerEntity o1, PlayerEntity o2) {
+                return Integer.parseInt(o2.getLevel()) - Integer.parseInt(o1.getLevel());
+            }
+        });
 
         switch(server.toLowerCase()) {
             case "legacy":

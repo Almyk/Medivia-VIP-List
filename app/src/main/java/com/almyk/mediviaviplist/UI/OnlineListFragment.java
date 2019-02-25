@@ -18,6 +18,7 @@ import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.R;
 import com.almyk.mediviaviplist.ViewModel.OnlineListViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
@@ -51,6 +52,10 @@ public class OnlineListFragment extends Fragment {
         mAdapter = new OnlineListAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
+        // Fixes bug that causes app to crash when app is newly started and user quickly changes to this view
+        List<PlayerEntity> emptyList = new ArrayList<>();
+        mAdapter.setOnlineList(emptyList);
+
         return rootView;
     }
 
@@ -68,6 +73,8 @@ public class OnlineListFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<PlayerEntity> playerEntities) {
                 mAdapter.setOnlineList(playerEntities);
+                ((MainActivity) getActivity()).getSupportActionBar()
+                        .setTitle(mServer + " (" + playerEntities.size() + ")");
             }
         });
     }

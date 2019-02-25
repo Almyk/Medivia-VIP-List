@@ -44,7 +44,8 @@
             android:id="@+id/rv_vip"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:focusableInTouchMode="true"/>
+            android:focusableInTouchMode="true"
+            android:scrollbars="vertical"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

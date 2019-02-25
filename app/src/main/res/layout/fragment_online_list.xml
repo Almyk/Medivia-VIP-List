@@ -40,6 +40,7 @@
         android:layout_height="match_parent"
         android:paddingHorizontal="12dp"
         android:layout_below="@id/online_header"
-        android:background="@color/background_color"/>
+        android:background="@color/background_color"
+        android:scrollbars="vertical"/>
 
 </RelativeLayout>
