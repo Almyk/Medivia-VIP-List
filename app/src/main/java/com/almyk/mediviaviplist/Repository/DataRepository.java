@@ -1,6 +1,7 @@
 package com.almyk.mediviaviplist.Repository;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -17,6 +18,7 @@ import com.almyk.mediviaviplist.Worker.UpdatePlayerWorker;
 import com.almyk.mediviaviplist.Worker.UpdateVipListWorker;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +42,10 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private static WorkManager mWorkManager;
 
     private final LiveData<List<PlayerEntity>> mVipList;
+    private MutableLiveData<List<PlayerEntity>> mOnlineLegacy;
+    private MutableLiveData<List<PlayerEntity>> mOnlinePendulum;
+    private MutableLiveData<List<PlayerEntity>> mOnlineDestiny;
+    private MutableLiveData<List<PlayerEntity>> mOnlineProphecy;
 
     // user preferences
     private long mSyncInterval;
@@ -169,6 +175,11 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                         // or when app was started and sync was off, but now turned on, then we need to start new thread
                         mBackgroundSyncLastCancel - mBackgroundSyncLastSleep > mSyncInterval || mBackgroundSyncLastCancel == 0) {
                         initializeVipListBackgroundSync(ExistingWorkPolicy.REPLACE);
+                } else { // only launch UpdatePlayerWorker
+                    PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(UpdateAllPlayersWorker.class, 30, TimeUnit.MINUTES)
+                            .addTag(Constants.UPDATE_VIP_DETAIL_TAG)
+                            .build();
+                    mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, periodicWorkRequest);
                 }
                 break;
             case "notification_switch":
@@ -187,13 +198,35 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mWorkManager.enqueue(workRequest);
     }
 
-    public void updateVipList(String server) {
+    public void updateVipAndOnlineList(String server) {
         HashMap<String, PlayerEntity> map = mScraper.scrapeOnline(server);
         if(map == null) {
             Log.e(TAG, "Scraper.scrapeOnline("+server+") returned null");
             return;
         }
         updateDatabaseVipList(map, server);
+        updateOnlineList(map, server);
+    }
+
+    private void updateOnlineList(HashMap<String, PlayerEntity> map, String server) {
+        Collection<PlayerEntity> players = map.values();
+        List<PlayerEntity> onlineList = new ArrayList<>(players);
+
+        switch(server.toLowerCase()) {
+            case "legacy":
+                mOnlineLegacy.postValue(onlineList);
+                break;
+            case "pendulum":
+                mOnlinePendulum.postValue(onlineList);
+                break;
+            case "destiny":
+                mOnlineDestiny.postValue(onlineList);
+                break;
+            case "prophecy":
+                mOnlineProphecy.postValue(onlineList);
+                break;
+        }
+
     }
 
     public LiveData<List<PlayerEntity>> getVipList() {
@@ -249,5 +282,19 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public void setBackgroundSyncLastSleep(long time) {
         this.mBackgroundSyncLastSleep = time;
+    }
+
+    public LiveData<List<PlayerEntity>> getOnlineByServer(String server) {
+        switch(server.toLowerCase()) {
+            case "legacy":
+                return mOnlineLegacy;
+            case "pendulum":
+                return mOnlinePendulum;
+            case "destiny":
+                return mOnlineDestiny;
+            case "prophecy":
+                return mOnlineProphecy;
+        }
+        return null;
     }
 }

@@ -64,10 +64,10 @@ public class UpdateVipListWorker extends Worker {
     }
 
     private void updateVipList(DataRepository repository) {
-        repository.updateVipList("Pendulum");
-        repository.updateVipList("Prophecy");
-        repository.updateVipList("Destiny");
-        repository.updateVipList("Legacy");
+        repository.updateVipAndOnlineList("Pendulum");
+        repository.updateVipAndOnlineList("Prophecy");
+        repository.updateVipAndOnlineList("Destiny");
+        repository.updateVipAndOnlineList("Legacy");
         Log.d(TAG, "updated vip list");
     }
 
