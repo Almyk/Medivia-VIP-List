@@ -1,5 +1,6 @@
 package com.almyk.mediviaviplist.UI;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,19 +13,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.almyk.mediviaviplist.R;
+import com.almyk.mediviaviplist.ViewModel.NavigationViewModel;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private DrawerLayout mDrawer;
 
+    private NavigationViewModel mNavigationViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         PreferenceManager.setDefaultValues(this, R.xml.preferences_vip_list, false);
+
+        mNavigationViewModel = ViewModelProviders.of(this).get(NavigationViewModel.class);
 
         mDrawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -65,14 +72,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(R.id.fragment_container, new VipListFragment()).commit();
                 break;
             case R.id.nav_online_legacy:
+                mNavigationViewModel.prepareOnlineListFragment(menuItem.getTitle().toString().toLowerCase());
                 break;
             case R.id.nav_online_pendulum:
+                mNavigationViewModel.prepareOnlineListFragment(menuItem.getTitle().toString().toLowerCase());
                 break;
             case R.id.nav_online_destiny:
+                mNavigationViewModel.prepareOnlineListFragment(menuItem.getTitle().toString().toLowerCase());
                 break;
             case R.id.nav_online_prophecy:
+                mNavigationViewModel.prepareOnlineListFragment(menuItem.getTitle().toString().toLowerCase());
                 break;
         }
+        Toast.makeText(this, menuItem.getTitle().toString(), Toast.LENGTH_LONG).show();
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
