@@ -138,6 +138,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 player.setLevel(newData.getLevel());
                 player.setVocation(newData.getVocation());
                 player.setOnline(newData.isOnline());
+                player.setLastLogin(newData.getLastLogin());
                 updatePlayerDB(player);
                 Log.d(TAG, "Updated DB");
             } else {
