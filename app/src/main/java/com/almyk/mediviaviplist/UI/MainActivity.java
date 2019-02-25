@@ -72,12 +72,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_online_pendulum:
             case R.id.nav_online_destiny:
             case R.id.nav_online_prophecy:
+                getSupportActionBar().setTitle(menuItem.getTitle());
                 OnlineListFragment fragment = OnlineListFragment.newInstance();
                 fragment.setServer(menuItem.getTitle().toString());
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
                 break;
         }
-        Toast.makeText(this, menuItem.getTitle().toString(), Toast.LENGTH_LONG).show();
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -42,10 +42,10 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private static WorkManager mWorkManager;
 
     private final LiveData<List<PlayerEntity>> mVipList;
-    private MutableLiveData<List<PlayerEntity>> mOnlineLegacy;
-    private MutableLiveData<List<PlayerEntity>> mOnlinePendulum;
-    private MutableLiveData<List<PlayerEntity>> mOnlineDestiny;
-    private MutableLiveData<List<PlayerEntity>> mOnlineProphecy;
+    private MutableLiveData<List<PlayerEntity>> mOnlineLegacy = new MutableLiveData<>();
+    private MutableLiveData<List<PlayerEntity>> mOnlinePendulum = new MutableLiveData<>();
+    private MutableLiveData<List<PlayerEntity>> mOnlineDestiny = new MutableLiveData<>();
+    private MutableLiveData<List<PlayerEntity>> mOnlineProphecy = new MutableLiveData<>();
 
     // user preferences
     private long mSyncInterval;

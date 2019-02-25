@@ -6,6 +6,10 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +20,17 @@ import com.almyk.mediviaviplist.ViewModel.OnlineListViewModel;
 
 import java.util.List;
 
+import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class OnlineListFragment extends Fragment {
+    private static final String TAG = OnlineListFragment.class.getSimpleName();
+
     private OnlineListViewModel mViewModel;
+    private RecyclerView mRecyclerView;
+    private OnlineListAdapter mAdapter;
 
     private String mServer;
 
@@ -34,6 +44,12 @@ public class OnlineListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_online_list, container, false);
+
+        mRecyclerView = rootView.findViewById(R.id.rv_online_list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), VERTICAL));
+        mAdapter = new OnlineListAdapter(getActivity());
+        mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
     }
@@ -51,7 +67,7 @@ public class OnlineListFragment extends Fragment {
         mViewModel.getOnlineList().observe(this, new Observer<List<PlayerEntity>>() {
             @Override
             public void onChanged(@Nullable List<PlayerEntity> playerEntities) {
-                // TODO update recycle view adapter here
+                mAdapter.setOnlineList(playerEntities);
             }
         });
     }
