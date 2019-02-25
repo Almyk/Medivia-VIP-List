@@ -7,7 +7,9 @@
     <string name="bsync_freq_summary">Set how often you want the VIP list to refresh. Frequent updates may consume more battery and mobile data.</string>
     <string name="bgsync_freq_title">Update Frequency (seconds)</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_player_name_hint">Enter Player Name</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 </resources>

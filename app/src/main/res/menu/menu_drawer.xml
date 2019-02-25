@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/nav_vip_list"
+        android:title="VIP LIST" />
+
+    <item android:title="Online Lists">
+
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_online_legacy"
+                    android:title="Legacy"
+                    android:icon="@drawable/ic_stat_l"/>
+                <item
+                    android:id="@+id/nav_online_pendulum"
+                    android:title="Pendulum"
+                    android:icon="@drawable/ic_stat_p"/>
+                <item
+                    android:id="@+id/nav_online_destiny"
+                    android:title="Destiny"
+                    android:icon="@drawable/ic_stat_d"/>
+                <item
+                    android:id="@+id/nav_online_prophecy"
+                    android:title="Prophecy"
+                    android:icon="@drawable/ic_stat_p"/>
+            </group>
+        </menu>
+    </item>
+</menu>
