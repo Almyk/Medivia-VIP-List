@@ -189,7 +189,7 @@ public class Scraper {
                         first = false;
                         continue;
                     }
-                    String rank = entry.select("div[class='nr']").text();
+                    int rank = Integer.parseInt(entry.select("div[class='nr']").text());
                     String name = entry.select("div[class='med-width-66']").text();
                     String value = entry.select("div[class='med-width-35 med-text-right med-pr-40']").text();
 

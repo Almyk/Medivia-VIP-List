@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.HighscoreEntity;
 import com.almyk.mediviaviplist.R;
@@ -33,7 +34,8 @@ public class HighscoreAdapter extends RecyclerView.Adapter<HighscoreAdapter.High
     public void onBindViewHolder(@NonNull HighscoreAdapter.HighscoreViewHolder holder, int i) {
         HighscoreEntity entry = mHighscores.get(i);
 
-        holder.mRank.setText(entry.getRank());
+        int rank = entry.getRank();
+        holder.mRank.setText(""+rank);
         holder.mName.setText(entry.getName());
         holder.mValue.setText(entry.getValue());
 

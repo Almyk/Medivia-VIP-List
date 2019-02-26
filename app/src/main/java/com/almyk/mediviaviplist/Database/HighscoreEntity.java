@@ -16,7 +16,7 @@ public class HighscoreEntity {
 
     private String server;
     private String skill;
-    private String rank;
+    private int rank;
     private String name;
 
     private String vocation;
@@ -25,7 +25,7 @@ public class HighscoreEntity {
     @Ignore
     public HighscoreEntity() {}
 
-    public HighscoreEntity(String server, String skill, String rank, String name, String value, String vocation) {
+    public HighscoreEntity(String server, String skill, int rank, String name, String value, String vocation) {
         this.serverSkillVocRankKey = server+skill+vocation+rank;
         this.server = server;
         this.skill = skill;
@@ -60,11 +60,11 @@ public class HighscoreEntity {
         this.skill = skill;
     }
 
-    public String getRank() {
+    public int getRank() {
         return rank;
     }
 
-    public void setRank(String rank) {
+    public void setRank(int rank) {
         this.rank = rank;
     }
 

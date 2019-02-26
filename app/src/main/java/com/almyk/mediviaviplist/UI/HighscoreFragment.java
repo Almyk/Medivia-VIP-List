@@ -49,6 +49,7 @@ public class HighscoreFragment extends Fragment {
         mRecyclerView = rootView.findViewById(R.id.rv_highscore);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        mRecyclerView.setHasFixedSize(true);
         mAdapter = new HighscoreAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
 

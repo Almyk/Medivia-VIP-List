@@ -11,7 +11,7 @@ import android.util.Log;
 
 
 
-@Database(entities = {PlayerEntity.class, HighscoreEntity.class}, version = 4, exportSchema = true)
+@Database(entities = {PlayerEntity.class, HighscoreEntity.class}, version = 5, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
@@ -25,7 +25,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 Log.d(LOG_TAG, "Creating new database instance");
                 sInstance = Room.databaseBuilder(context.getApplicationContext(),
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
-                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                         .build();
             }
         }
@@ -60,6 +60,18 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE IF NOT EXISTS `highscore_list` (`server_skill_voc_rank_key` TEXT NOT NULL, `server` TEXT, `skill` TEXT, `rank` TEXT, `name` TEXT, `value` TEXT, `vocation` TEXT, PRIMARY KEY(`server_skill_voc_rank_key`))");
+        }
+    };
+
+    private static final Migration MIGRATION_4_5 = new Migration(4,5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `highscore_list_tmp` (`server_skill_voc_rank_key` TEXT NOT NULL, `server` TEXT, `skill` TEXT, `rank` INTEGER NOT NULL, `name` TEXT, `vocation` TEXT, `value` TEXT, PRIMARY KEY(`server_skill_voc_rank_key`))");
+            database.execSQL("INSERT INTO `highscore_list_tmp`(`server_skill_voc_rank_key`, `server`, `skill`, `rank`, `name`, `vocation`, `value`) " +
+                    "SELECT `server_skill_voc_rank_key`, `server`, `skill`, `rank`, `name`, `vocation`, `value` " +
+                    "FROM `highscore_list`");
+            database.execSQL("DROP TABLE `highscore_list`");
+            database.execSQL("ALTER TABLE `highscore_list_tmp` RENAME TO `highscore_list`");
         }
     };
 }
