@@ -14,12 +14,10 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 public class UpdateAllPlayersWorker extends Worker {
-    private Context mContext;
     private DataRepository mRepository;
 
     public UpdateAllPlayersWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-        this.mContext = context;
         this.mRepository = ((MediviaVipListApp) getApplicationContext()).getRepository();
     }
 
