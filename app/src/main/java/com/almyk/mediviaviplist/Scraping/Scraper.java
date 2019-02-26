@@ -2,6 +2,7 @@ package com.almyk.mediviaviplist.Scraping;
 
 import android.util.Log;
 
+import com.almyk.mediviaviplist.Database.HighscoreEntity;
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 
 import org.jsoup.Jsoup;
@@ -10,7 +11,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class Scraper {
     private static final String TAG = Scraper.class.getSimpleName();
@@ -20,6 +24,10 @@ public class Scraper {
     //private HashMap<String, PlayerEntity> mOnlineList = new HashMap<>();
 
     private static final String BASE_URL_PLAYER = "https://medivia.online/community/character/";
+
+    private static final String BASE_URL_HIGHSCORE = "https://medivia.online/highscores/";
+    private final List<String> vocations = Arrays.asList("all", "none", "sorcerers", "clerics", "scouts", "warriors");
+    private final List<String> skills = Arrays.asList("level", "maglevel", "fist", "club", "sword", "axe", "distance", "shielding", "fishing", "mining");
 
     private Document mDoc;
 
@@ -152,6 +160,44 @@ public class Scraper {
 //        Log.d(TAG, "" + player.getAccountStatus());
 
         return player;
+    }
+
+    public List<HighscoreEntity> scrapeHighscore(String server) {
+        List<HighscoreEntity> highscores = new ArrayList<>();
+        String urlServer = BASE_URL_HIGHSCORE + server + "/";
+
+        for(String voc : vocations) {
+            String urlVoc = urlServer + voc + "/";
+
+            for(String skill : skills) {
+                String urlSkill = urlVoc + skill;
+
+                boolean success = getDocument(urlSkill);
+                Document doc = mDoc.clone();
+
+                if(!success) {
+                    return null;
+                }
+                Elements table = doc.select("div[class='content med-pt-20 med-border-top-grey rank']");
+                Elements entries = table.select("li");
+
+                boolean first = true;
+                for(Element entry : entries) {
+                    if (first) { // to account for first list element showing the column names
+                        first = false;
+                        continue;
+                    }
+                    String rank = entry.select("div[class='nr']").text();
+                    String name = entry.select("div[class='med-width-66']").text();
+                    String value = entry.select("div[class='med-width-35 med-text-right med-pr-40']").text();
+
+                    HighscoreEntity newEntry = new HighscoreEntity(server, skill, rank, name, value, voc);
+                    highscores.add(newEntry);
+                }
+            }
+        }
+
+        return highscores;
     }
 
     private boolean getDocument(String url) {

@@ -11,7 +11,7 @@ import android.util.Log;
 
 
 
-@Database(entities = {PlayerEntity.class}, version = 3, exportSchema = false)
+@Database(entities = {PlayerEntity.class, HighscoreEntity.class}, version = 4, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
@@ -25,7 +25,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 Log.d(LOG_TAG, "Creating new database instance");
                 sInstance = Room.databaseBuilder(context.getApplicationContext(),
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
-                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                         .build();
             }
         }
@@ -34,6 +34,7 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract PlayerDao playerDao();
+    public abstract HighscoreDao highscoreDao();
 
     private static final Migration MIGRATION_1_2 = new Migration(1,2) {
         @Override
@@ -52,6 +53,13 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE vip_list ADD COLUMN last_login TEXT");
+        }
+    };
+
+    private static final Migration MIGRATION_3_4 = new Migration(3,4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `highscore_list` (`server_skill_voc_rank_key` TEXT NOT NULL, `server` TEXT, `skill` TEXT, `rank` TEXT, `name` TEXT, `value` TEXT, `vocation` TEXT, PRIMARY KEY(`server_skill_voc_rank_key`))");
         }
     };
 }

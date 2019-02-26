@@ -4,10 +4,10 @@ apply plugin: 'com.google.firebase.firebase-perf'
 
 
 ext.versionMajor = 1
-ext.versionMinor = 2
-ext.versionPatch = 1
+ext.versionMinor = 3
+ext.versionPatch = 0
 ext.versionClassifier = null
-ext.isSnapshot = false
+ext.isSnapshot = true
 ext.minimumSdkVersion = 19
 
 android {
@@ -19,6 +19,13 @@ android {
         versionCode generateVersionCode() // 190010203
         versionName generateVersionName() // 1.2.3-SNAPSHOT
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {
