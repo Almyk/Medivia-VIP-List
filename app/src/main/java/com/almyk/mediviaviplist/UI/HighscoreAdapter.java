@@ -17,7 +17,7 @@ import java.util.List;
 public class HighscoreAdapter extends RecyclerView.Adapter<HighscoreAdapter.HighscoreViewHolder> {
     private Context mContext;
 
-    private List<HighscoreEntity> mHighscores;
+    private static List<HighscoreEntity> mHighscores;
 
     public HighscoreAdapter(Context context) {
         this.mContext = context;

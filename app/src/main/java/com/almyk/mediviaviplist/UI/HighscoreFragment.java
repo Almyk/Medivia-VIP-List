@@ -27,7 +27,7 @@ public class HighscoreFragment extends Fragment {
     private HighscoreViewModel mViewModel;
     private HighscoreAdapter mAdapter;
 
-    private String mServer;
+    private static String mServer;
 
     private RecyclerView mRecyclerView;
 
@@ -65,11 +65,13 @@ public class HighscoreFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setupViewModel();
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle(mServer);
+
     }
 
     private void setupViewModel() {
         mViewModel = ViewModelProviders.of(this).get(HighscoreViewModel.class);
-        mViewModel.init(mServer);
+        mViewModel.init(mServer.toLowerCase());
 
         mViewModel.getHighscores().observe(this, new Observer<List<HighscoreEntity>>() {
             @Override
@@ -80,6 +82,6 @@ public class HighscoreFragment extends Fragment {
     }
 
     public void setServer(String server) {
-        this.mServer = server.toLowerCase();
+        this.mServer = server;
     }
 }
