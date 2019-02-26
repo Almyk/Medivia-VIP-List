@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="vocation_array">
+        <item>All</item>
+        <item>None</item>
+        <item>Sorcerers</item>
+        <item>Clerics</item>
+        <item>Scouts</item>
+        <item>Warriors</item>
+    </string-array>
+
+    <string-array name="skill_array">
+        <item>Level</item>
+        <item>Magic Level</item>
+        <item>Fist Fighting</item>
+        <item>Club Fighting</item>
+        <item>Sword Fighting</item>
+        <item>Axe Fighting</item>
+        <item>Distance Fighting</item>
+        <item>Shielding</item>
+        <item>Fishing</item>
+        <item>Mining</item>
+    </string-array>
+</resources>
