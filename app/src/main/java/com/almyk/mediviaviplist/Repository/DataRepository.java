@@ -9,11 +9,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.AppDatabase;
+import com.almyk.mediviaviplist.Database.HighscoreEntity;
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.almyk.mediviaviplist.Scraping.Scraper;
 import com.almyk.mediviaviplist.Worker.UpdateAllPlayersWorker;
+import com.almyk.mediviaviplist.Worker.UpdateHighscoreWorker;
 import com.almyk.mediviaviplist.Worker.UpdatePlayerWorker;
 import com.almyk.mediviaviplist.Worker.UpdateVipListWorker;
 
@@ -259,6 +261,22 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 .setInputData(data)
                 .build();
         mWorkManager.enqueue(workRequest);
+    }
+
+    public void updateHighscoreByServer(String server) {
+        Data data = new Data.Builder().putString(Constants.UPDATE_HIGHSCORES_KEY, server).build();
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateHighscoreWorker.class)
+                .setInputData(data)
+                .build();
+        mWorkManager.enqueue(workRequest);
+    }
+
+    public void uppdateHighscoreDB(HighscoreEntity highscore) {
+        mDatabase.highscoreDao().insert(highscore);
+    }
+
+    public List<HighscoreEntity> getHighscoreWeb(String server) {
+        return mScraper.scrapeHighscore(server);
     }
 
     public PlayerEntity getPlayerDB(String name) {

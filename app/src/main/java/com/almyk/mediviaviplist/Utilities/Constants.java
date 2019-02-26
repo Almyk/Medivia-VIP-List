@@ -1,5 +1,8 @@
 package com.almyk.mediviaviplist.Utilities;
 
+import java.util.Arrays;
+import java.util.List;
+
 public final class Constants {
     public static final String UPDATE_VIP_LIST_TAG = "updateviplist_tag";
     public static final String UPDATE_VIP_LIST_UNIQUE_NAME = "updateviplist_name";
@@ -25,10 +28,14 @@ public final class Constants {
 
     public static final String PLAYER_NAME = "player name";
 
+    public static final String SERVER_KEY = "server key";
+    public static final List<String> SERVERS = Arrays.asList("prophecy", "legacy", "destiny", "pendulum");
     public static final String PROPHECY = "Prophecy";
     public static final String LEGACY = "Legacy";
     public static final String DESTINY = "Destiny";
     public static final String PENDULUM = "Pendulum";
+
+    public static final String UPDATE_HIGHSCORES_KEY = "update highscores";
 
     public Constants() {}
 }
