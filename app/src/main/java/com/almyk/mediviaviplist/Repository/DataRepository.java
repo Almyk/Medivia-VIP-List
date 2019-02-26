@@ -54,6 +54,8 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private static MutableLiveData<List<PlayerEntity>> mOnlineDestiny = new MutableLiveData<>();
     private static MutableLiveData<List<PlayerEntity>> mOnlineProphecy = new MutableLiveData<>();
 
+    private static LiveData<List<HighscoreEntity>> mHighscores;
+
     // user preferences
     private long mSyncInterval;
     private boolean mDoBackgroundSync;
@@ -64,6 +66,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private DataRepository(final AppDatabase database, Context context) {
         this.mDatabase = database;
         mVipList = mDatabase.playerDao().getAll();
+        mHighscores = mDatabase.highscoreDao().getServerBySkillAndVoc("legacy", "level", "all");
         mScraper = new Scraper();
         this.mContext = context;
         this.mBackgroundSyncLastCancel = 0;
@@ -335,5 +338,20 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 return mOnlineProphecy;
         }
         return null;
+    }
+
+    public static void setmHighscores(MutableLiveData<List<HighscoreEntity>> mHighscores) {
+        DataRepository.mHighscores = mHighscores;
+    }
+
+    public LiveData<List<HighscoreEntity>> getHighscores(final String server, final String vocation, final String skill) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mHighscores = mDatabase.highscoreDao().getServerBySkillAndVoc(server, skill, vocation);
+                Log.d(TAG, "mHighscores updated in repository: " +server+vocation+skill);
+            }
+        }).start();
+        return mHighscores;
     }
 }
