@@ -13,10 +13,14 @@ import com.almyk.mediviaviplist.R;
  * A simple {@link Fragment} subclass.
  */
 public class HighscoreFragment extends Fragment {
+    private String mServer;
 
 
     public HighscoreFragment() {
-        // Required empty public constructor
+    }
+
+    public static HighscoreFragment newInstance() {
+        return new HighscoreFragment();
     }
 
 
@@ -27,4 +31,7 @@ public class HighscoreFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_highscore, container, false);
     }
 
+    public void setServer(String server) {
+        this.mServer = server;
+    }
 }

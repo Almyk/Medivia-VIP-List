@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        // TODO maybe change this switch to use menuItem.getGroupId() instead
         switch(menuItem.getItemId()) {
             case R.id.nav_vip_list:
                 getSupportActionBar().setTitle(R.string.app_name);
@@ -73,15 +74,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_online_destiny:
             case R.id.nav_online_prophecy:
                 getSupportActionBar().setTitle(menuItem.getTitle());
-                OnlineListFragment fragment = OnlineListFragment.newInstance();
-                fragment.setServer(menuItem.getTitle().toString());
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+                OnlineListFragment onlineListFragment = OnlineListFragment.newInstance();
+                onlineListFragment.setServer(menuItem.getTitle().toString());
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, onlineListFragment).commit();
                 break;
             case R.id.nav_highscore_destiny:
             case R.id.nav_highscore_legacy:
             case R.id.nav_highscore_pendulum:
             case R.id.nav_highscore_prophecy:
                 getSupportActionBar().setTitle(menuItem.getTitle());
+                HighscoreFragment highscoreFragment = HighscoreFragment.newInstance();
+                highscoreFragment.setServer(menuItem.getTitle().toString());
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, highscoreFragment).commit();
                 break;
         }
         mDrawer.closeDrawer(GravityCompat.START);
