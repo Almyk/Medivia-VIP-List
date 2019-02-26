@@ -77,6 +77,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment.setServer(menuItem.getTitle().toString());
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
                 break;
+            case R.id.nav_highscore_destiny:
+            case R.id.nav_highscore_legacy:
+            case R.id.nav_highscore_pendulum:
+            case R.id.nav_highscore_prophecy:
+                getSupportActionBar().setTitle(menuItem.getTitle());
+                break;
         }
         mDrawer.closeDrawer(GravityCompat.START);
         return true;

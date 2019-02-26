@@ -31,4 +31,28 @@
             </group>
         </menu>
     </item>
+
+    <item android:title="Highscores">
+
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/nav_highscore_legacy"
+                    android:title="Legacy"
+                    android:icon="@drawable/ic_stat_l"/>
+                <item
+                    android:id="@+id/nav_highscore_pendulum"
+                    android:title="Pendulum"
+                    android:icon="@drawable/ic_stat_p"/>
+                <item
+                    android:id="@+id/nav_highscore_destiny"
+                    android:title="Destiny"
+                    android:icon="@drawable/ic_stat_d"/>
+                <item
+                    android:id="@+id/nav_highscore_prophecy"
+                    android:title="Prophecy"
+                    android:icon="@drawable/ic_stat_p"/>
+            </group>
+        </menu>
+    </item>
 </menu>
