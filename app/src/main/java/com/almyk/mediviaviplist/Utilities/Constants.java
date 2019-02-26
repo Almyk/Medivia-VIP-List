@@ -13,6 +13,7 @@ public final class Constants {
     // Name of Notification Channel for verbose notifications of background work
     public static final CharSequence LOGIN_NOTIFICATION_CHANNEL_NAME =
             "Player Login Notifications";
+
     public static String LOGIN_NOTIFICATION_CHANNEL_DESCRIPTION =
             "Shows notifications whenever a player login";
     public static final CharSequence NOTIFICATION_TITLE = "Player has logged in";
@@ -35,7 +36,10 @@ public final class Constants {
     public static final String DESTINY = "Destiny";
     public static final String PENDULUM = "Pendulum";
 
-    public static final String UPDATE_HIGHSCORES_KEY = "update highscores";
+    public static final String UPDATE_HIGHSCORES_KEY = "update highscores key";
+    public static final String UPDATE_HIGHSCORES_TAG = "update highscores tag";
+    public static final String UPDATE_HIGHSCORES_UNIQUE_NAME = "update highscores name";
+    public static final String UPDATE_HIGHSCORE_FOR = "UPDATE HIGHSCORE FOR: ";
 
     public Constants() {}
 }

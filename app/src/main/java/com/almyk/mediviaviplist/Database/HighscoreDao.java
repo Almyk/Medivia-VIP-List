@@ -32,4 +32,7 @@ public interface HighscoreDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(HighscoreEntity highscore);
+
+    @Query("DELETE FROM highscore_list")
+    void nukeTable();
 }

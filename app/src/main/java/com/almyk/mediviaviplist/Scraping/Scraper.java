@@ -171,13 +171,15 @@ public class Scraper {
 
             for(String skill : skills) {
                 String urlSkill = urlVoc + skill;
+                Log.d(TAG, "Current URL: " + urlSkill);
 
                 boolean success = getDocument(urlSkill);
+                if(!success) {
+                    continue;
+                }
+
                 Document doc = mDoc.clone();
 
-                if(!success) {
-                    return null;
-                }
                 Elements table = doc.select("div[class='content med-pt-20 med-border-top-grey rank']");
                 Elements entries = table.select("li");
 
@@ -193,6 +195,7 @@ public class Scraper {
 
                     HighscoreEntity newEntry = new HighscoreEntity(server, skill, rank, name, value, voc);
                     highscores.add(newEntry);
+//                    Log.d(TAG, "New highscore entry: " + server + " " + skill + " " + rank + " " + name + " " + value);
                 }
             }
         }

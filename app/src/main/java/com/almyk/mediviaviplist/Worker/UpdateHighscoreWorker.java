@@ -26,7 +26,7 @@ public class UpdateHighscoreWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        String server = getInputData().getString(Constants.SERVER_KEY);
+        String server = getInputData().getString(Constants.UPDATE_HIGHSCORES_KEY);
         List<HighscoreEntity> highscores = mRepository.getHighscoreWeb(server);
 
         if(highscores != null && !highscores.isEmpty()) {

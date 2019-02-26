@@ -14,6 +14,7 @@ import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.almyk.mediviaviplist.Scraping.Scraper;
+import com.almyk.mediviaviplist.Worker.UpdateAllHighscoresWorker;
 import com.almyk.mediviaviplist.Worker.UpdateAllPlayersWorker;
 import com.almyk.mediviaviplist.Worker.UpdateHighscoreWorker;
 import com.almyk.mediviaviplist.Worker.UpdatePlayerWorker;
@@ -28,9 +29,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.ExistingWorkPolicy;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
@@ -65,6 +68,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         this.mContext = context;
         this.mBackgroundSyncLastCancel = 0;
         this.mBackgroundSyncLastSleep = 0;
+
         initializeUserPreferences(context);
         setupWorkManager();
     }
@@ -79,19 +83,30 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     }
 
-    private void initializeVipListBackgroundSync(ExistingWorkPolicy policy) {
+    private void initializeVipListBackgroundSync(ExistingWorkPolicy vipListPolicy) {
         mWorkManager.cancelUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME);
         Data data = new Data.Builder().putBoolean(Constants.DO_BGSYNC, mDoBackgroundSync).build();
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class)
                 .addTag(Constants.UPDATE_VIP_LIST_TAG)
                 .setInputData(data)
                 .build();
-        mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, policy, workRequest);
+        mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, vipListPolicy, workRequest);
 
-        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(UpdateAllPlayersWorker.class, 30, TimeUnit.MINUTES)
+        startPeriodicWorkers();
+    }
+
+    private void startPeriodicWorkers() {
+        PeriodicWorkRequest updateAllPlayersWork = new PeriodicWorkRequest.Builder(UpdateAllPlayersWorker.class, 30, TimeUnit.MINUTES)
                 .addTag(Constants.UPDATE_VIP_DETAIL_TAG)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                 .build();
-        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, periodicWorkRequest);
+        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, updateAllPlayersWork);
+
+        PeriodicWorkRequest updateAllHighscoresWork = new PeriodicWorkRequest.Builder(UpdateAllHighscoresWorker.class, 6, TimeUnit.HOURS)
+                .addTag(Constants.UPDATE_HIGHSCORES_TAG)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).setRequiresBatteryNotLow(true).build())
+                .build();
+        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, updateAllHighscoresWork);
     }
 
     private void initializeUserPreferences(Context context) {
@@ -180,11 +195,8 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                         // or when app was started and sync was off, but now turned on, then we need to start new thread
                         mBackgroundSyncLastCancel - mBackgroundSyncLastSleep > mSyncInterval || mBackgroundSyncLastCancel == 0) {
                         initializeVipListBackgroundSync(ExistingWorkPolicy.REPLACE);
-                } else { // only launch UpdatePlayerWorker
-                    PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(UpdateAllPlayersWorker.class, 30, TimeUnit.MINUTES)
-                            .addTag(Constants.UPDATE_VIP_DETAIL_TAG)
-                            .build();
-                    mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, periodicWorkRequest);
+                } else { // launch UpdatePlayerWorker and UpdateHighscoreWorker
+                    startPeriodicWorkers();
                 }
                 break;
             case "notification_switch":
@@ -268,7 +280,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateHighscoreWorker.class)
                 .setInputData(data)
                 .build();
-        mWorkManager.enqueue(workRequest);
+        mWorkManager.enqueueUniqueWork(Constants.UPDATE_HIGHSCORE_FOR + server, ExistingWorkPolicy.REPLACE,workRequest);
     }
 
     public void uppdateHighscoreDB(HighscoreEntity highscore) {
