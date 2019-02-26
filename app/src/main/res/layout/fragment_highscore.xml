@@ -35,6 +35,39 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:padding="6dp"
+            android:text="Rank"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.52"
+            android:padding="6dp"
+            android:text="Name"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.23"
+            android:padding="6dp"
+            android:text="Value"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_highscore"
         android:layout_width="match_parent"
