@@ -68,11 +68,30 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/empty_highscore"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="4dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="To see highscores press the refresh button in the upper right corner"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal|center_vertical"
+            tools:text="DOWNLOAD" />
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_highscore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="6dp"
-        android:paddingRight="6dp"/>
+        android:paddingRight="6dp" />
 
 </LinearLayout>

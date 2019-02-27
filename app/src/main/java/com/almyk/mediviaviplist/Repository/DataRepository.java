@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import androidx.work.Constraints;
@@ -55,6 +56,10 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private static MutableLiveData<List<PlayerEntity>> mOnlineProphecy = new MutableLiveData<>();
     private static MutableLiveData<List<HighscoreEntity>> mHighscores = new MutableLiveData<>();
 
+    private String mHighscoreServer;
+    private String mHighscoreVoc;
+    private String mHighscoreSkill;
+
     // user preferences
     private long mSyncInterval;
     private boolean mDoBackgroundSync;
@@ -64,8 +69,15 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     private DataRepository(final AppDatabase database, Context context) {
         this.mDatabase = database;
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                mDatabase.highscoreDao().nukeTable();
+//            }
+//        }).start();
+
         mVipList = mDatabase.playerDao().getAll();
-//        mHighscores = mDatabase.highscoreDao().getServerBySkillAndVoc("legacy", "level", "all");
         mScraper = new Scraper();
         this.mContext = context;
         this.mBackgroundSyncLastCancel = 0;
@@ -278,7 +290,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mWorkManager.enqueue(workRequest);
     }
 
-    public void updateHighscoreByServer(String server) {
+    public void updateHighscoreByServer(final String server) {
         Data data = new Data.Builder().putString(Constants.UPDATE_HIGHSCORES_KEY, server).build();
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateHighscoreWorker.class)
                 .setInputData(data)
@@ -341,16 +353,25 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     }
 
     public LiveData<List<HighscoreEntity>> getHighscores(final String server, final String vocation, final String skill) {
+        mHighscoreServer = server;
+        mHighscoreVoc = vocation;
+        mHighscoreSkill = skill;
+        getHighscoresDB();
+        return mHighscores;
+    }
+
+    public void getHighscoresDB() {
+        // TODO use worker instead of new thread
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mHighscores.postValue(mDatabase.highscoreDao().getServerBySkillAndVoc(server, skill, vocation));
-                synchronized (mHighscores) {
-                    mHighscores.notifyAll();
-                }
-                Log.d(TAG, "mHighscores updated in repository: " +server+vocation+skill);
+                mHighscores.postValue(mDatabase.highscoreDao().getServerBySkillAndVoc(mHighscoreServer, mHighscoreSkill, mHighscoreVoc));
+                Log.d(TAG, "mHighscores updated in repository: " +mHighscoreServer+mHighscoreVoc+mHighscoreSkill);
             }
         }).start();
-        return mHighscores;
+    }
+
+    public void setHighScores() {
+        mHighscores.postValue(mDatabase.highscoreDao().getServerBySkillAndVoc(mHighscoreServer, mHighscoreSkill, mHighscoreVoc));
     }
 }

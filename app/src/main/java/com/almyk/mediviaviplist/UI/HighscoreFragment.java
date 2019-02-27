@@ -13,10 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.HighscoreEntity;
 import com.almyk.mediviaviplist.R;
@@ -40,6 +43,7 @@ public class HighscoreFragment extends Fragment implements Spinner.OnItemSelecte
     private RecyclerView mRecyclerView;
     private Spinner mVocSpinner;
     private Spinner mSkillSpinner;
+    private LinearLayout mEmptyHighscoreLayout;
 
 
     public HighscoreFragment() {
@@ -49,6 +53,11 @@ public class HighscoreFragment extends Fragment implements Spinner.OnItemSelecte
         return new HighscoreFragment();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +80,8 @@ public class HighscoreFragment extends Fragment implements Spinner.OnItemSelecte
         mVocSpinner.setOnItemSelectedListener(this);
         mSkillSpinner.setOnItemSelectedListener(this);
 
+        mEmptyHighscoreLayout = rootView.findViewById(R.id.empty_highscore);
+
         return rootView;
     }
 
@@ -88,6 +99,19 @@ public class HighscoreFragment extends Fragment implements Spinner.OnItemSelecte
         inflater.inflate(R.menu.menu_highscore, menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.highscore_menu_refresh:
+                mViewModel.refreshHighscore();
+                Toast.makeText(getActivity(), "Updating data, this might take a while.", Toast.LENGTH_LONG).show();
+                mEmptyHighscoreLayout.setVisibility(View.GONE);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void setupViewModel() {
         mViewModel = ViewModelProviders.of(this).get(HighscoreViewModel.class);
         mViewModel.init(mServer.toLowerCase());
@@ -97,6 +121,13 @@ public class HighscoreFragment extends Fragment implements Spinner.OnItemSelecte
             public void onChanged(@Nullable List<HighscoreEntity> highscoreEntities) {
                 Log.d(TAG, "Highscore data set changed");
                 mAdapter.setEntries(highscoreEntities);
+                if(highscoreEntities.isEmpty()) {
+                    mRecyclerView.setVisibility(View.GONE);
+                    mEmptyHighscoreLayout.setVisibility(View.VISIBLE);
+                } else {
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    mEmptyHighscoreLayout.setVisibility(View.GONE);
+                }
             }
         });
     }

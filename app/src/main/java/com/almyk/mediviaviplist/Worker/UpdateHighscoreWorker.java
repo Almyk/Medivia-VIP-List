@@ -33,6 +33,7 @@ public class UpdateHighscoreWorker extends Worker {
             for(HighscoreEntity highscore : highscores) {
                 mRepository.uppdateHighscoreDB(highscore);
             }
+            mRepository.setHighScores();
             return Result.success();
         }
         return Result.failure();

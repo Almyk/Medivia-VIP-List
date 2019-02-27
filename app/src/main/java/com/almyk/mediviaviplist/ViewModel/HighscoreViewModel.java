@@ -72,4 +72,8 @@ public class HighscoreViewModel extends AndroidViewModel {
 
         this.mSkill = skill.toLowerCase();
     }
+
+    public void refreshHighscore() {
+        mRepository.updateHighscoreByServer(mServer);
+    }
 }
