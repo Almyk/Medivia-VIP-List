@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class HighscoreFragment extends Fragment implements Spinner.OnItemSelecte
     private Spinner mVocSpinner;
     private Spinner mSkillSpinner;
     private LinearLayout mEmptyHighscoreLayout;
+    private ProgressBar mProgressBar;
 
 
     public HighscoreFragment() {
@@ -78,6 +80,7 @@ public class HighscoreFragment extends Fragment implements Spinner.OnItemSelecte
         mSkillSpinner.setOnItemSelectedListener(this);
 
         mEmptyHighscoreLayout = rootView.findViewById(R.id.empty_highscore);
+        mProgressBar = rootView.findViewById(R.id.indeterminateBar);
 
         return rootView;
     }
@@ -103,6 +106,7 @@ public class HighscoreFragment extends Fragment implements Spinner.OnItemSelecte
                 mViewModel.refreshHighscore();
                 Toast.makeText(getActivity(), "Updating data, this might take a while.", Toast.LENGTH_LONG).show();
                 mEmptyHighscoreLayout.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.VISIBLE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -118,6 +122,7 @@ public class HighscoreFragment extends Fragment implements Spinner.OnItemSelecte
             public void onChanged(@Nullable List<HighscoreEntity> highscoreEntities) {
                 Log.d(TAG, "Highscore data set changed");
                 mAdapter.setEntries(highscoreEntities);
+                mProgressBar.setVisibility(View.GONE);
                 if(highscoreEntities.isEmpty()) {
                     mRecyclerView.setVisibility(View.GONE);
                     mEmptyHighscoreLayout.setVisibility(View.VISIBLE);
