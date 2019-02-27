@@ -43,8 +43,6 @@ public class VipListFragment extends Fragment
         implements SwipeRefreshLayout.OnRefreshListener, TextView.OnEditorActionListener {
     private static final String TAG = VipListFragment.class.getSimpleName();
 
-    private FirebaseAnalytics mFirebaseAnalytics;
-
     private VipListViewModel mViewModel;
 
     private SwipeRefreshLayout mSwipeContainer;
@@ -108,7 +106,6 @@ public class VipListFragment extends Fragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
     }
 
     private void setupViewModel() {
