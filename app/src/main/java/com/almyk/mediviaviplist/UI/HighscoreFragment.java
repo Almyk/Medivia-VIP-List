@@ -104,7 +104,7 @@ public class HighscoreFragment extends Fragment implements Spinner.OnItemSelecte
         switch(item.getItemId()) {
             case R.id.highscore_menu_refresh:
                 mViewModel.refreshHighscore();
-                Toast.makeText(getActivity(), "Updating data, this might take a while.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Updating all Highscores for " + mServer + "\n\tThis might take a while.", Toast.LENGTH_LONG).show();
                 mEmptyHighscoreLayout.setVisibility(View.GONE);
                 mProgressBar.setVisibility(View.VISIBLE);
                 return true;
