@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.almyk.mediviaviplist.Database.AppDatabase;
 import com.almyk.mediviaviplist.Database.HighscoreEntity;
 import com.almyk.mediviaviplist.Database.PlayerEntity;
+import com.almyk.mediviaviplist.Utilities.AppExecutors;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.almyk.mediviaviplist.Scraping.Scraper;
@@ -47,6 +48,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     private final AppDatabase mDatabase;
     private final Scraper mScraper;
+    private static AppExecutors mExecutors;
     private static WorkManager mWorkManager;
 
     private final LiveData<List<PlayerEntity>> mVipList;
@@ -79,6 +81,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
         mVipList = mDatabase.playerDao().getAll();
         mScraper = new Scraper();
+        mExecutors = AppExecutors.getInstance();
         this.mContext = context;
         this.mBackgroundSyncLastCancel = 0;
         this.mBackgroundSyncLastSleep = 0;
@@ -360,13 +363,13 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         return mHighscores;
     }
 
-    /**
-     * Enqueues a worker that runs DataRepository.setHighScores()
-     * to avoid running on main thread.
-     */
     public void getHighscoresDB() {
-        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(GetHighscoresFromDbWorker.class).build();
-        mWorkManager.enqueue(workRequest);
+        mExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                setHighScores();
+            }
+        });
     }
 
     public void setHighScores() {
@@ -375,17 +378,5 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public List<HighscoreEntity> scrapeHighscoreByServerAndSkill(String server, String skill) {
         return mScraper.scrapeHighscoreByServerAndSkill(server, skill);
-    }
-
-    public String getmHighscoreServer() {
-        return mHighscoreServer;
-    }
-
-    public String getmHighscoreVoc() {
-        return mHighscoreVoc;
-    }
-
-    public String getmHighscoreSkill() {
-        return mHighscoreSkill;
     }
 }
