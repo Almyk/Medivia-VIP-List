@@ -29,9 +29,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class HighscoreFragment extends Fragment implements Spinner.OnItemSelectedListener {
     private static final String TAG = HighscoreFragment.class.getSimpleName();
 

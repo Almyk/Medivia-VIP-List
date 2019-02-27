@@ -14,6 +14,7 @@ import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.almyk.mediviaviplist.Scraping.Scraper;
+import com.almyk.mediviaviplist.Worker.GetHighscoresFromDbWorker;
 import com.almyk.mediviaviplist.Worker.UpdateAllPlayersWorker;
 import com.almyk.mediviaviplist.Worker.UpdateHighscoreByServerWorker;
 import com.almyk.mediviaviplist.Worker.UpdateHighscoreWorker;
@@ -359,15 +360,13 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         return mHighscores;
     }
 
+    /**
+     * Enqueues a worker that runs DataRepository.setHighScores()
+     * to avoid running on main thread.
+     */
     public void getHighscoresDB() {
-        // TODO use worker instead of new thread
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mHighscores.postValue(mDatabase.highscoreDao().getServerBySkillAndVoc(mHighscoreServer, mHighscoreSkill, mHighscoreVoc));
-                Log.d(TAG, "mHighscores updated in repository: " +mHighscoreServer+mHighscoreVoc+mHighscoreSkill);
-            }
-        }).start();
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(GetHighscoresFromDbWorker.class).build();
+        mWorkManager.enqueue(workRequest);
     }
 
     public void setHighScores() {
@@ -376,5 +375,17 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public List<HighscoreEntity> scrapeHighscoreByServerAndSkill(String server, String skill) {
         return mScraper.scrapeHighscoreByServerAndSkill(server, skill);
+    }
+
+    public String getmHighscoreServer() {
+        return mHighscoreServer;
+    }
+
+    public String getmHighscoreVoc() {
+        return mHighscoreVoc;
+    }
+
+    public String getmHighscoreSkill() {
+        return mHighscoreSkill;
     }
 }
