@@ -203,6 +203,44 @@ public class Scraper {
         return highscores;
     }
 
+    public List<HighscoreEntity> scrapeHighscoreByServerAndSkill(String server, String skill) {
+        List<HighscoreEntity> highscores = new ArrayList<>();
+        String urlServer = BASE_URL_HIGHSCORE + server + "/";
+
+        for(String voc : vocations) {
+            String url = urlServer + voc + "/" + skill;
+            Log.d(TAG, "Current URL: " + url);
+
+            boolean success = getDocument(url);
+            if(!success) {
+                continue;
+            }
+
+            Document doc = mDoc.clone();
+
+            Elements table = doc.select("div[class='content med-pt-20 med-border-top-grey rank']");
+            Elements entries = table.select("li");
+
+            boolean first = true;
+            for(Element entry : entries) {
+                if (first) { // to account for first list element showing the column names
+                    first = false;
+                    continue;
+                }
+                int rank = Integer.parseInt(entry.select("div[class='nr']").text());
+                String name = entry.select("div[class='med-width-66']").text();
+                String value = entry.select("div[class='med-width-35 med-text-right med-pr-40']").text();
+
+                HighscoreEntity newEntry = new HighscoreEntity(server, skill, rank, name, value, voc);
+                highscores.add(newEntry);
+//                    Log.d(TAG, "New highscore entry: " + server + " " + skill + " " + rank + " " + name + " " + value);
+            }
+
+        }
+
+        return highscores;
+    }
+
     private boolean getDocument(String url) {
         try {
             mDoc = Jsoup.connect(url).get();

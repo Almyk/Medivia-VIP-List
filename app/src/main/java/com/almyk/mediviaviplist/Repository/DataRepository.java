@@ -14,8 +14,8 @@ import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.almyk.mediviaviplist.Scraping.Scraper;
-import com.almyk.mediviaviplist.Worker.UpdateAllHighscoresWorker;
 import com.almyk.mediviaviplist.Worker.UpdateAllPlayersWorker;
+import com.almyk.mediviaviplist.Worker.UpdateHighscoreByServerWorker;
 import com.almyk.mediviaviplist.Worker.UpdateHighscoreWorker;
 import com.almyk.mediviaviplist.Worker.UpdatePlayerWorker;
 import com.almyk.mediviaviplist.Worker.UpdateVipListWorker;
@@ -27,7 +27,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import androidx.work.Constraints;
@@ -291,8 +290,8 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     }
 
     public void updateHighscoreByServer(final String server) {
-        Data data = new Data.Builder().putString(Constants.UPDATE_HIGHSCORES_KEY, server).build();
-        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateHighscoreWorker.class)
+        Data data = new Data.Builder().putString(Constants.UPDATE_HIGHSCORES_SERVER_KEY, server).build();
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateHighscoreByServerWorker.class)
                 .setInputData(data)
                 .build();
         mWorkManager.enqueueUniqueWork(Constants.UPDATE_HIGHSCORE_FOR + server, ExistingWorkPolicy.REPLACE,workRequest);
@@ -373,5 +372,9 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public void setHighScores() {
         mHighscores.postValue(mDatabase.highscoreDao().getServerBySkillAndVoc(mHighscoreServer, mHighscoreSkill, mHighscoreVoc));
+    }
+
+    public List<HighscoreEntity> scrapeHighscoreByServerAndSkill(String server, String skill) {
+        return mScraper.scrapeHighscoreByServerAndSkill(server, skill);
     }
 }
