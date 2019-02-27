@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface HighscoreDao {
     @Query("SELECT * FROM highscore_list WHERE server = :server AND skill = :skill AND vocation = :voc ORDER BY rank ASC")
-    LiveData<List<HighscoreEntity>> getServerBySkillAndVoc(String server, String skill, String voc);
+    List<HighscoreEntity> getServerBySkillAndVoc(String server, String skill, String voc);
 
     @Query("SELECT * FROM highscore_list WHERE server = :server AND skill = :skill ORDER BY rank DESC")
     LiveData<List<HighscoreEntity>> getServerBySkill(String server, String skill);

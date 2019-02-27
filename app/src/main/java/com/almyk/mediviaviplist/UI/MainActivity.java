@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_highscore_legacy:
             case R.id.nav_highscore_pendulum:
             case R.id.nav_highscore_prophecy:
-                getSupportActionBar().setTitle(menuItem.getTitle());
                 HighscoreFragment highscoreFragment = HighscoreFragment.newInstance();
                 highscoreFragment.setServer(menuItem.getTitle().toString());
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, highscoreFragment).commit();

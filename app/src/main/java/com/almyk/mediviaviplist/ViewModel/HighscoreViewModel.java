@@ -35,4 +35,41 @@ public class HighscoreViewModel extends AndroidViewModel {
     public LiveData<List<HighscoreEntity>> getHighscores() {
         return mHighscores;
     }
+
+    public void changeHighscoreCategory() {
+        this.mHighscores = mRepository.getHighscores(mServer, mVocation, mSkill);
+    }
+
+    public void setServer(String server) {
+        this.mServer = server.toLowerCase();
+    }
+
+    public void setVocation(String vocation) {
+        this.mVocation = vocation.toLowerCase();
+    }
+
+    public void setSkill(String skill) {
+        switch(skill) {
+            case "Magic Level":
+                skill = "maglevel";
+                break;
+            case "Fist Fighting":
+                skill = "fist";
+                break;
+            case "Club Fighting":
+                skill = "club";
+                break;
+            case "Sword Fighting":
+                skill = "sword";
+                break;
+            case "Axe Fighting":
+                skill = "axe";
+                break;
+            case "Distance Fighting":
+                skill = "distance";
+                break;
+        }
+
+        this.mSkill = skill.toLowerCase();
+    }
 }
