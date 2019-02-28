@@ -63,6 +63,8 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private String mHighscoreVoc;
     private String mHighscoreSkill;
 
+    private MutableLiveData<PlayerEntity> mSearchCharacter = new MutableLiveData<>();
+
     // user preferences
     private long mSyncInterval;
     private boolean mDoBackgroundSync;
@@ -382,5 +384,19 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public List<HighscoreEntity> scrapeHighscoreByServerAndSkill(String server, String skill) {
         return mScraper.scrapeHighscoreByServerAndSkill(server, skill);
+    }
+
+    public LiveData<PlayerEntity> searchPlayer(final String name) {
+        mExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                PlayerEntity player = getPlayerDB(name);
+                if(player == null) {
+                    player = getPlayerWeb(name);
+                }
+                mSearchCharacter.postValue(player);
+            }
+        });
+        return mSearchCharacter;
     }
 }
