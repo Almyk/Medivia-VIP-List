@@ -386,7 +386,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         return mScraper.scrapeHighscoreByServerAndSkill(server, skill);
     }
 
-    public LiveData<PlayerEntity> searchPlayer(final String name) {
+    public void searchPlayer(final String name) {
         mExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
@@ -397,6 +397,9 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 mSearchCharacter.postValue(player);
             }
         });
+    }
+
+    public LiveData<PlayerEntity> getSearchCharacterLiveData() {
         return mSearchCharacter;
     }
 }
