@@ -17,7 +17,9 @@
             android:id="@+id/et_player_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:inputType="text"/>
 
         <ImageButton
             android:id="@+id/button_search"
@@ -29,9 +31,11 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/player_detail_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="14dp">
+        android:padding="14dp"
+        android:visibility="gone">
 
         <include layout="@layout/fragment_player_detail"/>
 

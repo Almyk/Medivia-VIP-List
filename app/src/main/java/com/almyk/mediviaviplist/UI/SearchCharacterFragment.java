@@ -9,9 +9,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,7 +28,9 @@ import com.almyk.mediviaviplist.ViewModel.SearchCharacterViewModel;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchCharacterFragment extends Fragment implements View.OnClickListener {
+public class SearchCharacterFragment extends Fragment
+        implements View.OnClickListener, TextView.OnEditorActionListener {
+
     private EditTextBackEvent mNameEditTextView;
     private ImageButton mSearchButton;
 
@@ -47,6 +52,7 @@ public class SearchCharacterFragment extends Fragment implements View.OnClickLis
     private LinearLayout mGuildContainer;
     private LinearLayout mHouseContainer;
     private LinearLayout mCommentContainer;
+    private FrameLayout mPlayerDetailContainer;
 
     private String mName;
 
@@ -65,6 +71,7 @@ public class SearchCharacterFragment extends Fragment implements View.OnClickLis
         View rootView = inflater.inflate(R.layout.fragment_search_character, container, false);
 
         mNameEditTextView = rootView.findViewById(R.id.et_player_name);
+        mNameEditTextView.setOnEditorActionListener(this);
         mSearchButton = rootView.findViewById(R.id.button_search);
         mSearchButton.setOnClickListener(this);
 
@@ -72,6 +79,7 @@ public class SearchCharacterFragment extends Fragment implements View.OnClickLis
         mGuildContainer = rootView.findViewById(R.id.guild_container);
         mHouseContainer = rootView.findViewById(R.id.house_container);
         mCommentContainer = rootView.findViewById(R.id.comment_container);
+        mPlayerDetailContainer = rootView.findViewById(R.id.player_detail_container);
 
         mNameView = rootView.findViewById(R.id.tv_name);
         mPrevNameView = rootView.findViewById(R.id.tv_prev_name);
@@ -100,6 +108,10 @@ public class SearchCharacterFragment extends Fragment implements View.OnClickLis
             public void onChanged(@Nullable PlayerEntity playerEntity) {
                 if(playerEntity != null) {
                     populateView(playerEntity);
+                } else {
+                    mPlayerDetailContainer.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), "Could not find player '" +mName+"'", Toast.LENGTH_SHORT).show();;
+                    mNameEditTextView.requestFocus();
                 }
             }
         });
@@ -147,6 +159,7 @@ public class SearchCharacterFragment extends Fragment implements View.OnClickLis
             mCommentView.setText(player.getComment());
             mCommentContainer.setVisibility(View.VISIBLE);
         }
+        mPlayerDetailContainer.setVisibility(View.VISIBLE);
     }
 
     public void setName(String Name) {
@@ -155,13 +168,31 @@ public class SearchCharacterFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        searchPlayer();
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        switch(actionId) {
+            case EditorInfo.IME_ACTION_DONE:
+                searchPlayer();
+            case KeyEvent.KEYCODE_BACK:
+                mNameEditTextView.clearFocus();
+            default:
+                return false;
+        }
+    }
+
+    private void searchPlayer() {
         String text = mNameEditTextView.getText().toString();
         if(!TextUtils.isEmpty(text)) {
+            mPlayerDetailContainer.setVisibility(View.GONE);
+            mNameEditTextView.getText().clear();
+            mNameEditTextView.clearFocus();
             this.mName = text;
             mViewModel.searchPlayer(mName);
         } else {
             Toast.makeText(getActivity(), "Please enter a name and try again", Toast.LENGTH_LONG).show();
         }
-
     }
 }
