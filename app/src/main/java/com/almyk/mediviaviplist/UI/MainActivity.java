@@ -76,7 +76,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportActionBar().setTitle(menuItem.getTitle());
                 OnlineListFragment onlineListFragment = OnlineListFragment.newInstance();
                 onlineListFragment.setServer(menuItem.getTitle().toString());
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, onlineListFragment).commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, onlineListFragment).commit();
                 break;
             case R.id.nav_highscore_destiny:
             case R.id.nav_highscore_legacy:
@@ -84,7 +85,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_highscore_prophecy:
                 HighscoreFragment highscoreFragment = HighscoreFragment.newInstance();
                 highscoreFragment.setServer(menuItem.getTitle().toString());
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, highscoreFragment).commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, highscoreFragment).commit();
+                break;
+            case R.id.nav_search_player:
+                SearchCharacterFragment searchCharacterFragment = SearchCharacterFragment.newInstance();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, searchCharacterFragment).commit();
                 break;
         }
         mDrawer.closeDrawer(GravityCompat.START);

@@ -55,4 +55,13 @@
             </group>
         </menu>
     </item>
+
+    <group
+        android:id="@+id/nav_group_search_player">
+            <item
+                android:id="@+id/nav_search_player"
+                android:title="Search Character"
+                android:icon="@drawable/ic_search_black_24dp"/>
+    </group>
+
 </menu>
