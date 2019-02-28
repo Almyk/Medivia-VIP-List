@@ -115,6 +115,9 @@ public class SearchCharacterFragment extends Fragment
                 }
             }
         });
+        if(!TextUtils.isEmpty(mName)) {
+            mViewModel.searchPlayer(mName);
+        }
     }
 
     private void populateView(PlayerEntity player) {

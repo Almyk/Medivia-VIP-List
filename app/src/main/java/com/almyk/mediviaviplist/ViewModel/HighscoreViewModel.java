@@ -76,4 +76,8 @@ public class HighscoreViewModel extends AndroidViewModel {
     public void refreshHighscore() {
         mRepository.updateHighscoreByServer(mServer);
     }
+
+    public void addVip(String name) {
+        mRepository.addPlayer(name);
+    }
 }

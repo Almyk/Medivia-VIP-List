@@ -29,7 +29,7 @@ import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 public class OnlineListFragment extends Fragment {
     private static final String TAG = OnlineListFragment.class.getSimpleName();
 
-    private OnlineListViewModel mViewModel;
+    private static OnlineListViewModel mViewModel;
     private RecyclerView mRecyclerView;
     private OnlineListAdapter mAdapter;
 
@@ -81,5 +81,9 @@ public class OnlineListFragment extends Fragment {
 
     public void setServer(String server) {
         this.mServer = server;
+    }
+
+    public static void addVip(String name) {
+        mViewModel.addVip(name);
     }
 }

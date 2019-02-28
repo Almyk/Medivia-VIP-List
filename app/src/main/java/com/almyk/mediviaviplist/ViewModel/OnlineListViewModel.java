@@ -28,4 +28,8 @@ public class OnlineListViewModel extends AndroidViewModel {
     public void init(String server) {
         mOnlineList = mRepository.getOnlineByServer(server);
     }
+
+    public void addVip(String name) {
+        mRepository.addPlayer(name);
+    }
 }

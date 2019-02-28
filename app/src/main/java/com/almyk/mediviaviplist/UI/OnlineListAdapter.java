@@ -1,12 +1,17 @@
 package com.almyk.mediviaviplist.UI;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MenuCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.R;
@@ -53,7 +58,8 @@ public class OnlineListAdapter extends RecyclerView.Adapter<OnlineListAdapter.On
         notifyDataSetChanged();
     }
 
-    public class OnlineListViewHolder extends RecyclerView.ViewHolder {
+    public class OnlineListViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, MenuItem.OnMenuItemClickListener, View.OnCreateContextMenuListener {
         private TextView mName;
         private TextView mLevel;
         private TextView mVocation;
@@ -66,6 +72,48 @@ public class OnlineListAdapter extends RecyclerView.Adapter<OnlineListAdapter.On
             mLevel = itemView.findViewById(R.id.tv_level);
             mVocation = itemView.findViewById(R.id.tv_vocation);
             mLastLogin = itemView.findViewById(R.id.tv_last_login);
+
+            itemView.setOnClickListener(OnlineListViewHolder.this);
+            itemView.setOnCreateContextMenuListener(OnlineListViewHolder.this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            v.showContextMenu();
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            String name = mOnlineList.get(getAdapterPosition()).getName();
+            switch(item.getItemId()) {
+                case 0: // ADD VIP
+                    OnlineListFragment.addVip(name);
+                    Toast.makeText(mContext, "ADDED VIP: "+name, Toast.LENGTH_SHORT).show();
+                    return true;
+                case 1: // SEARCH PLAYER
+                    SearchCharacterFragment fragment = SearchCharacterFragment.newInstance();
+                    fragment.setName(name);
+                    ((MainActivity) mContext).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, fragment)
+                            .addToBackStack(null)
+                            .commit();
+                    Toast.makeText(mContext, "SEARCH PLAYER: "+name, Toast.LENGTH_SHORT).show();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(0, 0, 0,"ADD VIP")
+                    .setOnMenuItemClickListener(OnlineListViewHolder.this);
+
+            menu.add(1, 1, 1,"SEARCH PLAYER")
+                    .setOnMenuItemClickListener(OnlineListViewHolder.this);
+
+            MenuCompat.setGroupDividerEnabled(menu, true);
         }
     }
 }

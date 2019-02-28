@@ -2,8 +2,11 @@ package com.almyk.mediviaviplist.UI;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MenuCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -52,7 +55,11 @@ public class HighscoreAdapter extends RecyclerView.Adapter<HighscoreAdapter.High
     }
 
 
-    public class HighscoreViewHolder extends RecyclerView.ViewHolder {
+    public class HighscoreViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener,
+            View.OnCreateContextMenuListener,
+            MenuItem.OnMenuItemClickListener {
+
         private TextView mRank;
         private TextView mName;
         private TextView mValue;
@@ -64,6 +71,48 @@ public class HighscoreAdapter extends RecyclerView.Adapter<HighscoreAdapter.High
             mRank = itemView.findViewById(R.id.tv_rank);
             mName = itemView.findViewById(R.id.tv_name);
             mValue = itemView.findViewById(R.id.tv_value);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            String name = mHighscores.get(getAdapterPosition()).getName();
+            switch(item.getItemId()) {
+                case 0: // ADD VIP
+                    HighscoreFragment.addVip(name);
+                    Toast.makeText(mContext, "ADDED VIP: "+name, Toast.LENGTH_SHORT).show();
+                    return true;
+                case 1: // SEARCH PLAYER
+                    SearchCharacterFragment fragment = SearchCharacterFragment.newInstance();
+                    fragment.setName(name);
+                    ((MainActivity) mContext).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, fragment)
+                            .addToBackStack(null)
+                            .commit();
+                    Toast.makeText(mContext, "SEARCH PLAYER: "+name, Toast.LENGTH_SHORT).show();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            v.showContextMenu();
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(0, 0, 0,"ADD VIP")
+                    .setOnMenuItemClickListener(HighscoreViewHolder.this);
+
+            menu.add(1, 1, 1,"SEARCH PLAYER")
+                    .setOnMenuItemClickListener(HighscoreViewHolder.this);
+
+            MenuCompat.setGroupDividerEnabled(menu, true);
         }
     }
 }

@@ -197,7 +197,8 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
             String names = loginList.toString();
             names = names.replace('[', ' ');
             names = names.replace(']', ' ');
-            NotificationUtils.makeStatusNotification("Player " + names + " has logged in.", mContext, server);
+            NotificationUtils.makeStatusNotification(
+                    "Player " + names + " has logged in.", mContext, server);
         }
     }
 
@@ -213,7 +214,10 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 if(!mDoBackgroundSync) {
                     mWorkManager.cancelUniqueWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME);
                     mBackgroundSyncLastCancel = new Date().getTime();
-                    Toast.makeText(mContext, "Background sync turned off, to manually update pull down on vip list.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(
+                            mContext,
+                            "Background sync turned off, to manually update pull down on vip list.",
+                            Toast.LENGTH_LONG).show();
                 } else if( // if we have a sleeping thread we don't start a new one
                         // or when app was started and sync was off, but now turned on, then we need to start new thread
                         mBackgroundSyncLastCancel - mBackgroundSyncLastSleep > mSyncInterval || mBackgroundSyncLastCancel == 0) {
@@ -283,11 +287,16 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         return mScraper.scrapePlayer(name);
     }
 
-    public void addPlayer(String name) {
-        PlayerEntity player = getPlayerWeb(name);
-        if(player != null) {
-            addPlayerDB(player);
-        }
+    public void addPlayer(final String name) {
+        mExecutors.networkIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                final PlayerEntity player = getPlayerWeb(name);
+                if(player != null) {
+                    addPlayerDB(player);
+                }
+            }
+        });
     }
 
     public void updatePlayer(String name) {

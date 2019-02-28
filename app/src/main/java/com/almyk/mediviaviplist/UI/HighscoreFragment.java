@@ -33,7 +33,7 @@ import java.util.List;
 public class HighscoreFragment extends Fragment implements Spinner.OnItemSelectedListener {
     private static final String TAG = HighscoreFragment.class.getSimpleName();
 
-    private HighscoreViewModel mViewModel;
+    private static HighscoreViewModel mViewModel;
     private HighscoreAdapter mAdapter;
 
     private static String mServer;
@@ -136,6 +136,10 @@ public class HighscoreFragment extends Fragment implements Spinner.OnItemSelecte
 
     public void setServer(String server) {
         this.mServer = server;
+    }
+
+    public static void addVip(String name) {
+        mViewModel.addVip(name);
     }
 
     @Override
