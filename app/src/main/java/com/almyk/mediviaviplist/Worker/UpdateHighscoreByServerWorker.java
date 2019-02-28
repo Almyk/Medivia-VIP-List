@@ -10,8 +10,10 @@ import com.almyk.mediviaviplist.Utilities.Constants;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.ExistingWorkPolicy;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.Worker;
@@ -38,6 +40,7 @@ public class UpdateHighscoreByServerWorker extends Worker {
                     .build();
             OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateHighscoreWorker.class)
                     .setInputData(data)
+                    .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                     .build();
             WorkManager.getInstance().enqueueUniqueWork(Constants.UPDATE_HIGHSCORE_FOR + server + " " + skill, ExistingWorkPolicy.REPLACE,workRequest);
         }

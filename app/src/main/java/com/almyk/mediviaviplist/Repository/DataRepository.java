@@ -16,6 +16,7 @@ import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.almyk.mediviaviplist.Scraping.Scraper;
 import com.almyk.mediviaviplist.Worker.GetHighscoresFromDbWorker;
+import com.almyk.mediviaviplist.Worker.UpdateAllHighscoresWorker;
 import com.almyk.mediviaviplist.Worker.UpdateAllPlayersWorker;
 import com.almyk.mediviaviplist.Worker.UpdateHighscoreByServerWorker;
 import com.almyk.mediviaviplist.Worker.UpdateHighscoreWorker;
@@ -72,6 +73,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private DataRepository(final AppDatabase database, Context context) {
         this.mDatabase = database;
 
+        // This code is left here for debugging purposes
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -120,12 +122,12 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 .build();
         mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, updateAllPlayersWork);
 
-        mWorkManager.cancelUniqueWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME);
-//        PeriodicWorkRequest updateAllHighscoresWork = new PeriodicWorkRequest.Builder(UpdateAllHighscoresWorker.class, 6, TimeUnit.HOURS)
-//                .addTag(Constants.UPDATE_HIGHSCORES_TAG)
-//                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).setRequiresBatteryNotLow(true).setRequiresCharging(true).build())
-//                .build();
-//        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, updateAllHighscoresWork);
+//        mWorkManager.cancelUniqueWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME);
+        PeriodicWorkRequest updateAllHighscoresWork = new PeriodicWorkRequest.Builder(UpdateAllHighscoresWorker.class, 6, TimeUnit.HOURS)
+                .addTag(Constants.UPDATE_HIGHSCORES_TAG)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).setRequiresBatteryNotLow(true).build())
+                .build();
+        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME, ExistingPeriodicWorkPolicy.KEEP, updateAllHighscoresWork);
     }
 
     private void initializeUserPreferences(Context context) {
@@ -298,6 +300,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         Data data = new Data.Builder().putString(Constants.UPDATE_HIGHSCORES_SERVER_KEY, server).build();
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateHighscoreByServerWorker.class)
                 .setInputData(data)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                 .build();
         mWorkManager.enqueueUniqueWork(Constants.UPDATE_HIGHSCORE_FOR + server, ExistingWorkPolicy.REPLACE,workRequest);
     }
