@@ -57,7 +57,15 @@ public class VipListViewModel extends AndroidViewModel {
                 mRepository.addPlayer(name);
             }
         });
+    }
 
+    public void addPlayerEntity(final PlayerEntity player) {
+        mExecutors.networkIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mRepository.addPlayerDB(player);
+            }
+        });
     }
 
     public void removePlayer(final PlayerEntity player) {
