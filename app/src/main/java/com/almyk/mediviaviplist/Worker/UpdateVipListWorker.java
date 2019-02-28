@@ -10,8 +10,10 @@ import com.almyk.mediviaviplist.Repository.DataRepository;
 
 import java.util.Date;
 
+import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.ExistingWorkPolicy;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.Worker;
@@ -50,6 +52,7 @@ public class UpdateVipListWorker extends Worker {
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class)
                 .addTag(Constants.UPDATE_VIP_LIST_TAG)
                 .setInputData(data)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                 .build();
         workManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, ExistingWorkPolicy.APPEND, workRequest);
     }

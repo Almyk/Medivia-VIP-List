@@ -106,6 +106,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class)
                 .addTag(Constants.UPDATE_VIP_LIST_TAG)
                 .setInputData(data)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                 .build();
         mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, vipListPolicy, workRequest);
 
