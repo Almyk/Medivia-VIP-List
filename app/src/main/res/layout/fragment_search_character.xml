@@ -31,6 +31,12 @@
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
     <FrameLayout
         android:id="@+id/player_detail_container"
         android:layout_width="match_parent"

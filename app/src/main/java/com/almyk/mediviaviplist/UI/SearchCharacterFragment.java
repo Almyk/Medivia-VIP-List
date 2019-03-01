@@ -17,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class SearchCharacterFragment extends Fragment
     private LinearLayout mHouseContainer;
     private LinearLayout mCommentContainer;
     private FrameLayout mPlayerDetailContainer;
+    private ProgressBar mProgressBar;
 
     private String mName;
 
@@ -80,6 +82,7 @@ public class SearchCharacterFragment extends Fragment
         mHouseContainer = rootView.findViewById(R.id.house_container);
         mCommentContainer = rootView.findViewById(R.id.comment_container);
         mPlayerDetailContainer = rootView.findViewById(R.id.player_detail_container);
+        mProgressBar = rootView.findViewById(R.id.progress_bar);
 
         mNameView = rootView.findViewById(R.id.tv_name);
         mPrevNameView = rootView.findViewById(R.id.tv_prev_name);
@@ -103,11 +106,23 @@ public class SearchCharacterFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("Search Character");
         this.mViewModel = ViewModelProviders.of(this).get(SearchCharacterViewModel.class);
+        if(!TextUtils.isEmpty(mName)) {
+            mPlayerDetailContainer.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.VISIBLE);
+            mViewModel.searchPlayer(mName);
+        }
+        setupViewModel();
+    }
+
+    private void setupViewModel() {
         mViewModel.getPlayer().observe(this, new Observer<PlayerEntity>() {
             @Override
             public void onChanged(@Nullable PlayerEntity playerEntity) {
                 if(playerEntity != null) {
-                    populateView(playerEntity);
+                    if (!TextUtils.isEmpty(mName)
+                            && playerEntity.getName().toLowerCase().equals(mName.toLowerCase())) {
+                        populateView(playerEntity);
+                    }
                 } else {
                     mPlayerDetailContainer.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Could not find player '" +mName+"'", Toast.LENGTH_SHORT).show();;
@@ -115,9 +130,6 @@ public class SearchCharacterFragment extends Fragment
                 }
             }
         });
-        if(!TextUtils.isEmpty(mName)) {
-            mViewModel.searchPlayer(mName);
-        }
     }
 
     private void populateView(PlayerEntity player) {
@@ -162,6 +174,7 @@ public class SearchCharacterFragment extends Fragment
             mCommentView.setText(player.getComment());
             mCommentContainer.setVisibility(View.VISIBLE);
         }
+        mProgressBar.setVisibility(View.GONE);
         mPlayerDetailContainer.setVisibility(View.VISIBLE);
     }
 
@@ -190,6 +203,7 @@ public class SearchCharacterFragment extends Fragment
         String text = mNameEditTextView.getText().toString();
         if(!TextUtils.isEmpty(text)) {
             mPlayerDetailContainer.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.VISIBLE);
             mNameEditTextView.getText().clear();
             mNameEditTextView.clearFocus();
             this.mName = text;
