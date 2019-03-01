@@ -18,4 +18,7 @@ public interface KillDao {
 
     @Delete
     void deleteKill(KillEntity kill);
+
+    @Query("DELETE FROM kill_table")
+    void nukeTable();
 }

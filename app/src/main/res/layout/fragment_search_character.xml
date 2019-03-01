@@ -45,7 +45,8 @@
             android:id="@+id/player_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <FrameLayout
                 android:id="@+id/player_detail_container"
@@ -60,13 +61,15 @@
 
 
             <TextView
+                android:id="@+id/tv_death_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Death list:"
                 android:textSize="18sp"
                 android:paddingTop="4dp"
                 android:paddingLeft="14dp"
-                android:paddingRight="14dp"/>
+                android:paddingRight="14dp"
+                android:visibility="gone"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_death_list"

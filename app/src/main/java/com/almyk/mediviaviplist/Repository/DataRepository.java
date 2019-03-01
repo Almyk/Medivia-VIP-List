@@ -81,7 +81,9 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
-//                mDatabase.highscoreDao().nukeTable();
+//                mDatabase.deathDao().nukeTable();
+//                mDatabase.killDao().nukeTable();
+//                mDatabase.taskDao().nukeTable();
 //            }
 //        }).start();
 

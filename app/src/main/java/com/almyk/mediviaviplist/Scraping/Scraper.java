@@ -90,6 +90,10 @@ public class Scraper {
 
         player.setPlayerEntity(getPlayerEntity());
 
+        if(player.getPlayerEntity() == null) {
+            return null;
+        }
+
         String playerId = player.getPlayerName();
 
         Elements lists = mDoc.select("div[class='med-width-100 med-mt-20']");

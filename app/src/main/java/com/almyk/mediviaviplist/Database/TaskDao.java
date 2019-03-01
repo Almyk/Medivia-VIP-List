@@ -18,4 +18,7 @@ public interface TaskDao {
 
     @Delete
     void deleteTask(TaskEntity task);
+
+    @Query("DELETE FROM task_table")
+    void nukeTable();
 }

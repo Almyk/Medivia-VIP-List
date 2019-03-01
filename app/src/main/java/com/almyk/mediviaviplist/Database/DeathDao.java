@@ -18,4 +18,7 @@ public interface DeathDao {
 
     @Delete
     void deleteDeath(DeathEntity death);
+
+    @Query("DELETE FROM death_table")
+    void nukeTable();
 }

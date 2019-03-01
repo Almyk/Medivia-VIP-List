@@ -59,6 +59,7 @@ public class SearchCharacterFragment extends Fragment
     private TextView mCommentView;
     private TextView mLastLogin;
     private TextView mBanishment;
+    private TextView mDeathListTextView;
 
     private RecyclerView mDeathListRecycler;
 
@@ -73,7 +74,7 @@ public class SearchCharacterFragment extends Fragment
 
     private ProgressBar mProgressBar;
 
-    private String mName;
+    private static String mName;
 
     private SearchCharacterViewModel mViewModel;
 
@@ -117,6 +118,7 @@ public class SearchCharacterFragment extends Fragment
         mCommentView = rootView.findViewById(R.id.tv_comment);
         mLastLogin = rootView.findViewById(R.id.tv_last_login);
         mBanishment = rootView.findViewById(R.id.tv_banishment);
+        mDeathListTextView = rootView.findViewById(R.id.tv_death_list);
 
         mDeathListRecycler = rootView.findViewById(R.id.rv_death_list);
         mDeathListRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -149,12 +151,13 @@ public class SearchCharacterFragment extends Fragment
             @Override
             public void onChanged(@Nullable Player player) {
                 if(player != null) {
-                    if (!TextUtils.isEmpty(mName) && !TextUtils.isEmpty(player.getPlayerName())
-                            && player.getPlayerName().toLowerCase().equals(mName.toLowerCase())) {
+//                    if (!TextUtils.isEmpty(mName) && !TextUtils.isEmpty(player.getPlayerName())
+//                            && player.getPlayerName().toLowerCase().equals(mName.toLowerCase())) {
                         mPlayerContainer.setVisibility(View.VISIBLE);
                         populateView(player);
-                    }
+//                    }
                 } else {
+                    mProgressBar.setVisibility(View.GONE);
                     mPlayerContainer.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Could not find player '" +mName+"'", Toast.LENGTH_SHORT).show();;
                     mNameEditTextView.requestFocus();
@@ -174,7 +177,11 @@ public class SearchCharacterFragment extends Fragment
         List<DeathEntity> deaths = player.getDeaths();
         if(deaths != null && !deaths.isEmpty()) {
             mDeathListRecycler.setVisibility(View.VISIBLE);
+            mDeathListTextView.setVisibility(View.VISIBLE);
             mDeathListAdapter.setDeaths(deaths);
+        } else {
+            mDeathListRecycler.setVisibility(View.GONE);
+            mDeathListTextView.setVisibility(View.GONE);
         }
     }
 
@@ -217,30 +224,40 @@ public class SearchCharacterFragment extends Fragment
         if(!TextUtils.isEmpty(prevNem)) {
             mPrevNameView.setText(prevNem);
             mPrevNameContainer.setVisibility(View.VISIBLE);
+        } else {
+            mPrevNameContainer.setVisibility(View.GONE);
         }
 
         String guild = playerEntity.getGuild();
         if(!TextUtils.isEmpty(guild)) {
             mGuildView.setText(playerEntity.getGuild());
             mGuildContainer.setVisibility(View.VISIBLE);
+        } else {
+            mGuildContainer.setVisibility(View.GONE);
         }
 
         String house = playerEntity.getHouse();
         if(!TextUtils.isEmpty(house)) {
             mHouseView.setText(playerEntity.getHouse());
             mHouseContainer.setVisibility(View.VISIBLE);
+        } else {
+            mHouseContainer.setVisibility(View.GONE);
         }
 
         String comment = playerEntity.getComment();
         if(!TextUtils.isEmpty(comment)) {
             mCommentView.setText(playerEntity.getComment());
             mCommentContainer.setVisibility(View.VISIBLE);
+        } else {
+            mCommentContainer.setVisibility(View.GONE);
         }
 
         String banishment = playerEntity.getBanishment();
         if(!TextUtils.isEmpty(banishment)) {
             mBanishment.setText(banishment);
             mBanishmentContainer.setVisibility(View.VISIBLE);
+        } else {
+            mBanishmentContainer.setVisibility(View.GONE);
         }
 
         mProgressBar.setVisibility(View.GONE);

@@ -25,7 +25,8 @@ public class SearchCharacterViewModel extends AndroidViewModel {
     }
 
     public void searchPlayer(String name) {
-        mRepository.searchPlayer(name);
+        String tmpName = name.trim();
+        mRepository.searchPlayer(tmpName);
     }
 
 
