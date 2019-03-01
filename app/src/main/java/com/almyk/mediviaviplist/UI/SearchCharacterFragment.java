@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -21,11 +24,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.almyk.mediviaviplist.Database.DeathEntity;
+import com.almyk.mediviaviplist.Database.KillEntity;
 import com.almyk.mediviaviplist.Database.PlayerEntity;
+import com.almyk.mediviaviplist.Database.TaskEntity;
 import com.almyk.mediviaviplist.Model.Player;
 import com.almyk.mediviaviplist.R;
 import com.almyk.mediviaviplist.Utilities.EditTextBackEvent;
 import com.almyk.mediviaviplist.ViewModel.SearchCharacterViewModel;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,11 +59,21 @@ public class SearchCharacterFragment extends Fragment
     private TextView mLastLogin;
     private TextView mBanishment;
 
+    private RecyclerView mDeathListRecycler;
+    private RecyclerView mKillListRecycler;
+    private RecyclerView mTaskListRecycler;
+
+    private DeathListAdapter mDeathListAdapter;
+
     private LinearLayout mPrevNameContainer;
     private LinearLayout mGuildContainer;
     private LinearLayout mHouseContainer;
     private LinearLayout mCommentContainer;
     private LinearLayout mBanishmentContainer;
+    private LinearLayout mDeathListContainer;
+    private LinearLayout mKillListContainer;
+    private LinearLayout mTaskListContainer;
+    private LinearLayout mPlayerContainer;
     private FrameLayout mPlayerDetailContainer;
     private ProgressBar mProgressBar;
 
@@ -86,6 +104,10 @@ public class SearchCharacterFragment extends Fragment
         mCommentContainer = rootView.findViewById(R.id.comment_container);
         mPlayerDetailContainer = rootView.findViewById(R.id.player_detail_container);
         mBanishmentContainer = rootView.findViewById(R.id.banishment_container);
+        mDeathListContainer = rootView.findViewById(R.id.death_list_container);
+        mKillListContainer = rootView.findViewById(R.id.kill_list_container);
+        mTaskListContainer = rootView.findViewById(R.id.task_list_container);
+        mPlayerContainer = rootView.findViewById(R.id.player_container);
         mProgressBar = rootView.findViewById(R.id.progress_bar);
 
         mNameView = rootView.findViewById(R.id.tv_name);
@@ -103,6 +125,17 @@ public class SearchCharacterFragment extends Fragment
         mLastLogin = rootView.findViewById(R.id.tv_last_login);
         mBanishment = rootView.findViewById(R.id.tv_banishment);
 
+        mDeathListRecycler = rootView.findViewById(R.id.rv_death_list);
+        mDeathListRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mDeathListRecycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        mDeathListRecycler.setNestedScrollingEnabled(false);
+        mDeathListAdapter = new DeathListAdapter(getActivity());
+        mDeathListRecycler.setAdapter(mDeathListAdapter);
+
+
+        mKillListRecycler = rootView.findViewById(R.id.rv_kill_list);
+        mTaskListRecycler = rootView.findViewById(R.id.rv_task_list);
+
         return rootView;
     }
 
@@ -112,7 +145,7 @@ public class SearchCharacterFragment extends Fragment
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("Search Character");
         this.mViewModel = ViewModelProviders.of(this).get(SearchCharacterViewModel.class);
         if(!TextUtils.isEmpty(mName)) {
-            mPlayerDetailContainer.setVisibility(View.GONE);
+            mPlayerContainer.setVisibility(View.GONE);
             mProgressBar.setVisibility(View.VISIBLE);
             mViewModel.searchPlayer(mName);
         }
@@ -129,7 +162,7 @@ public class SearchCharacterFragment extends Fragment
                         populateView(player);
                     }
                 } else {
-                    mPlayerDetailContainer.setVisibility(View.GONE);
+                    mPlayerContainer.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Could not find player '" +mName+"'", Toast.LENGTH_SHORT).show();;
                     mNameEditTextView.requestFocus();
                 }
@@ -145,14 +178,25 @@ public class SearchCharacterFragment extends Fragment
     }
 
     private void populateDeathList(Player player) {
-
+        List<DeathEntity> deaths = player.getDeaths();
+        if(deaths != null && !deaths.isEmpty()) {
+            mDeathListContainer.setVisibility(View.VISIBLE);
+            mDeathListAdapter.setDeaths(deaths);
+        }
     }
 
     private void populateKillList(Player player) {
-
+        List<KillEntity> kills = player.getKills();
+        if(kills != null && !kills.isEmpty()) {
+            mKillListContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     private void populateTaskList(Player player) {
+        List<TaskEntity> tasks = player.getTasks();
+        if(tasks != null && !tasks.isEmpty()) {
+            mTaskListContainer.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -207,7 +251,7 @@ public class SearchCharacterFragment extends Fragment
         }
 
         mProgressBar.setVisibility(View.GONE);
-        mPlayerDetailContainer.setVisibility(View.VISIBLE);
+        mPlayerContainer.setVisibility(View.VISIBLE);
     }
 
     public void setName(String Name) {
@@ -234,7 +278,7 @@ public class SearchCharacterFragment extends Fragment
     private void searchPlayer() {
         String text = mNameEditTextView.getText().toString();
         if(!TextUtils.isEmpty(text)) {
-            mPlayerDetailContainer.setVisibility(View.GONE);
+            mPlayerContainer.setVisibility(View.GONE);
             mProgressBar.setVisibility(View.VISIBLE);
             mNameEditTextView.getText().clear();
             mNameEditTextView.clearFocus();

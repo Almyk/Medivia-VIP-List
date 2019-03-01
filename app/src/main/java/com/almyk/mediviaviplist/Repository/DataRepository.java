@@ -428,11 +428,29 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         return mDatabase.deathDao().getDeaths(playerId);
     }
 
+    private void setDeathsDB(List<DeathEntity> deaths){
+        for(DeathEntity death: deaths) {
+            mDatabase.deathDao().insertDeath(death);
+        }
+    }
+
     private List<KillEntity> getKillsDB(String playerId) {
         return mDatabase.killDao().getKills(playerId);
     }
 
+    private void setKillsDB(List<KillEntity> kills){
+        for(KillEntity kill: kills) {
+            mDatabase.killDao().insertKill(kill);
+        }
+    }
+
     private List<TaskEntity> getTasksDB(String playerId) {
         return mDatabase.taskDao().getTasks(playerId);
+    }
+
+    private void setTasksDB(List<TaskEntity> tasks){
+        for(TaskEntity task: tasks) {
+            mDatabase.taskDao().insertTask(task);
+        }
     }
 }
