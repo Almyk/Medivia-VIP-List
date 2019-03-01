@@ -13,7 +13,7 @@ public class TaskEntity {
     private int key;
 
     @ColumnInfo(name = "player_id")
-    private int playerID;
+    private String playerID;
 
     private String monster;
     private String details;
@@ -22,7 +22,7 @@ public class TaskEntity {
     public TaskEntity() {
     }
 
-    public TaskEntity(int key, int playerID, String monster, String details) {
+    public TaskEntity(int key, String playerID, String monster, String details) {
         this.key = key;
         this.playerID = playerID;
         this.monster = monster;
@@ -37,11 +37,11 @@ public class TaskEntity {
         this.key = key;
     }
 
-    public int getPlayerID() {
+    public String getPlayerID() {
         return playerID;
     }
 
-    public void setPlayerID(int playerID) {
+    public void setPlayerID(String playerID) {
         this.playerID = playerID;
     }
 
