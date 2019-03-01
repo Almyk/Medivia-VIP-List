@@ -407,16 +407,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                Player player = new Player();
-                PlayerEntity playerEntity = getPlayerDB(name);
-                if(playerEntity == null) {
-                    player = getPlayerWeb(name);
-                } else {
-                    player.setPlayerEntity(playerEntity);
-                    player.setDeaths(getDeathsDB(name));
-                    player.setKills(getKillsDB(name));
-                    player.setTasks(getTasksDB(name));
-                }
+                Player player = getPlayerWeb(name);
                 mSearchCharacter.postValue(player);
             }
         });
