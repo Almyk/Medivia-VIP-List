@@ -60,8 +60,10 @@ public class SearchCharacterFragment extends Fragment
     private TextView mLastLogin;
     private TextView mBanishment;
     private TextView mDeathListTextView;
+    private TextView mKillListTextView;
 
     private RecyclerView mDeathListRecycler;
+    private RecyclerView mKillListRecycler;
 
     private DeathListAdapter mDeathListAdapter;
 
