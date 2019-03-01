@@ -26,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_search_black_24dp"
-            android:contentDescription="Search Character"/>
+            android:contentDescription="Search Character"
+            android:backgroundTint="#fff3e0"/>
 
     </LinearLayout>
 
