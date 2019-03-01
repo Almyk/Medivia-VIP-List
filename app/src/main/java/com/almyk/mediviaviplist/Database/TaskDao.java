@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface TaskDao {
     @Query("SELECT * FROM task_table WHERE player_id = :playerId ORDER BY `key` DESC")
-    LiveData<List<TaskEntity>> getTasks(String playerId);
+    List<TaskEntity> getTasks(String playerId);
 
     @Insert
     void insertTask(TaskEntity task);

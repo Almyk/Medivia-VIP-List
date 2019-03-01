@@ -25,7 +25,7 @@ public class UpdatePlayerWorker extends Worker {
     @Override
     public Result doWork() {
         String name = getInputData().getString(Constants.UPDATE_PLAYER_KEY);
-        PlayerEntity player = mRepository.getPlayerWeb(name);
+        PlayerEntity player = mRepository.getPlayerEntityWeb(name);
         if(player != null) {
             mRepository.updatePlayerDB(player);
             return Result.success();

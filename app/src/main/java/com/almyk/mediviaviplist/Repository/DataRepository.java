@@ -9,18 +9,19 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.AppDatabase;
+import com.almyk.mediviaviplist.Database.DeathEntity;
 import com.almyk.mediviaviplist.Database.HighscoreEntity;
+import com.almyk.mediviaviplist.Database.KillEntity;
 import com.almyk.mediviaviplist.Database.PlayerEntity;
+import com.almyk.mediviaviplist.Database.TaskEntity;
 import com.almyk.mediviaviplist.Model.Player;
 import com.almyk.mediviaviplist.Utilities.AppExecutors;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.almyk.mediviaviplist.Scraping.Scraper;
-import com.almyk.mediviaviplist.Worker.GetHighscoresFromDbWorker;
 import com.almyk.mediviaviplist.Worker.UpdateAllHighscoresWorker;
 import com.almyk.mediviaviplist.Worker.UpdateAllPlayersWorker;
 import com.almyk.mediviaviplist.Worker.UpdateHighscoreByServerWorker;
-import com.almyk.mediviaviplist.Worker.UpdateHighscoreWorker;
 import com.almyk.mediviaviplist.Worker.UpdatePlayerWorker;
 import com.almyk.mediviaviplist.Worker.UpdateVipListWorker;
 
@@ -284,15 +285,19 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         return mVipList;
     }
 
-    public PlayerEntity getPlayerWeb(String name) {
+    public PlayerEntity getPlayerEntityWeb(String name) {
         return mScraper.scrapePlayerEntity(name);
+    }
+
+    public Player getPlayerWeb(String name) {
+        return mScraper.scrapePlayer(name);
     }
 
     public void addPlayer(final String name) {
         mExecutors.networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                final PlayerEntity player = getPlayerWeb(name);
+                final PlayerEntity player = getPlayerEntityWeb(name);
                 if(player != null) {
                     addPlayerDB(player);
                 }
@@ -400,12 +405,16 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
+                Player player = new Player();
                 PlayerEntity playerEntity = getPlayerDB(name);
                 if(playerEntity == null) {
-                    playerEntity = getPlayerWeb(name);
+                    player = getPlayerWeb(name);
+                } else {
+                    player.setPlayerEntity(playerEntity);
+                    player.setDeaths(getDeathsDB(name));
+                    player.setKills(getKillsDB(name));
+                    player.setTasks(getTasksDB(name));
                 }
-                Player player = new Player();
-                player.setPlayerEntity(playerEntity);
                 mSearchCharacter.postValue(player);
             }
         });
@@ -413,5 +422,17 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public LiveData<Player> getSearchCharacterLiveData() {
         return mSearchCharacter;
+    }
+
+    private List<DeathEntity> getDeathsDB(String playerId) {
+        return mDatabase.deathDao().getDeaths(playerId);
+    }
+
+    private List<KillEntity> getKillsDB(String playerId) {
+        return mDatabase.killDao().getKills(playerId);
+    }
+
+    private List<TaskEntity> getTasksDB(String playerId) {
+        return mDatabase.taskDao().getTasks(playerId);
     }
 }

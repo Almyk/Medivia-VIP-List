@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface DeathDao {
     @Query("SELECT * FROM death_table WHERE player_id = :playerId ORDER BY `key` DESC")
-    LiveData<List<DeathEntity>> getDeaths(String playerId);
+    List<DeathEntity> getDeaths(String playerId);
 
     @Insert
     void insertDeath(DeathEntity death);

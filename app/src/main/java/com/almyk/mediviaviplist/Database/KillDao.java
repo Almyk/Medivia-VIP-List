@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface KillDao {
     @Query("SELECT * FROM kill_table WHERE player_id = :playerId ORDER BY `key` DESC")
-    LiveData<List<KillEntity>> getKills(String playerId);
+    List<KillEntity> getKills(String playerId);
 
     @Insert
     void insertKill(KillEntity kill);
