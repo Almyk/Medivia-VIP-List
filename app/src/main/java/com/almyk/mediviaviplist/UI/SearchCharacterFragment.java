@@ -119,7 +119,7 @@ public class SearchCharacterFragment extends Fragment
             @Override
             public void onChanged(@Nullable PlayerEntity playerEntity) {
                 if(playerEntity != null) {
-                    if (!TextUtils.isEmpty(mName)
+                    if (!TextUtils.isEmpty(mName) && !TextUtils.isEmpty(playerEntity.getName())
                             && playerEntity.getName().toLowerCase().equals(mName.toLowerCase())) {
                         populateView(playerEntity);
                     }
