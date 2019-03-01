@@ -30,4 +30,7 @@ public class SearchCharacterViewModel extends AndroidViewModel {
     }
 
 
+    public void addVip(String name) {
+        mRepository.addPlayer(name);
+    }
 }
