@@ -37,7 +37,6 @@
         android:layout_height="wrap_content"
         android:visibility="gone"/>
 
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -46,8 +45,7 @@
             android:id="@+id/player_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/player_detail_container"
@@ -59,76 +57,27 @@
 
             </FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/death_list_container"
+
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="14dp"
-                android:visibility="gone">
+                android:text="Death list:"
+                android:textSize="18sp"
+                android:paddingTop="4dp"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Death list:"
-                    android:textSize="18sp" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_death_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/kill_list_container"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_death_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="14dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Kill list:"
-                    android:textSize="18sp" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_kill_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/task_list_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="14dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Task list:"
-                    android:textSize="18sp" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_task_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"/>
-
-            </LinearLayout>
+                android:paddingLeft="22dp"
+                android:paddingRight="22dp"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
-
 
 </LinearLayout>

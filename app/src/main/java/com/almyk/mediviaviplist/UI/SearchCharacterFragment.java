@@ -33,6 +33,7 @@ import com.almyk.mediviaviplist.R;
 import com.almyk.mediviaviplist.Utilities.EditTextBackEvent;
 import com.almyk.mediviaviplist.ViewModel.SearchCharacterViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,8 +61,6 @@ public class SearchCharacterFragment extends Fragment
     private TextView mBanishment;
 
     private RecyclerView mDeathListRecycler;
-    private RecyclerView mKillListRecycler;
-    private RecyclerView mTaskListRecycler;
 
     private DeathListAdapter mDeathListAdapter;
 
@@ -70,11 +69,8 @@ public class SearchCharacterFragment extends Fragment
     private LinearLayout mHouseContainer;
     private LinearLayout mCommentContainer;
     private LinearLayout mBanishmentContainer;
-    private LinearLayout mDeathListContainer;
-    private LinearLayout mKillListContainer;
-    private LinearLayout mTaskListContainer;
     private LinearLayout mPlayerContainer;
-    private FrameLayout mPlayerDetailContainer;
+
     private ProgressBar mProgressBar;
 
     private String mName;
@@ -102,12 +98,9 @@ public class SearchCharacterFragment extends Fragment
         mGuildContainer = rootView.findViewById(R.id.guild_container);
         mHouseContainer = rootView.findViewById(R.id.house_container);
         mCommentContainer = rootView.findViewById(R.id.comment_container);
-        mPlayerDetailContainer = rootView.findViewById(R.id.player_detail_container);
         mBanishmentContainer = rootView.findViewById(R.id.banishment_container);
-        mDeathListContainer = rootView.findViewById(R.id.death_list_container);
-        mKillListContainer = rootView.findViewById(R.id.kill_list_container);
-        mTaskListContainer = rootView.findViewById(R.id.task_list_container);
         mPlayerContainer = rootView.findViewById(R.id.player_container);
+
         mProgressBar = rootView.findViewById(R.id.progress_bar);
 
         mNameView = rootView.findViewById(R.id.tv_name);
@@ -132,9 +125,8 @@ public class SearchCharacterFragment extends Fragment
         mDeathListAdapter = new DeathListAdapter(getActivity());
         mDeathListRecycler.setAdapter(mDeathListAdapter);
 
-
-        mKillListRecycler = rootView.findViewById(R.id.rv_kill_list);
-        mTaskListRecycler = rootView.findViewById(R.id.rv_task_list);
+        List<DeathEntity> dummyList = new ArrayList<>();
+        mDeathListAdapter.setDeaths(dummyList);
 
         return rootView;
     }
@@ -159,6 +151,7 @@ public class SearchCharacterFragment extends Fragment
                 if(player != null) {
                     if (!TextUtils.isEmpty(mName) && !TextUtils.isEmpty(player.getPlayerName())
                             && player.getPlayerName().toLowerCase().equals(mName.toLowerCase())) {
+                        mPlayerContainer.setVisibility(View.VISIBLE);
                         populateView(player);
                     }
                 } else {
@@ -180,7 +173,7 @@ public class SearchCharacterFragment extends Fragment
     private void populateDeathList(Player player) {
         List<DeathEntity> deaths = player.getDeaths();
         if(deaths != null && !deaths.isEmpty()) {
-            mDeathListContainer.setVisibility(View.VISIBLE);
+            mDeathListRecycler.setVisibility(View.VISIBLE);
             mDeathListAdapter.setDeaths(deaths);
         }
     }
@@ -188,14 +181,14 @@ public class SearchCharacterFragment extends Fragment
     private void populateKillList(Player player) {
         List<KillEntity> kills = player.getKills();
         if(kills != null && !kills.isEmpty()) {
-            mKillListContainer.setVisibility(View.VISIBLE);
+//            mKillListContainer.setVisibility(View.VISIBLE);
         }
     }
 
     private void populateTaskList(Player player) {
         List<TaskEntity> tasks = player.getTasks();
         if(tasks != null && !tasks.isEmpty()) {
-            mTaskListContainer.setVisibility(View.VISIBLE);
+//            mTaskListContainer.setVisibility(View.VISIBLE);
         }
 
     }
@@ -251,7 +244,7 @@ public class SearchCharacterFragment extends Fragment
         }
 
         mProgressBar.setVisibility(View.GONE);
-        mPlayerContainer.setVisibility(View.VISIBLE);
+//        mPlayerContainer.setVisibility(View.VISIBLE);
     }
 
     public void setName(String Name) {
@@ -279,6 +272,7 @@ public class SearchCharacterFragment extends Fragment
         String text = mNameEditTextView.getText().toString();
         if(!TextUtils.isEmpty(text)) {
             mPlayerContainer.setVisibility(View.GONE);
+            mDeathListRecycler.setVisibility(View.GONE);
             mProgressBar.setVisibility(View.VISIBLE);
             mNameEditTextView.getText().clear();
             mNameEditTextView.clearFocus();
