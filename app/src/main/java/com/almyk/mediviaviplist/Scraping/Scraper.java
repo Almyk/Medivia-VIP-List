@@ -72,6 +72,14 @@ public class Scraper {
         return onlineList;
     }
 
+    public PlayerEntity scrapePlayerEntity(String name) {
+        boolean success = getDocument(BASE_URL_PLAYER+name);
+        if(!success) {
+            return null;
+        }
+        return getPlayerEntity();
+    }
+
     public Player scrapePlayer(String name) {
         boolean success = getDocument(BASE_URL_PLAYER+name);
         if(!success) {

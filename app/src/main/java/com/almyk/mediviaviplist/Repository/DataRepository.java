@@ -284,7 +284,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     }
 
     public PlayerEntity getPlayerWeb(String name) {
-        return mScraper.scrapePlayer(name);
+        return mScraper.scrapePlayerEntity(name);
     }
 
     public void addPlayer(final String name) {
