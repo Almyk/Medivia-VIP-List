@@ -131,6 +131,8 @@ public class Scraper {
                 case "account status:":
                     player.setAccountStatus(value);
                     break;
+                case "banishment:":
+                    player.setBanishment(value);
                 default:
                     break;
             }
