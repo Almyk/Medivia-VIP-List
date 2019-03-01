@@ -1,31 +1,26 @@
 package com.almyk.mediviaviplist.Database;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(tableName = "task_table")
-public class TaskEntity {
+@Entity(tableName = "kill_table")
+public class KillEntity {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int key;
 
-    @ColumnInfo(name = "player_id")
-    private int playerID;
-
-    private String monster;
+    private String date;
     private String details;
 
     @Ignore
-    public TaskEntity() {
+    public KillEntity() {
     }
 
-    public TaskEntity(int key, int playerID, String monster, String details) {
+    public KillEntity(int key, String date, String details) {
         this.key = key;
-        this.playerID = playerID;
-        this.monster = monster;
+        this.date = date;
         this.details = details;
     }
 
@@ -37,20 +32,12 @@ public class TaskEntity {
         this.key = key;
     }
 
-    public int getPlayerID() {
-        return playerID;
+    public String getDate() {
+        return date;
     }
 
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID;
-    }
-
-    public String getMonster() {
-        return monster;
-    }
-
-    public void setMonster(String monster) {
-        this.monster = monster;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getDetails() {

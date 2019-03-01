@@ -88,9 +88,11 @@ public class VipListFragment extends Fragment
         mAddPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewModel.addPlayer(mNewPlayerTextView.getText().toString());
+                String name = mNewPlayerTextView.getText().toString();
+                mViewModel.addPlayer(name);
                 mNewPlayerTextView.getText().clear();
                 mNewPlayerTextView.clearFocus();
+                Toast.makeText(getActivity(), "Adding player '"+name+"'", Toast.LENGTH_SHORT).show();
             }
         });
 
