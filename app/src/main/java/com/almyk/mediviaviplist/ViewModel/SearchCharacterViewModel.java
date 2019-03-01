@@ -7,12 +7,13 @@ import android.support.annotation.NonNull;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.MediviaVipListApp;
+import com.almyk.mediviaviplist.Model.Player;
 import com.almyk.mediviaviplist.Repository.DataRepository;
 
 public class SearchCharacterViewModel extends AndroidViewModel {
     private DataRepository mRepository;
 
-    private LiveData<PlayerEntity> mPlayer;
+    private LiveData<Player> mPlayer;
 
     public SearchCharacterViewModel(@NonNull Application application) {
         super(application);
@@ -20,7 +21,7 @@ public class SearchCharacterViewModel extends AndroidViewModel {
         mPlayer = mRepository.getSearchCharacterLiveData();
     }
 
-    public LiveData<PlayerEntity> getPlayer() {
+    public LiveData<Player> getPlayer() {
         return mPlayer;
     }
 

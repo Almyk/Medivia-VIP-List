@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
+import com.almyk.mediviaviplist.Model.Player;
 import com.almyk.mediviaviplist.R;
 import com.almyk.mediviaviplist.Utilities.EditTextBackEvent;
 import com.almyk.mediviaviplist.ViewModel.SearchCharacterViewModel;
@@ -115,13 +116,13 @@ public class SearchCharacterFragment extends Fragment
     }
 
     private void setupViewModel() {
-        mViewModel.getPlayer().observe(this, new Observer<PlayerEntity>() {
+        mViewModel.getPlayer().observe(this, new Observer<Player>() {
             @Override
-            public void onChanged(@Nullable PlayerEntity playerEntity) {
-                if(playerEntity != null) {
-                    if (!TextUtils.isEmpty(mName) && !TextUtils.isEmpty(playerEntity.getName())
-                            && playerEntity.getName().toLowerCase().equals(mName.toLowerCase())) {
-                        populateView(playerEntity);
+            public void onChanged(@Nullable Player player) {
+                if(player != null) {
+                    if (!TextUtils.isEmpty(mName) && !TextUtils.isEmpty(player.getPlayerName())
+                            && player.getPlayerName().toLowerCase().equals(mName.toLowerCase())) {
+                        populateView(player);
                     }
                 } else {
                     mPlayerDetailContainer.setVisibility(View.GONE);
@@ -132,17 +133,18 @@ public class SearchCharacterFragment extends Fragment
         });
     }
 
-    private void populateView(PlayerEntity player) {
-        mNameView.setText(player.getName());
-        mServerView.setText(player.getServer());
-        mLevelView.setText(player.getLevel());
-        mVocationView.setText(player.getVocation());
-        mResidenceView.setText(player.getResidence());
-        mGenderView.setText(player.getSex());
-        mAccountStatusView.setText(player.getAccountStatus());
-        mLastLogin.setText(player.getLastLogin());
+    private void populateView(Player player) {
+        PlayerEntity playerEntity = player.getPlayerEntity();
+        mNameView.setText(playerEntity.getName());
+        mServerView.setText(playerEntity.getServer());
+        mLevelView.setText(playerEntity.getLevel());
+        mVocationView.setText(playerEntity.getVocation());
+        mResidenceView.setText(playerEntity.getResidence());
+        mGenderView.setText(playerEntity.getSex());
+        mAccountStatusView.setText(playerEntity.getAccountStatus());
+        mLastLogin.setText(playerEntity.getLastLogin());
 
-        boolean online = player.isOnline();
+        boolean online = playerEntity.isOnline();
         if(online) {
             mOnlineView.setText("Online");
             mOnlineView.setTextColor(Color.GREEN);
@@ -151,27 +153,27 @@ public class SearchCharacterFragment extends Fragment
             mOnlineView.setTextColor(Color.RED);
         }
 
-        String prevNem = player.getPreviousName();
+        String prevNem = playerEntity.getPreviousName();
         if(!TextUtils.isEmpty(prevNem)) {
             mPrevNameView.setText(prevNem);
             mPrevNameContainer.setVisibility(View.VISIBLE);
         }
 
-        String guild = player.getGuild();
+        String guild = playerEntity.getGuild();
         if(!TextUtils.isEmpty(guild)) {
-            mGuildView.setText(player.getGuild());
+            mGuildView.setText(playerEntity.getGuild());
             mGuildContainer.setVisibility(View.VISIBLE);
         }
 
-        String house = player.getHouse();
+        String house = playerEntity.getHouse();
         if(!TextUtils.isEmpty(house)) {
-            mHouseView.setText(player.getHouse());
+            mHouseView.setText(playerEntity.getHouse());
             mHouseContainer.setVisibility(View.VISIBLE);
         }
 
-        String comment = player.getComment();
+        String comment = playerEntity.getComment();
         if(!TextUtils.isEmpty(comment)) {
-            mCommentView.setText(player.getComment());
+            mCommentView.setText(playerEntity.getComment());
             mCommentContainer.setVisibility(View.VISIBLE);
         }
         mProgressBar.setVisibility(View.GONE);

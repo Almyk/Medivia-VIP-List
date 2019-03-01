@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.almyk.mediviaviplist.Database.AppDatabase;
 import com.almyk.mediviaviplist.Database.HighscoreEntity;
 import com.almyk.mediviaviplist.Database.PlayerEntity;
+import com.almyk.mediviaviplist.Model.Player;
 import com.almyk.mediviaviplist.Utilities.AppExecutors;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
@@ -63,7 +64,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private String mHighscoreVoc;
     private String mHighscoreSkill;
 
-    private MutableLiveData<PlayerEntity> mSearchCharacter = new MutableLiveData<>();
+    private MutableLiveData<Player> mSearchCharacter = new MutableLiveData<>();
 
     // user preferences
     private long mSyncInterval;
@@ -399,16 +400,18 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                PlayerEntity player = getPlayerDB(name);
-                if(player == null) {
-                    player = getPlayerWeb(name);
+                PlayerEntity playerEntity = getPlayerDB(name);
+                if(playerEntity == null) {
+                    playerEntity = getPlayerWeb(name);
                 }
+                Player player = new Player();
+                player.setPlayerEntity(playerEntity);
                 mSearchCharacter.postValue(player);
             }
         });
     }
 
-    public LiveData<PlayerEntity> getSearchCharacterLiveData() {
+    public LiveData<Player> getSearchCharacterLiveData() {
         return mSearchCharacter;
     }
 }
