@@ -1,19 +1,15 @@
 package com.almyk.mediviaviplist.UI;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
-import com.almyk.mediviaviplist.MediviaVipListApp;
 import com.almyk.mediviaviplist.R;
-import com.almyk.mediviaviplist.Utilities.Constants;
 
 import java.util.List;
 
@@ -175,7 +169,7 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
         public void onClick(View v) {
             int pos = getAdapterPosition();
             if(pos != -1) {
-                PlayerDetailFragment fragment = PlayerDetailFragment.newInstance();
+                PlayerDetailDialogFragment fragment = PlayerDetailDialogFragment.newInstance();
                 fragment.setPlayer(mPlayers.get(pos));
                 FragmentManager fragmentManager = ((MainActivity) mContext).getSupportFragmentManager();
                 fragment.show(fragmentManager, mPlayers.get(pos).getName());

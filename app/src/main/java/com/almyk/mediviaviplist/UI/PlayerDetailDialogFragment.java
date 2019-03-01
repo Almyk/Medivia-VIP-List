@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
@@ -21,7 +20,7 @@ import com.almyk.mediviaviplist.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PlayerDetailFragment extends DialogFragment {
+public class PlayerDetailDialogFragment extends DialogFragment {
     private TextView mNameView;
     private TextView mPrevNameView;
     private TextView mServerView;
@@ -46,12 +45,12 @@ public class PlayerDetailFragment extends DialogFragment {
     private static PlayerEntity mPlayer;
 
 
-    public PlayerDetailFragment() {
+    public PlayerDetailDialogFragment() {
         // Required empty public constructor
     }
 
-    public static PlayerDetailFragment newInstance() {
-        return new PlayerDetailFragment();
+    public static PlayerDetailDialogFragment newInstance() {
+        return new PlayerDetailDialogFragment();
     }
 
 
