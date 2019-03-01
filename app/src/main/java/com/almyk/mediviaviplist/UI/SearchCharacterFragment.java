@@ -61,11 +61,15 @@ public class SearchCharacterFragment extends Fragment
     private TextView mBanishment;
     private TextView mDeathListTextView;
     private TextView mKillListTextView;
+    private TextView mTaskListTextView;
 
     private RecyclerView mDeathListRecycler;
     private RecyclerView mKillListRecycler;
+    private RecyclerView mTaskListRecycler;
 
     private DeathListAdapter mDeathListAdapter;
+    private KillListAdapter mKillListAdapter;
+    private TaskListAdapter mTaskListAdapter;
 
     private LinearLayout mPrevNameContainer;
     private LinearLayout mGuildContainer;
@@ -121,7 +125,15 @@ public class SearchCharacterFragment extends Fragment
         mLastLogin = rootView.findViewById(R.id.tv_last_login);
         mBanishment = rootView.findViewById(R.id.tv_banishment);
         mDeathListTextView = rootView.findViewById(R.id.tv_death_list);
+        mKillListTextView = rootView.findViewById(R.id.tv_kill_list);
+        mTaskListTextView = rootView.findViewById(R.id.tv_task_list);
 
+        setupRecyclerViews(rootView);
+
+        return rootView;
+    }
+
+    private void setupRecyclerViews(View rootView) {
         mDeathListRecycler = rootView.findViewById(R.id.rv_death_list);
         mDeathListRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         mDeathListRecycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
@@ -129,10 +141,19 @@ public class SearchCharacterFragment extends Fragment
         mDeathListAdapter = new DeathListAdapter(getActivity());
         mDeathListRecycler.setAdapter(mDeathListAdapter);
 
-        List<DeathEntity> dummyList = new ArrayList<>();
-        mDeathListAdapter.setDeaths(dummyList);
+        mKillListRecycler = rootView.findViewById(R.id.rv_kill_list);
+        mKillListRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mKillListRecycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        mKillListRecycler.setNestedScrollingEnabled(false);
+        mKillListAdapter = new KillListAdapter(getActivity());
+        mKillListRecycler.setAdapter(mKillListAdapter);
 
-        return rootView;
+        mTaskListRecycler = rootView.findViewById(R.id.rv_task_list);
+        mTaskListRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mTaskListRecycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        mTaskListRecycler.setNestedScrollingEnabled(false);
+        mTaskListAdapter = new TaskListAdapter(getActivity());
+        mTaskListRecycler.setAdapter(mTaskListAdapter);
     }
 
     @Override
@@ -190,14 +211,24 @@ public class SearchCharacterFragment extends Fragment
     private void populateKillList(Player player) {
         List<KillEntity> kills = player.getKills();
         if(kills != null && !kills.isEmpty()) {
-//            mKillListContainer.setVisibility(View.VISIBLE);
+            mKillListRecycler.setVisibility(View.VISIBLE);
+            mKillListTextView.setVisibility(View.VISIBLE);
+            mKillListAdapter.setKills(kills);
+        } else {
+            mKillListRecycler.setVisibility(View.GONE);
+            mKillListTextView.setVisibility(View.GONE);
         }
     }
 
     private void populateTaskList(Player player) {
         List<TaskEntity> tasks = player.getTasks();
         if(tasks != null && !tasks.isEmpty()) {
-//            mTaskListContainer.setVisibility(View.VISIBLE);
+            mTaskListRecycler.setVisibility(View.VISIBLE);
+            mTaskListTextView.setVisibility(View.VISIBLE);
+            mTaskListAdapter.setTasks(tasks);
+        } else {
+            mTaskListRecycler.setVisibility(View.GONE);
+            mTaskListTextView.setVisibility(View.GONE);
         }
 
     }

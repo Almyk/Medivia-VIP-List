@@ -8,54 +8,54 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.almyk.mediviaviplist.Database.KillEntity;
+import com.almyk.mediviaviplist.Database.TaskEntity;
 import com.almyk.mediviaviplist.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class KillListAdapter extends RecyclerView.Adapter<KillListAdapter.MyViewHolder> {
+public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.MyViewHolder> {
     private Context mContext;
-    private static List<KillEntity> mKills = new ArrayList<>();
+    private static List<TaskEntity> mTasks = new ArrayList<>();
 
-    public KillListAdapter(Context context) {
-        this.mContext = context;
+    public TaskListAdapter(Context mContext) {
+        this.mContext = mContext;
     }
 
     @NonNull
     @Override
-    public KillListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public TaskListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.two_horizontal_textviews, viewGroup, false);
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull KillListAdapter.MyViewHolder holder, int i) {
-        KillEntity kill = mKills.get(i);
-        String date = kill.getDate();
-        String details = kill.getDetails();
+    public void onBindViewHolder(@NonNull TaskListAdapter.MyViewHolder holder, int i) {
+        TaskEntity task = mTasks.get(i);
+        String monster = task.getMonster();
+        String details = task.getDetails();
 
-        holder.mDate.setText(date);
+        holder.mMonster.setText(monster);
         holder.mDetails.setText(details);
+    }
+
+    public void setTasks(List<TaskEntity> tasks) {
+        this.mTasks = tasks;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mKills.size();
-    }
-
-    public void setKills(List<KillEntity> kills) {
-        this.mKills = kills;
-        notifyDataSetChanged();
+        return mTasks.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView mDate;
+        private TextView mMonster;
         private TextView mDetails;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            mDate = itemView.findViewById(R.id.tv_left);
+            mMonster = itemView.findViewById(R.id.tv_left);
             mDetails = itemView.findViewById(R.id.tv_right);
         }
     }

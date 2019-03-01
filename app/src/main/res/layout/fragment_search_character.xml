@@ -75,30 +75,53 @@
                 android:id="@+id/rv_death_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingLeft="22dp"
+                android:paddingRight="22dp"
+                android:visibility="gone"/>
+
+
+            <TextView
+                android:id="@+id/tv_kill_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kill list:"
+                android:textSize="18sp"
+                android:paddingTop="14dp"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_kill_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingLeft="22dp"
+                android:paddingRight="22dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tv_task_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Task list:"
+                android:textSize="18sp"
+                android:paddingTop="14dp"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_task_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
                 android:paddingLeft="22dp"
                 android:paddingRight="22dp"
                 android:visibility="gone"/>
 
         </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_kill_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Kill list:"
-        android:textSize="18sp"
-        android:paddingTop="4dp"
-        android:paddingLeft="14dp"
-        android:paddingRight="14dp"
-        android:visibility="gone"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_kill_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="22dp"
-        android:paddingRight="22dp"
-        android:visibility="gone"/>
 
     </android.support.v4.widget.NestedScrollView>
 

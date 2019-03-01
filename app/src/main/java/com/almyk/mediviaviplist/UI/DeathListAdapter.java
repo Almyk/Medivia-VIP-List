@@ -12,12 +12,13 @@ import android.widget.TextView;
 import com.almyk.mediviaviplist.Database.DeathEntity;
 import com.almyk.mediviaviplist.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeathListAdapter extends RecyclerView.Adapter<DeathListAdapter.MyViewHolder> {
     private static final String TAG = DeathListAdapter.class.getSimpleName();
     private Context mContext;
-    private static List<DeathEntity> mDeaths;
+    private static List<DeathEntity> mDeaths = new ArrayList<>();
 
     public DeathListAdapter(Context mContext) {
         this.mContext = mContext;
