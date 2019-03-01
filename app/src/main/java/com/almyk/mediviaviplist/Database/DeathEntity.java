@@ -1,5 +1,6 @@
 package com.almyk.mediviaviplist.Database;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
@@ -11,6 +12,9 @@ public class DeathEntity {
     @NonNull
     private int key;
 
+    @ColumnInfo(name = "player_id")
+    private String playerID;
+
     private String date;
     private String details;
 
@@ -18,8 +22,9 @@ public class DeathEntity {
     public DeathEntity() {
     }
 
-    public DeathEntity(int key, String date, String details) {
+    public DeathEntity(int key, String playerID, String date, String details) {
         this.key = key;
+        this.playerID = playerID;
         this.date = date;
         this.details = details;
     }

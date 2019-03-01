@@ -22,8 +22,9 @@ public class KillEntity {
     public KillEntity() {
     }
 
-    public KillEntity(int key, String date, String details) {
+    public KillEntity(int key, String playerID, String date, String details) {
         this.key = key;
+        this.playerID = playerID;
         this.date = date;
         this.details = details;
     }
