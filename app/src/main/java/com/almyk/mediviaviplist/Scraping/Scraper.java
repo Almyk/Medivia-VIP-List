@@ -81,31 +81,74 @@ public class Scraper {
         Player player = new Player();
 
         player.setPlayerEntity(getPlayerEntity());
-        player.setDeaths(getDeaths());
-        player.setKills(getKills());
-        player.setTasks(getTasks());
 
-//        Log.d(TAG, "Player: " + player.getName() + " " + player.getLevel() + " " + player.getVocation() + " " + player.getServer());
-//        Log.d(TAG, player.getGuild() + " " + player.getHouse() + " " + player.getSex() + " " + player.getComment());
-//        Log.d(TAG, "" + player.getAccountStatus());
+        Elements lists = mDoc.select("div[class='med-width-100 med-mt-20']");
+        if(lists != null && lists.size() > 0)
+        for(Element list: lists) {
+            String title = list.child(0).ownText();
+            switch(title) {
+                case "Death list":
+                    player.setDeaths(getDeaths(list));
+                    break;
+                case "Kill list":
+                    player.setKills(getKills(list));
+                    break;
+                case "Task list":
+                    player.setTasks(getTasks(list));
+                    break;
+            }
+        }
 
         return player;
     }
 
-    private List<TaskEntity> getTasks() {
+    private List<TaskEntity> getTasks(Element list) {
         List<TaskEntity> tasks = new ArrayList<>();
+
+        Elements entries = list.select("div[class='med-width-100 med-mt-10 black-link']");
+        for(Element entry: entries) {
+            TaskEntity task = new TaskEntity();
+            String monster = entry.child(0).ownText();
+            String details = entry.child(1).ownText();
+
+            task.setMonster(monster);
+            task.setDetails(details);
+            tasks.add(task);
+        }
 
         return tasks;
     }
 
-    private List<KillEntity> getKills() {
+    private List<KillEntity> getKills(Element list) {
         List<KillEntity> kills = new ArrayList<>();
+
+        Elements entries = list.select("div[class='med-width-100 med-mt-10 black-link']");
+        for(Element entry: entries) {
+            KillEntity kill = new KillEntity();
+            String date = entry.child(0).ownText();
+            String details = entry.child(1).ownText();
+
+            kill.setDate(date);
+            kill.setDetails(details);
+            kills.add(kill);
+        }
 
         return kills;
     }
 
-    private List<DeathEntity> getDeaths() {
+    private List<DeathEntity> getDeaths(Element list) {
         List<DeathEntity> deaths = new ArrayList<>();
+
+        Elements entries = list.select("div[class='med-width-100 med-mt-10 black-link']");
+        for(Element entry: entries) {
+            DeathEntity death = new DeathEntity();
+            String date = entry.child(0).ownText();
+            String details = entry.child(1).ownText();
+
+            death.setDate(date);
+            death.setDetails(details);
+            deaths.add(death);
+        }
 
         return deaths;
     }
