@@ -50,6 +50,7 @@ public class PlayerEntity {
     @ColumnInfo(name = "last_login")
     private String lastLogin;
 
+    @ColumnInfo(name = "banishment")
     private String banishment;
 
     @Ignore

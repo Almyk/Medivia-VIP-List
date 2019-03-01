@@ -14,7 +14,7 @@ import android.util.Log;
 @Database(entities = {PlayerEntity.class,
         HighscoreEntity.class, DeathEntity.class,
         KillEntity.class, TaskEntity.class},
-        version = 6, exportSchema = true)
+        version = 7, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
@@ -29,7 +29,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 sInstance = Room.databaseBuilder(context.getApplicationContext(),
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
                         .addMigrations(MIGRATION_1_2, MIGRATION_2_3,
-                                MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
+                                MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
                         .build();
             }
         }
@@ -88,6 +88,13 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("CREATE TABLE IF NOT EXISTS `death_table` (`key` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `player_id` TEXT, `date` TEXT, `details` TEXT)");
             database.execSQL("CREATE TABLE IF NOT EXISTS `kill_table` (`key` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `player_id` TEXT, `date` TEXT, `details` TEXT)");
             database.execSQL("CREATE TABLE IF NOT EXISTS `task_table` (`key` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `player_id` TEXT, `monster` TEXT, `details` TEXT)");
+        }
+    };
+
+    private static final Migration MIGRATION_6_7 = new Migration(6,7) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE vip_list ADD COLUMN banishment TEXT");
         }
     };
 }
