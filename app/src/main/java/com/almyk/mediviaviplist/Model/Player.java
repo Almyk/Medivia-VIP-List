@@ -54,4 +54,8 @@ public class Player {
     public void setTasks(List<TaskEntity> tasks) {
         this.tasks = tasks;
     }
+
+    public String getPlayerName() {
+        return this.playerEntity.getName();
+    }
 }

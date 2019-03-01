@@ -82,19 +82,21 @@ public class Scraper {
 
         player.setPlayerEntity(getPlayerEntity());
 
+        String playerId = player.getPlayerName();
+
         Elements lists = mDoc.select("div[class='med-width-100 med-mt-20']");
         if(lists != null && lists.size() > 0)
         for(Element list: lists) {
             String title = list.child(0).ownText();
             switch(title) {
                 case "Death list":
-                    player.setDeaths(getDeaths(list));
+                    player.setDeaths(getDeaths(list, playerId));
                     break;
                 case "Kill list":
-                    player.setKills(getKills(list));
+                    player.setKills(getKills(list, playerId));
                     break;
                 case "Task list":
-                    player.setTasks(getTasks(list));
+                    player.setTasks(getTasks(list, playerId));
                     break;
             }
         }
@@ -102,7 +104,7 @@ public class Scraper {
         return player;
     }
 
-    private List<TaskEntity> getTasks(Element list) {
+    private List<TaskEntity> getTasks(Element list, String playerId) {
         List<TaskEntity> tasks = new ArrayList<>();
 
         Elements entries = list.select("div[class='med-width-100 med-mt-10 black-link']");
@@ -113,13 +115,14 @@ public class Scraper {
 
             task.setMonster(monster);
             task.setDetails(details);
+            task.setPlayerID(playerId);
             tasks.add(task);
         }
 
         return tasks;
     }
 
-    private List<KillEntity> getKills(Element list) {
+    private List<KillEntity> getKills(Element list, String playerId) {
         List<KillEntity> kills = new ArrayList<>();
 
         Elements entries = list.select("div[class='med-width-100 med-mt-10 black-link']");
@@ -130,13 +133,14 @@ public class Scraper {
 
             kill.setDate(date);
             kill.setDetails(details);
+            kill.setPlayerID(playerId);
             kills.add(kill);
         }
 
         return kills;
     }
 
-    private List<DeathEntity> getDeaths(Element list) {
+    private List<DeathEntity> getDeaths(Element list, String playerId) {
         List<DeathEntity> deaths = new ArrayList<>();
 
         Elements entries = list.select("div[class='med-width-100 med-mt-10 black-link']");
@@ -147,6 +151,7 @@ public class Scraper {
 
             death.setDate(date);
             death.setDetails(details);
+            death.setPlayerID(playerId);
             deaths.add(death);
         }
 
