@@ -138,6 +138,25 @@ public class SearchCharacterFragment extends Fragment
     }
 
     private void populateView(Player player) {
+        populatePlayerEntity(player);
+        populateDeathList(player);
+        populateKillList(player);
+        populateTaskList(player);
+    }
+
+    private void populateDeathList(Player player) {
+
+    }
+
+    private void populateKillList(Player player) {
+
+    }
+
+    private void populateTaskList(Player player) {
+
+    }
+
+    private void populatePlayerEntity(Player player) {
         PlayerEntity playerEntity = player.getPlayerEntity();
         mNameView.setText(playerEntity.getName());
         mServerView.setText(playerEntity.getServer());
