@@ -49,11 +49,13 @@ public class SearchCharacterFragment extends Fragment
     private TextView mAccountStatusView;
     private TextView mCommentView;
     private TextView mLastLogin;
+    private TextView mBanishment;
 
     private LinearLayout mPrevNameContainer;
     private LinearLayout mGuildContainer;
     private LinearLayout mHouseContainer;
     private LinearLayout mCommentContainer;
+    private LinearLayout mBanishmentContainer;
     private FrameLayout mPlayerDetailContainer;
     private ProgressBar mProgressBar;
 
@@ -83,6 +85,7 @@ public class SearchCharacterFragment extends Fragment
         mHouseContainer = rootView.findViewById(R.id.house_container);
         mCommentContainer = rootView.findViewById(R.id.comment_container);
         mPlayerDetailContainer = rootView.findViewById(R.id.player_detail_container);
+        mBanishmentContainer = rootView.findViewById(R.id.banishment_container);
         mProgressBar = rootView.findViewById(R.id.progress_bar);
 
         mNameView = rootView.findViewById(R.id.tv_name);
@@ -98,6 +101,7 @@ public class SearchCharacterFragment extends Fragment
         mAccountStatusView = rootView.findViewById(R.id.tv_account_status);
         mCommentView = rootView.findViewById(R.id.tv_comment);
         mLastLogin = rootView.findViewById(R.id.tv_last_login);
+        mBanishment = rootView.findViewById(R.id.tv_banishment);
 
         return rootView;
     }
@@ -176,6 +180,13 @@ public class SearchCharacterFragment extends Fragment
             mCommentView.setText(playerEntity.getComment());
             mCommentContainer.setVisibility(View.VISIBLE);
         }
+
+        String banishment = playerEntity.getBanishment();
+        if(!TextUtils.isEmpty(banishment)) {
+            mBanishment.setText(banishment);
+            mBanishmentContainer.setVisibility(View.VISIBLE);
+        }
+
         mProgressBar.setVisibility(View.GONE);
         mPlayerDetailContainer.setVisibility(View.VISIBLE);
     }

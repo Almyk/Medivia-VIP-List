@@ -240,6 +240,29 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/banishment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Banishment:"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/tv_banishment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/online_status_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
