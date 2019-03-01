@@ -11,7 +11,10 @@ import android.util.Log;
 
 
 
-@Database(entities = {PlayerEntity.class, HighscoreEntity.class}, version = 5, exportSchema = true)
+@Database(entities = {PlayerEntity.class,
+        HighscoreEntity.class, DeathEntity.class,
+        KillEntity.class, TaskEntity.class},
+        version = 6, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
@@ -25,7 +28,8 @@ public abstract class AppDatabase extends RoomDatabase {
                 Log.d(LOG_TAG, "Creating new database instance");
                 sInstance = Room.databaseBuilder(context.getApplicationContext(),
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
-                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3,
+                                MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
                         .build();
             }
         }
@@ -35,6 +39,9 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract PlayerDao playerDao();
     public abstract HighscoreDao highscoreDao();
+    public abstract DeathDao deathDao();
+    public abstract KillDao killDao();
+    public abstract TaskDao taskDao();
 
     private static final Migration MIGRATION_1_2 = new Migration(1,2) {
         @Override
@@ -72,6 +79,15 @@ public abstract class AppDatabase extends RoomDatabase {
                     "FROM `highscore_list`");
             database.execSQL("DROP TABLE `highscore_list`");
             database.execSQL("ALTER TABLE `highscore_list_tmp` RENAME TO `highscore_list`");
+        }
+    };
+
+    private static final Migration MIGRATION_5_6 = new Migration(5,6) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `death_table` (`key` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `player_id` TEXT, `date` TEXT, `details` TEXT)");
+            database.execSQL("CREATE TABLE IF NOT EXISTS `kill_table` (`key` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `player_id` TEXT, `date` TEXT, `details` TEXT)");
+            database.execSQL("CREATE TABLE IF NOT EXISTS `task_table` (`key` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `player_id` TEXT, `monster` TEXT, `details` TEXT)");
         }
     };
 }

@@ -52,4 +52,12 @@ public class DeathEntity {
     public void setDetails(String details) {
         this.details = details;
     }
+
+    public String getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayerID(String playerID) {
+        this.playerID = playerID;
+    }
 }

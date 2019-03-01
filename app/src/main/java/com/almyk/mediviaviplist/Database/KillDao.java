@@ -9,13 +9,13 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 @Dao
-public interface DeathDao {
-    @Query("SELECT * FROM death_table WHERE player_id = :playerId ORDER BY `key` DESC")
-    LiveData<List<DeathEntity>> getDeaths(String playerId);
+public interface KillDao {
+    @Query("SELECT * FROM kill_table WHERE player_id = :playerId ORDER BY `key` DESC")
+    LiveData<List<KillEntity>> getKills(String playerId);
 
     @Insert
-    void insertDeath(DeathEntity death);
+    void insertKill(KillEntity kill);
 
     @Delete
-    void deleteDeath(DeathEntity death);
+    void deleteKill(KillEntity kill);
 }
