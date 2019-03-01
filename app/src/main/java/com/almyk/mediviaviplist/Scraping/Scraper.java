@@ -2,8 +2,12 @@ package com.almyk.mediviaviplist.Scraping;
 
 import android.util.Log;
 
+import com.almyk.mediviaviplist.Database.DeathEntity;
 import com.almyk.mediviaviplist.Database.HighscoreEntity;
+import com.almyk.mediviaviplist.Database.KillEntity;
 import com.almyk.mediviaviplist.Database.PlayerEntity;
+import com.almyk.mediviaviplist.Database.TaskEntity;
+import com.almyk.mediviaviplist.Model.Player;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -68,12 +72,45 @@ public class Scraper {
         return onlineList;
     }
 
-    public PlayerEntity scrapePlayer(String name) {
+    public Player scrapePlayer(String name) {
         boolean success = getDocument(BASE_URL_PLAYER+name);
         if(!success) {
             return null;
         }
 
+        Player player = new Player();
+
+        player.setPlayerEntity(getPlayerEntity());
+        player.setDeaths(getDeaths());
+        player.setKills(getKills());
+        player.setTasks(getTasks());
+
+//        Log.d(TAG, "Player: " + player.getName() + " " + player.getLevel() + " " + player.getVocation() + " " + player.getServer());
+//        Log.d(TAG, player.getGuild() + " " + player.getHouse() + " " + player.getSex() + " " + player.getComment());
+//        Log.d(TAG, "" + player.getAccountStatus());
+
+        return player;
+    }
+
+    private List<TaskEntity> getTasks() {
+        List<TaskEntity> tasks = new ArrayList<>();
+
+        return tasks;
+    }
+
+    private List<KillEntity> getKills() {
+        List<KillEntity> kills = new ArrayList<>();
+
+        return kills;
+    }
+
+    private List<DeathEntity> getDeaths() {
+        List<DeathEntity> deaths = new ArrayList<>();
+
+        return deaths;
+    }
+
+    private PlayerEntity getPlayerEntity() {
         PlayerEntity player = new PlayerEntity();
         boolean hasGuild = false;
         boolean hasHouse = false;
@@ -156,11 +193,6 @@ public class Scraper {
             String value = comment.get(0).text();
             player.setComment(value);
         }
-
-//        Log.d(TAG, "Player: " + player.getName() + " " + player.getLevel() + " " + player.getVocation() + " " + player.getServer());
-//        Log.d(TAG, player.getGuild() + " " + player.getHouse() + " " + player.getSex() + " " + player.getComment());
-//        Log.d(TAG, "" + player.getAccountStatus());
-
         return player;
     }
 
