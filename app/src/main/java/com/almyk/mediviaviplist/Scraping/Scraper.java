@@ -119,7 +119,7 @@ public class Scraper {
         for(Element entry: entries) {
             TaskEntity task = new TaskEntity();
             String monster = entry.child(0).ownText();
-            String details = entry.child(1).ownText();
+            String details = entry.child(1).text();
 
             task.setMonster(monster);
             task.setDetails(details);
@@ -137,7 +137,7 @@ public class Scraper {
         for(Element entry: entries) {
             KillEntity kill = new KillEntity();
             String date = entry.child(0).ownText();
-            String details = entry.child(1).ownText();
+            String details = entry.child(1).text();
 
             kill.setDate(date);
             kill.setDetails(details);
@@ -155,7 +155,7 @@ public class Scraper {
         for(Element entry: entries) {
             DeathEntity death = new DeathEntity();
             String date = entry.child(0).ownText();
-            String details = entry.child(1).ownText();
+            String details = entry.child(1).text();
 
             death.setDate(date);
             death.setDetails(details);
