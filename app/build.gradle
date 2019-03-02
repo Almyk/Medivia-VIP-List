@@ -3,11 +3,11 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.firebase-perf'
 
 
-ext.versionMajor = 1
-ext.versionMinor = 4
+ext.versionMajor = 2
+ext.versionMinor = 0
 ext.versionPatch = 0
 ext.versionClassifier = null
-ext.isSnapshot = true
+ext.isSnapshot = false
 ext.minimumSdkVersion = 19
 
 android {

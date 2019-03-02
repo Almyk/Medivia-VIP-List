@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.R;
@@ -89,14 +90,16 @@ public class PlayerDetailDialogFragment extends DialogFragment {
         mMoreDetailsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String name = mNameView.getText().toString();
                 SearchCharacterFragment fragment = SearchCharacterFragment.newInstance();
-                fragment.setName(mNameView.getText().toString());
+                fragment.setName(name);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, fragment)
                         .addToBackStack(null)
                         .commit();
                 dismiss();
+                Toast.makeText(getActivity(), "SEARCH PLAYER: "+name, Toast.LENGTH_SHORT).show();
             }
         });
 
