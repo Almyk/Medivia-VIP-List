@@ -91,7 +91,11 @@ public class PlayerDetailDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 SearchCharacterFragment fragment = SearchCharacterFragment.newInstance();
                 fragment.setName(mNameView.getText().toString());
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
                 dismiss();
             }
         });
