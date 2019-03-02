@@ -188,8 +188,10 @@ public class SearchCharacterFragment extends Fragment
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_vip:
-                mViewModel.addVip(mName);
-                Toast.makeText(getActivity(), "Added "+mName.toUpperCase()+" to VIP list", Toast.LENGTH_SHORT).show();
+                if(!TextUtils.isEmpty(mName)) {
+                    mViewModel.addVip(mName);
+                    Toast.makeText(getActivity(), "Added " + mName.toUpperCase() + " to VIP list", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

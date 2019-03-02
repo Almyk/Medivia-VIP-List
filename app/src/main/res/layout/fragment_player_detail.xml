@@ -329,7 +329,13 @@
 
         </LinearLayout>
 
-
+        <Button
+            android:id="@+id/btn_more_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MORE DETAILS"
+            android:gravity="center_horizontal"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

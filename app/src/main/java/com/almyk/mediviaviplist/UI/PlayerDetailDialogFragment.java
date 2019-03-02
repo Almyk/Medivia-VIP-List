@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,6 +42,8 @@ public class PlayerDetailDialogFragment extends DialogFragment {
     private LinearLayout mHouseContainer;
     private LinearLayout mCommentContainer;
     private LinearLayout mBanishmentContainer;
+
+    private Button mMoreDetailsButton;
 
     private static PlayerEntity mPlayer;
 
@@ -80,6 +83,18 @@ public class PlayerDetailDialogFragment extends DialogFragment {
         mCommentView = rootView.findViewById(R.id.tv_comment);
         mLastLogin = rootView.findViewById(R.id.tv_last_login);
         mBanishment = rootView.findViewById(R.id.tv_banishment);
+
+        mMoreDetailsButton = rootView.findViewById(R.id.btn_more_details);
+        mMoreDetailsButton.setVisibility(View.VISIBLE);
+        mMoreDetailsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchCharacterFragment fragment = SearchCharacterFragment.newInstance();
+                fragment.setName(mNameView.getText().toString());
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+                dismiss();
+            }
+        });
 
         return rootView;
     }
