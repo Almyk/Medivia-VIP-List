@@ -12,13 +12,15 @@ Medivia VIP List is an Android application for showing your VIPs' online status 
 - Notification when player logs in
 - Ability to change update frequency in settings
 - Disable notifications in settings
-- Turn notifications on/off for individual players
-- Categorize players, enemy/friend
-- Click on player for detailed view
-- Online lists for all of Medivia's game worlds
-- Highscores
+- Option to turn notifications on/off for individual players
+- Option to mark a player as an enemy
+- Click player to see detailed view
+- Online & HighScore lists for all the game worlds of Medivia
+- Search for players
+- See all details of players in search screen, deaths, kills and tasks etc.
+- Synchronize highscore lists every 6 hours (Only updates if using a WIFI connection).
 
-<img src="https://i.imgur.com/Ht029UR.jpg" width="250" height="500" /> <img src="https://i.imgur.com/ONGWxhm.jpg" width="250" height="500" /> <img src="https://i.imgur.com/A7vUrKC.jpg" width="250" height="500" /> <img src="https://i.imgur.com/25giA2f.jpg" width="250" height="500" /> <img src="https://i.imgur.com/FdVSe2A.jpg" width="250" height="500" /> <img src="https://i.imgur.com/TInOv9E.jpg" width="250" height="500" />
+<img src="https://i.imgur.com/Ht029UR.jpg" width="250" height="500" /> <img src="https://i.imgur.com/ONGWxhm.jpg" width="250" height="500" /> <img src="https://i.imgur.com/EazPHiL.jpg" width="250" height="500" /> <img src="https://i.imgur.com/25giA2f.jpg" width="250" height="500" /> <img src="https://i.imgur.com/TGUfy6u.jpg" width="250" height="500" /> <img src="https://i.imgur.com/TInOv9E.jpg" width="250" height="500" /> <img src="https://i.imgur.com/sPcX4Hm.jpg" width="250" height="500" />
 
 
 # Planned Features
