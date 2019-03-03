@@ -84,7 +84,12 @@ public class OnlineListAdapter extends RecyclerView.Adapter<OnlineListAdapter.On
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            String name = mOnlineList.get(getAdapterPosition()).getName();
+            int pos = getAdapterPosition();
+            if(pos == -1) {
+                Toast.makeText(mContext, "Player data is updating, please try again shortly", Toast.LENGTH_LONG).show();
+                return false;
+            }
+            String name = mOnlineList.get(pos).getName();
             switch(item.getItemId()) {
                 case 0: // ADD VIP
                     OnlineListFragment.addVip(name);

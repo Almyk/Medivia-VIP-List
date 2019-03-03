@@ -78,7 +78,12 @@ public class HighscoreAdapter extends RecyclerView.Adapter<HighscoreAdapter.High
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            String name = mHighscores.get(getAdapterPosition()).getName();
+            int pos = getAdapterPosition();
+            if(pos == -1) {
+                Toast.makeText(mContext, "Player data is updating, please try again shortly", Toast.LENGTH_LONG).show();
+                return false;
+            }
+            String name = mHighscores.get(pos).getName();
             switch(item.getItemId()) {
                 case 0: // ADD VIP
                     HighscoreFragment.addVip(name);
