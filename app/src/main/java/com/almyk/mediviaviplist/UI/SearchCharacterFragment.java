@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -36,7 +35,6 @@ import com.almyk.mediviaviplist.R;
 import com.almyk.mediviaviplist.Utilities.EditTextBackEvent;
 import com.almyk.mediviaviplist.ViewModel.SearchCharacterViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,11 +58,12 @@ public class SearchCharacterFragment extends Fragment
     private TextView mGenderView;
     private TextView mAccountStatusView;
     private TextView mCommentView;
-    private TextView mLastLogin;
-    private TextView mBanishment;
+    private TextView mLastLoginView;
+    private TextView mBanishmentView;
     private TextView mDeathListTextView;
     private TextView mKillListTextView;
     private TextView mTaskListTextView;
+    private TextView mTransferView;
 
     private RecyclerView mDeathListRecycler;
     private RecyclerView mKillListRecycler;
@@ -80,6 +79,7 @@ public class SearchCharacterFragment extends Fragment
     private LinearLayout mCommentContainer;
     private LinearLayout mBanishmentContainer;
     private LinearLayout mPlayerContainer;
+    private LinearLayout mTransferContainer;
 
     private ProgressBar mProgressBar;
 
@@ -110,6 +110,7 @@ public class SearchCharacterFragment extends Fragment
         mCommentContainer = rootView.findViewById(R.id.comment_container);
         mBanishmentContainer = rootView.findViewById(R.id.banishment_container);
         mPlayerContainer = rootView.findViewById(R.id.player_container);
+        mTransferContainer = rootView.findViewById(R.id.transfer_container);
 
         mProgressBar = rootView.findViewById(R.id.progress_bar);
 
@@ -125,11 +126,12 @@ public class SearchCharacterFragment extends Fragment
         mGenderView = rootView.findViewById(R.id.tv_gender);
         mAccountStatusView = rootView.findViewById(R.id.tv_account_status);
         mCommentView = rootView.findViewById(R.id.tv_comment);
-        mLastLogin = rootView.findViewById(R.id.tv_last_login);
-        mBanishment = rootView.findViewById(R.id.tv_banishment);
+        mLastLoginView = rootView.findViewById(R.id.tv_last_login);
+        mBanishmentView = rootView.findViewById(R.id.tv_banishment);
         mDeathListTextView = rootView.findViewById(R.id.tv_death_list);
         mKillListTextView = rootView.findViewById(R.id.tv_kill_list);
         mTaskListTextView = rootView.findViewById(R.id.tv_task_list);
+        mTransferView = rootView.findViewById(R.id.tv_transfer);
 
         setupRecyclerViews(rootView);
 
@@ -271,7 +273,7 @@ public class SearchCharacterFragment extends Fragment
         mResidenceView.setText(playerEntity.getResidence());
         mGenderView.setText(playerEntity.getSex());
         mAccountStatusView.setText(playerEntity.getAccountStatus());
-        mLastLogin.setText(playerEntity.getLastLogin());
+        mLastLoginView.setText(playerEntity.getLastLogin());
 
         boolean online = playerEntity.isOnline();
         if(online) {
@@ -316,10 +318,18 @@ public class SearchCharacterFragment extends Fragment
 
         String banishment = playerEntity.getBanishment();
         if(!TextUtils.isEmpty(banishment)) {
-            mBanishment.setText(banishment);
+            mBanishmentView.setText(banishment);
             mBanishmentContainer.setVisibility(View.VISIBLE);
         } else {
             mBanishmentContainer.setVisibility(View.GONE);
+        }
+
+        String transfer = playerEntity.getTransfer();
+        if(!TextUtils.isEmpty(transfer)) {
+            mTransferView.setText(transfer);
+            mTransferContainer.setVisibility(View.VISIBLE);
+        } else {
+            mTransferContainer.setVisibility(View.GONE);
         }
 
         mProgressBar.setVisibility(View.GONE);

@@ -230,6 +230,9 @@ public class Scraper {
                     break;
                 case "banishment:":
                     player.setBanishment(value);
+                    break;
+                case "transfer:":
+                    player.setTransfer(value);
                 default:
                     break;
             }

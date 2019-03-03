@@ -150,6 +150,29 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/transfer_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Transfer:"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/tv_transfer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/residence_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

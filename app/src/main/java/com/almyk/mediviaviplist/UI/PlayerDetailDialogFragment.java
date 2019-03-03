@@ -37,12 +37,14 @@ public class PlayerDetailDialogFragment extends DialogFragment {
     private TextView mCommentView;
     private TextView mLastLogin;
     private TextView mBanishment;
+    private TextView mTransfer;
 
     private LinearLayout mPrevNameContainer;
     private LinearLayout mGuildContainer;
     private LinearLayout mHouseContainer;
     private LinearLayout mCommentContainer;
     private LinearLayout mBanishmentContainer;
+    private LinearLayout mTransferContainer;
 
     private Button mMoreDetailsButton;
 
@@ -69,6 +71,7 @@ public class PlayerDetailDialogFragment extends DialogFragment {
         mHouseContainer = rootView.findViewById(R.id.house_container);
         mCommentContainer = rootView.findViewById(R.id.comment_container);
         mBanishmentContainer = rootView.findViewById(R.id.banishment_container);
+        mTransferContainer = rootView.findViewById(R.id.transfer_container);
 
         mNameView = rootView.findViewById(R.id.tv_name);
         mPrevNameView = rootView.findViewById(R.id.tv_prev_name);
@@ -84,6 +87,7 @@ public class PlayerDetailDialogFragment extends DialogFragment {
         mCommentView = rootView.findViewById(R.id.tv_comment);
         mLastLogin = rootView.findViewById(R.id.tv_last_login);
         mBanishment = rootView.findViewById(R.id.tv_banishment);
+        mTransfer = rootView.findViewById(R.id.tv_transfer);
 
         mMoreDetailsButton = rootView.findViewById(R.id.btn_more_details);
         mMoreDetailsButton.setVisibility(View.VISIBLE);
@@ -173,6 +177,12 @@ public class PlayerDetailDialogFragment extends DialogFragment {
         if(!TextUtils.isEmpty(banishment)) {
             mBanishment.setText(banishment);
             mBanishmentContainer.setVisibility(View.VISIBLE);
+        }
+
+        String transfer = player.getTransfer();
+        if(!TextUtils.isEmpty(transfer)) {
+            mTransfer.setText(transfer);
+            mTransferContainer.setVisibility(View.VISIBLE);
         }
     }
 
