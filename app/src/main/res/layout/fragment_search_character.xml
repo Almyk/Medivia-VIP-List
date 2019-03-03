@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:maxLines="1"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:imeOptions="actionDone"/>
 
         <ImageButton
             android:id="@+id/button_search"

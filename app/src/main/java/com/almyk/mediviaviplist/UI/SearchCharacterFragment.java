@@ -101,6 +101,12 @@ public class SearchCharacterFragment extends Fragment
 
         mNameEditTextView = rootView.findViewById(R.id.et_player_name);
         mNameEditTextView.setOnEditorActionListener(this);
+        mNameEditTextView.setOnEditTextImeBackListener(new EditTextBackEvent.EditTextImeBackListener() {
+            @Override
+            public void onImeBack(EditTextBackEvent ctrl, String text) {
+                mNameEditTextView.clearFocus();
+            }
+        });
         mSearchButton = rootView.findViewById(R.id.button_search);
         mSearchButton.setOnClickListener(this);
 

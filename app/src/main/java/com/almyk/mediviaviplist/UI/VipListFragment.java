@@ -88,15 +88,19 @@ public class VipListFragment extends Fragment
         mAddPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = mNewPlayerTextView.getText().toString();
-                mViewModel.addPlayer(name);
-                mNewPlayerTextView.getText().clear();
-                mNewPlayerTextView.clearFocus();
-                Toast.makeText(getActivity(), "Adding player '"+name+"'", Toast.LENGTH_SHORT).show();
+                addPlayer();
             }
         });
 
         return rootView;
+    }
+
+    private void addPlayer() {
+        String name = mNewPlayerTextView.getText().toString();
+        mViewModel.addPlayer(name);
+        mNewPlayerTextView.getText().clear();
+        mNewPlayerTextView.clearFocus();
+        Toast.makeText(getActivity(), "Adding player '" + name + "'", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -192,9 +196,7 @@ public class VipListFragment extends Fragment
         Log.d(TAG, "ActionId: " + actionId);
         switch(actionId) {
             case EditorInfo.IME_ACTION_DONE:
-                mViewModel.addPlayer(mNewPlayerTextView.getText().toString());
-                mNewPlayerTextView.getText().clear();
-                mNewPlayerTextView.clearFocus();
+                addPlayer();
             case KeyEvent.KEYCODE_BACK:
                 mNewPlayerTextView.clearFocus();
             default:
