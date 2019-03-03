@@ -1,5 +1,6 @@
 
 # Medivia-VIP-List
+[Google Play Store](https://play.google.com/store/apps/details?id=com.almyk.mediviaviplist "Google Play Store link")
 
 Medivia VIP List is an Android application for showing your VIPs' online status in the game Medivia.online
 
