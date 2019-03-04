@@ -1,8 +1,10 @@
 package com.almyk.mediviaviplist.UI;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,15 +16,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.R;
-import com.almyk.mediviaviplist.ViewModel.OnlineListViewModel;
+import com.almyk.mediviaviplist.ViewModel.MainViewModel;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private DrawerLayout mDrawer;
+    private NavigationView mNavView;
+
+    private MainViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         PreferenceManager.setDefaultValues(this, R.xml.preferences_vip_list, false);
 
         mDrawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavView = findViewById(R.id.nav_view);
+        mNavView.setNavigationItemSelectedListener(this);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -43,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        setupViewModel();
+
         if(savedInstanceState == null) {
             VipListFragment vipListFragment = VipListFragment.newInstance();
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -50,6 +59,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             fragmentTransaction.add(R.id.fragment_container, vipListFragment).commit();
         }
+    }
+
+    private void setupViewModel() {
+        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+        mViewModel.getOnlineLegacy().observe(this, new Observer<List<PlayerEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<PlayerEntity> playerEntities) {
+                mNavView.getMenu().findItem(R.id.nav_online_legacy).setTitle("Legacy (" + playerEntities.size() +")");
+            }
+        });
+
+        mViewModel.getOnlineDestiny().observe(this, new Observer<List<PlayerEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<PlayerEntity> playerEntities) {
+                mNavView.getMenu().findItem(R.id.nav_online_destiny).setTitle("Destiny (" + playerEntities.size() +")");
+            }
+        });
+
+        mViewModel.getOnlinePendulum().observe(this, new Observer<List<PlayerEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<PlayerEntity> playerEntities) {
+                mNavView.getMenu().findItem(R.id.nav_online_pendulum).setTitle("Pendulum (" + playerEntities.size() +")");
+            }
+        });
+
+        mViewModel.getOnlineProphecy().observe(this, new Observer<List<PlayerEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<PlayerEntity> playerEntities) {
+                mNavView.getMenu().findItem(R.id.nav_online_prophecy).setTitle("Prophecy (" + playerEntities.size() +")");
+            }
+        });
     }
 
     @Override
