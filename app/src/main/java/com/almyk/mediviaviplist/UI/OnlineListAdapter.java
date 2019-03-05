@@ -16,11 +16,12 @@ import android.widget.Toast;
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OnlineListAdapter extends RecyclerView.Adapter<OnlineListAdapter.OnlineListViewHolder> {
     private Context mContext;
-    private static List<PlayerEntity> mOnlineList;
+    private static List<PlayerEntity> mOnlineList = new ArrayList<>();
 
     public OnlineListAdapter(Context context) {
         this.mContext = context;

@@ -112,14 +112,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(R.id.fragment_container, new VipListFragment()).commit();
                 break;
             case R.id.nav_online_legacy:
+                showOnlineList(menuItem, "legacy");
+                break;
             case R.id.nav_online_pendulum:
+                showOnlineList(menuItem, "pendulum");
+                break;
             case R.id.nav_online_destiny:
+                showOnlineList(menuItem, "destiny");
+                break;
             case R.id.nav_online_prophecy:
-                getSupportActionBar().setTitle(menuItem.getTitle());
-                OnlineListFragment onlineListFragment = OnlineListFragment.newInstance();
-                onlineListFragment.setServer(menuItem.getTitle().toString());
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, onlineListFragment).commit();
+                showOnlineList(menuItem, "prophecy");
                 break;
             case R.id.nav_highscore_destiny:
             case R.id.nav_highscore_legacy:
@@ -138,6 +140,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showOnlineList(@NonNull MenuItem menuItem, String server) {
+        getSupportActionBar().setTitle(menuItem.getTitle());
+        OnlineListFragment onlineListFragment = OnlineListFragment.newInstance();
+        onlineListFragment.setServer(server);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, onlineListFragment).commit();
     }
 
     @Override

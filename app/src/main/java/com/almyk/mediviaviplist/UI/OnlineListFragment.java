@@ -52,9 +52,9 @@ public class OnlineListFragment extends Fragment {
         mAdapter = new OnlineListAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
-        // Fixes bug that causes app to crash when app is newly started and user quickly changes to this view
-        List<PlayerEntity> emptyList = new ArrayList<>();
-        mAdapter.setOnlineList(emptyList);
+//        // Fixes bug that causes app to crash when app is newly started and user quickly changes to this view
+//        List<PlayerEntity> emptyList = new ArrayList<>();
+//        mAdapter.setOnlineList(emptyList);
 
         return rootView;
     }
