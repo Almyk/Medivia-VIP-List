@@ -19,6 +19,7 @@ import com.almyk.mediviaviplist.Utilities.AppExecutors;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.almyk.mediviaviplist.Scraping.Scraper;
+import com.almyk.mediviaviplist.Worker.LaunchPeriodicWorkWorker;
 import com.almyk.mediviaviplist.Worker.UpdateAllHighscoresWorker;
 import com.almyk.mediviaviplist.Worker.UpdateAllPlayersWorker;
 import com.almyk.mediviaviplist.Worker.UpdateHighscoreByServerWorker;
@@ -118,10 +119,13 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 .build();
         mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, vipListPolicy, workRequest);
 
-        startPeriodicWorkers();
+        OneTimeWorkRequest launchPeriodWorkers = new OneTimeWorkRequest.Builder(LaunchPeriodicWorkWorker.class)
+                .setInitialDelay(10, TimeUnit.SECONDS)
+                .build();
+        mWorkManager.enqueue(launchPeriodWorkers);
     }
 
-    private void startPeriodicWorkers() {
+    public void startPeriodicWorkers() {
         PeriodicWorkRequest updateAllPlayersWork = new PeriodicWorkRequest.Builder(UpdateAllPlayersWorker.class, 30, TimeUnit.MINUTES)
                 .addTag(Constants.UPDATE_VIP_DETAIL_TAG)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
