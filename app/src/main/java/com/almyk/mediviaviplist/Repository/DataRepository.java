@@ -72,8 +72,6 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private long mSyncInterval;
     private boolean mDoBackgroundSync;
     private boolean mShowNotifications;
-    private long mBackgroundSyncLastSleep;
-    private long mBackgroundSyncLastCancel;
 
     private DataRepository(final AppDatabase database, Context context) {
         this.mDatabase = database;
@@ -92,8 +90,6 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mScraper = new Scraper();
         mExecutors = AppExecutors.getInstance();
         this.mContext = context;
-        this.mBackgroundSyncLastCancel = 0;
-        this.mBackgroundSyncLastSleep = 0;
 
         initializeUserPreferences(context);
         setupWorkManager();
@@ -220,18 +216,13 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
             case "bgsync_switch":
                 mDoBackgroundSync = sharedPreferences.getBoolean(key, true);
                 if(!mDoBackgroundSync) {
-                    mWorkManager.cancelUniqueWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME);
-                    mBackgroundSyncLastCancel = new Date().getTime();
+                    mWorkManager.cancelAllWork();
                     Toast.makeText(
                             mContext,
                             "Background sync turned off, to manually update pull down on vip list.",
                             Toast.LENGTH_LONG).show();
-                } else if( // if we have a sleeping thread we don't start a new one
-                        // or when app was started and sync was off, but now turned on, then we need to start new thread
-                        mBackgroundSyncLastCancel - mBackgroundSyncLastSleep > mSyncInterval || mBackgroundSyncLastCancel == 0) {
-                        initializeVipListBackgroundSync(ExistingWorkPolicy.REPLACE);
                 } else { // launch UpdatePlayerWorker and UpdateHighscoreWorker
-                    startPeriodicWorkers();
+                    initializeVipListBackgroundSync(ExistingWorkPolicy.REPLACE);
                 }
                 break;
             case "notification_switch":
@@ -362,10 +353,6 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public WorkManager getWorkManager() {
         return mWorkManager;
-    }
-
-    public void setBackgroundSyncLastSleep(long time) {
-        this.mBackgroundSyncLastSleep = time;
     }
 
     public LiveData<List<PlayerEntity>> getOnlineByServer(String server) {

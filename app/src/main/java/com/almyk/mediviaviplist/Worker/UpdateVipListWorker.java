@@ -44,7 +44,6 @@ public class UpdateVipListWorker extends Worker {
 
     private void enqueueNextRequest(DataRepository repository) {
         // Create a new work request so that we can have intervals <15m
-        repository.setBackgroundSyncLastSleep(new Date().getTime());
         Data data = new Data.Builder().putBoolean(Constants.DO_BGSYNC, repository.isDoBackgroundSync()).build();
         WorkManager workManager = repository.getWorkManager();
         Log.d(TAG, "New work scheduled");
