@@ -339,8 +339,13 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mDatabase.playerDao().delete(player);
     }
 
-    public void updatePlayerDB(PlayerEntity player) {
-        mDatabase.playerDao().update(player);
+    public void updatePlayerDB(final PlayerEntity player) {
+        mExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDatabase.playerDao().update(player);
+            }
+        });
     }
 
     public long getSyncInterval() {

@@ -128,6 +128,7 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                         menu.add(0, 1, 0,"Turn OFF Notifications").setOnMenuItemClickListener(VipListViewHolder.this);
                     }
                     menu.add(1, 2, 1, "Toggle Enemy").setOnMenuItemClickListener(VipListViewHolder.this);
+                    menu.add(2, 3, 2, "Enter Note").setOnMenuItemClickListener(VipListViewHolder.this);
                     MenuCompat.setGroupDividerEnabled(menu, true);
                 }
             });
@@ -138,6 +139,7 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             String title = item.getTitle().toString();
+            int pos = getAdapterPosition();
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
             int visibility;
             switch (title) {
@@ -159,6 +161,12 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                     } else {
                         Toast.makeText(mContext, "Remove enemy status from " + mName.getText(), Toast.LENGTH_SHORT).show();
                     }
+                    return true;
+                case "Enter Note":
+                    VipListEnterNoteDialog enterNoteDialog = VipListEnterNoteDialog.newInstance();
+                    FragmentManager fragmentManager = ((MainActivity) mContext).getSupportFragmentManager();
+                    enterNoteDialog.setPlayer(mPlayers.get(pos));
+                    enterNoteDialog.show(fragmentManager, "Enter Note");
                     return true;
                 default:
                     return false;
