@@ -119,7 +119,6 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 .build();
         mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, vipListPolicy, workRequest);
 
-        // worker that launches periodic workers
         OneTimeWorkRequest launchPeriodWorkers = new OneTimeWorkRequest.Builder(LaunchPeriodicWorkWorker.class)
                 .setInitialDelay(10, TimeUnit.SECONDS)
                 .build();
@@ -138,7 +137,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 .addTag(Constants.UPDATE_HIGHSCORES_TAG)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).setRequiresBatteryNotLow(true).build())
                 .build();
-        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, updateAllHighscoresWork);
+        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME, ExistingPeriodicWorkPolicy.KEEP, updateAllHighscoresWork);
     }
 
     private void initializeUserPreferences(Context context) {
