@@ -330,6 +330,30 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/note_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Private Note:"
+                android:textSize="18sp"
+                android:textColor="@color/red"/>
+
+            <TextView
+                android:id="@+id/tv_note"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/comment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

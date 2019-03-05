@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,11 @@ public class VipListEnterNoteDialog extends DialogFragment implements View.OnCli
 
         mDeleteBtn.setOnClickListener(this);
         mSaveBtn.setOnClickListener(this);
+
+        String note = player.getNote();
+        if(!TextUtils.isEmpty(note)) {
+            mNoteView.setText(note);
+        }
         return rootView;
     }
 
