@@ -56,6 +56,9 @@ public class PlayerEntity {
     @ColumnInfo(name = "transfer")
     private String transfer;
 
+    @ColumnInfo(name = "note")
+    private String note;
+
     @Ignore
     public PlayerEntity() {
     }
@@ -68,7 +71,7 @@ public class PlayerEntity {
         this.vocation = vocation;
     }
 
-    public PlayerEntity(@NonNull String name, String previousName, String server, String level, String vocation, boolean online, String residence, String guild, String house, String sex, String accountStatus, String comment, String lastLogin, String banishment, String transfer) {
+    public PlayerEntity(@NonNull String name, String previousName, String server, String level, String vocation, boolean online, String residence, String guild, String house, String sex, String accountStatus, String comment, String lastLogin, String banishment, String transfer, String note) {
         this.name = name;
         this.previousName = previousName;
         this.server = server;
@@ -84,6 +87,7 @@ public class PlayerEntity {
         this.lastLogin = lastLogin;
         this.banishment = banishment;
         this.transfer = transfer;
+        this.note = note;
     }
 
     public boolean isOnline() {
@@ -204,5 +208,13 @@ public class PlayerEntity {
 
     public void setTransfer(String transfer) {
         this.transfer = transfer;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

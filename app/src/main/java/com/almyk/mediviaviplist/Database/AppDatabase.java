@@ -14,7 +14,7 @@ import android.util.Log;
 @Database(entities = {PlayerEntity.class,
         HighscoreEntity.class, DeathEntity.class,
         KillEntity.class, TaskEntity.class},
-        version = 8, exportSchema = true)
+        version = 9, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
@@ -30,7 +30,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
                         .addMigrations(MIGRATION_1_2, MIGRATION_2_3,
                                 MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7,
-                                MIGRATION_7_8)
+                                MIGRATION_7_8, MIGRATION_8_9)
                         .build();
             }
         }
@@ -103,6 +103,13 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE vip_list ADD COLUMN transfer TEXT");
+        }
+    };
+
+    private static final Migration MIGRATION_8_9 = new Migration(8,9) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE vip_list ADD COLUMN note TEXT");
         }
     };
 }
