@@ -9,6 +9,7 @@ import com.almyk.mediviaviplist.MediviaVipListApp;
 import com.almyk.mediviaviplist.Repository.DataRepository;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import androidx.work.Constraints;
 import androidx.work.Data;
@@ -21,7 +22,7 @@ import androidx.work.WorkerParameters;
 
 public class UpdateVipListWorker extends Worker {
     private final static String TAG = UpdateVipListWorker.class.getSimpleName();
-    private static long mSleepTime = 60000;
+    private static long mDelay = 60000;
 
     public UpdateVipListWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -30,6 +31,7 @@ public class UpdateVipListWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
+        Log.d(TAG, "Updating VIP List");
         DataRepository repository = ((MediviaVipListApp) getApplicationContext()).getRepository();
         setSleepTime(repository.getSyncInterval());
         updateVipList(repository);
@@ -42,10 +44,7 @@ public class UpdateVipListWorker extends Worker {
 
     private void enqueueNextRequest(DataRepository repository) {
         // Create a new work request so that we can have intervals <15m
-        Log.d(TAG, "Sleeping for: " + mSleepTime);
         repository.setBackgroundSyncLastSleep(new Date().getTime());
-        sleep();
-        Log.d(TAG, "Waking up");
         Data data = new Data.Builder().putBoolean(Constants.DO_BGSYNC, repository.isDoBackgroundSync()).build();
         WorkManager workManager = repository.getWorkManager();
         Log.d(TAG, "New work scheduled");
@@ -53,17 +52,9 @@ public class UpdateVipListWorker extends Worker {
                 .addTag(Constants.UPDATE_VIP_LIST_TAG)
                 .setInputData(data)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                .setInitialDelay(mDelay, TimeUnit.MILLISECONDS)
                 .build();
         workManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, ExistingWorkPolicy.APPEND, workRequest);
-    }
-
-    private void sleep() {
-        try {
-            Thread.sleep(mSleepTime, 0);
-        } catch (InterruptedException e) {
-            Log.d(TAG, "Could not sleep thread");
-            e.printStackTrace();
-        }
     }
 
     private void updateVipList(DataRepository repository) {
@@ -75,6 +66,6 @@ public class UpdateVipListWorker extends Worker {
     }
 
     public void setSleepTime(long SleepTime) {
-        this.mSleepTime = SleepTime;
+        this.mDelay = SleepTime;
     }
 }
