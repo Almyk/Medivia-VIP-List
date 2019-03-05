@@ -27,6 +27,8 @@ public class UpdatePlayerWorker extends Worker {
         String name = getInputData().getString(Constants.UPDATE_PLAYER_KEY);
         PlayerEntity player = mRepository.getPlayerEntityWeb(name);
         if(player != null) {
+            PlayerEntity oldPlayer = mRepository.getPlayerDB(name);
+            player.setNote(oldPlayer.getNote());
             mRepository.updatePlayerDB(player);
             return Result.success();
         }
