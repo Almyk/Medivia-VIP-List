@@ -1,0 +1,161 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 5,
+    "identityHash": "a7f80cb50ac8baa48b95497daef3497b",
+    "entities": [
+      {
+        "tableName": "vip_list",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`player_name` TEXT NOT NULL, `previous_name` TEXT, `server_name` TEXT, `level` TEXT, `vocation` TEXT, `online` INTEGER NOT NULL, `residence` TEXT, `guild` TEXT, `house` TEXT, `sex` TEXT, `account_status` TEXT, `comment` TEXT, `last_login` TEXT, PRIMARY KEY(`player_name`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "player_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "previousName",
+            "columnName": "previous_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "server",
+            "columnName": "server_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "level",
+            "columnName": "level",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vocation",
+            "columnName": "vocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "online",
+            "columnName": "online",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "residence",
+            "columnName": "residence",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "guild",
+            "columnName": "guild",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "house",
+            "columnName": "house",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sex",
+            "columnName": "sex",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountStatus",
+            "columnName": "account_status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "comment",
+            "columnName": "comment",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastLogin",
+            "columnName": "last_login",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "player_name"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "highscore_list",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`server_skill_voc_rank_key` TEXT NOT NULL, `server` TEXT, `skill` TEXT, `rank` INTEGER NOT NULL, `name` TEXT, `vocation` TEXT, `value` TEXT, PRIMARY KEY(`server_skill_voc_rank_key`))",
+        "fields": [
+          {
+            "fieldPath": "serverSkillVocRankKey",
+            "columnName": "server_skill_voc_rank_key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "server",
+            "columnName": "server",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "skill",
+            "columnName": "skill",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rank",
+            "columnName": "rank",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vocation",
+            "columnName": "vocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "server_skill_voc_rank_key"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a7f80cb50ac8baa48b95497daef3497b\")"
+    ]
+  }
+}
