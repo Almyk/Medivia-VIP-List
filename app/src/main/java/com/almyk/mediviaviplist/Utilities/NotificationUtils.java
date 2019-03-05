@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -51,7 +50,7 @@ public class NotificationUtils{
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, LOGIN_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle(Constants.NOTIFICATION_TITLE)
+                .setContentTitle(Constants.LOGIN_NOTIFICATION_TITLE + server.toUpperCase())
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
