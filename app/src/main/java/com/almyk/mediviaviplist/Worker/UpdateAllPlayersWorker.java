@@ -26,10 +26,14 @@ public class UpdateAllPlayersWorker extends Worker {
     public Result doWork() {
         List<PlayerEntity> players = mRepository.getVipList().getValue();
 
-        for(PlayerEntity player : players) {
-            mRepository.updatePlayer(player.getName());
-        }
+        if(players != null) {
+            for (PlayerEntity player : players) {
+                mRepository.updatePlayer(player.getName());
+            }
 
-        return Result.success();
+            return Result.success();
+        } else {
+            return Result.failure();
+        }
     }
 }
