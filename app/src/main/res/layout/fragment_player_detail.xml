@@ -390,7 +390,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:padding="4dp"/>
 
         <TextView
             android:id="@+id/tv_highscore_voc"
@@ -405,7 +406,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:padding="4dp"/>
 
         <Button
             android:id="@+id/btn_more_details"

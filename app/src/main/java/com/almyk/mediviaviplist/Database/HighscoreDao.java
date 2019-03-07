@@ -24,10 +24,10 @@ public interface HighscoreDao {
     @Query("SELECT * FROM highscore_list WHERE name = :name")
     List<HighscoreEntity> getEntryByName(String name);
 
-    @Query("SELECT * FROM highscore_list WHERE name = :name AND vocation = :voc")
+    @Query("SELECT * FROM highscore_list WHERE name = :name AND vocation = :voc ORDER BY rank ASC")
     List<HighscoreEntity> getEntryByNameVoc(String name, String voc);
 
-    @Query("SELECT * FROM highscore_list WHERE name = :name AND vocation != :voc")
+    @Query("SELECT * FROM highscore_list WHERE name = :name AND vocation != :voc ORDER BY rank ASC")
     List<HighscoreEntity> getEntryByNameNotVoc(String name, String voc);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
