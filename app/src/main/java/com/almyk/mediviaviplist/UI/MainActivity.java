@@ -19,6 +19,7 @@ import android.view.MenuItem;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.R;
+import com.almyk.mediviaviplist.UI.VipList.VipListFragment;
 import com.almyk.mediviaviplist.ViewModel.MainViewModel;
 
 import java.util.List;

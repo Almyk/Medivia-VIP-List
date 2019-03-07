@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".UI.PlayerDetailDialogFragment"
+        tools:context=".UI.VipList.PlayerDetailDialogFragment"
         android:orientation="vertical"
         android:clickable="true"
         android:id="@+id/top_container"

@@ -1,4 +1,4 @@
-package com.almyk.mediviaviplist.UI;
+package com.almyk.mediviaviplist.UI.VipList;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -16,7 +16,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,7 +33,6 @@ import com.almyk.mediviaviplist.R;
 import com.almyk.mediviaviplist.UI.Settings.SettingsActivity;
 import com.almyk.mediviaviplist.Utilities.EditTextBackEvent;
 import com.almyk.mediviaviplist.ViewModel.VipListViewModel;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 

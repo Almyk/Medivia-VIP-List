@@ -1,4 +1,4 @@
-package com.almyk.mediviaviplist.UI;
+package com.almyk.mediviaviplist.UI.VipList;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.R;
+import com.almyk.mediviaviplist.UI.MainActivity;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.almyk.mediviaviplist.UI;
+package com.almyk.mediviaviplist.UI.VipList;
 
 
 import android.graphics.Color;
@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.R;
+import com.almyk.mediviaviplist.UI.SearchCharacterFragment;
 
 /**
  * A simple {@link Fragment} subclass.
