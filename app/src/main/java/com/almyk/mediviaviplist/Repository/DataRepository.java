@@ -33,6 +33,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import androidx.work.Constraints;
@@ -404,6 +405,10 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
             @Override
             public void run() {
                 Player player = getPlayerWeb(name);
+                List<HighscoreEntity> highscores = mDatabase.highscoreDao().getEntryByName(name);
+                for(HighscoreEntity highscore : highscores) {
+                    player.addHighScore(highscore);
+                }
                 mSearchCharacter.postValue(player);
             }
         });

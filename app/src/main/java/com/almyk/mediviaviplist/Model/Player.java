@@ -1,10 +1,14 @@
 package com.almyk.mediviaviplist.Model;
 
+import android.text.TextUtils;
+
 import com.almyk.mediviaviplist.Database.DeathEntity;
+import com.almyk.mediviaviplist.Database.HighscoreEntity;
 import com.almyk.mediviaviplist.Database.KillEntity;
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.Database.TaskEntity;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Player {
@@ -12,6 +16,7 @@ public class Player {
     private List<DeathEntity> deaths;
     private List<KillEntity> kills;
     private List<TaskEntity> tasks;
+    private HashMap<String, String> highscores;
 
     public Player() {
     }
@@ -57,5 +62,24 @@ public class Player {
 
     public String getPlayerName() {
         return this.playerEntity.getName();
+    }
+
+    public HashMap<String, String> getHighscores() {
+        return highscores;
+    }
+
+    public void setHighscores(HashMap<String, String> highscores) {
+        this.highscores = highscores;
+    }
+
+    public void addHighScore(HighscoreEntity highscore) {
+        if(this.highscores == null) {
+            this.highscores = new HashMap<>();
+        }
+        String skill = highscore.getSkill();
+        String rank = ""+highscore.getRank();
+        String value = highscore.getValue();
+
+        this.highscores.put(skill, value+" (#"+rank+")");
     }
 }

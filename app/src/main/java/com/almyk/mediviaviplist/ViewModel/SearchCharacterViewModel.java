@@ -9,6 +9,9 @@ import com.almyk.mediviaviplist.MediviaVipListApp;
 import com.almyk.mediviaviplist.Model.Player;
 import com.almyk.mediviaviplist.Repository.DataRepository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SearchCharacterViewModel extends AndroidViewModel {
     private DataRepository mRepository;
 
@@ -28,7 +31,6 @@ public class SearchCharacterViewModel extends AndroidViewModel {
         String tmpName = name.trim();
         mRepository.searchPlayer(tmpName);
     }
-
 
     public void addVip(String name) {
         mRepository.addPlayer(name);
