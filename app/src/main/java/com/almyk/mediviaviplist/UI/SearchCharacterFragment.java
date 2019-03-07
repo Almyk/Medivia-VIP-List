@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.DeathEntity;
+import com.almyk.mediviaviplist.Database.HighscoreEntity;
 import com.almyk.mediviaviplist.Database.KillEntity;
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.Database.TaskEntity;
@@ -64,11 +65,17 @@ public class SearchCharacterFragment extends Fragment
     private TextView mKillListTextView;
     private TextView mTaskListTextView;
     private TextView mTransferView;
+    private TextView mHighscoresAllView;
+    private TextView mHighscoresVocView;
 
+    private RecyclerView mHighscoresAllRecycler;
+    private RecyclerView mHighscoresVocRecycler;
     private RecyclerView mDeathListRecycler;
     private RecyclerView mKillListRecycler;
     private RecyclerView mTaskListRecycler;
 
+    private PlayerHighscoreAdapter mHighscoresAllAdapter;
+    private PlayerHighscoreAdapter mHighscoresVocAdapter;
     private DeathListAdapter mDeathListAdapter;
     private KillListAdapter mKillListAdapter;
     private TaskListAdapter mTaskListAdapter;
@@ -138,6 +145,8 @@ public class SearchCharacterFragment extends Fragment
         mKillListTextView = rootView.findViewById(R.id.tv_kill_list);
         mTaskListTextView = rootView.findViewById(R.id.tv_task_list);
         mTransferView = rootView.findViewById(R.id.tv_transfer);
+        mHighscoresAllView = rootView.findViewById(R.id.tv_highscore_all);
+        mHighscoresVocView = rootView.findViewById(R.id.tv_highscore_voc);
 
         setupRecyclerViews(rootView);
 
@@ -145,6 +154,18 @@ public class SearchCharacterFragment extends Fragment
     }
 
     private void setupRecyclerViews(View rootView) {
+        mHighscoresAllRecycler = rootView.findViewById(R.id.list_highscores_all);
+        mHighscoresAllRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mHighscoresAllRecycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        mHighscoresAllAdapter = new PlayerHighscoreAdapter(getActivity());
+        mHighscoresAllRecycler.setAdapter(mHighscoresAllAdapter);
+
+        mHighscoresVocRecycler = rootView.findViewById(R.id.list_highscores_voc);
+        mHighscoresVocRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mHighscoresVocRecycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        mHighscoresVocAdapter = new PlayerHighscoreAdapter(getActivity());
+        mHighscoresVocRecycler.setAdapter(mHighscoresVocAdapter);
+
         mDeathListRecycler = rootView.findViewById(R.id.rv_death_list);
         mDeathListRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         mDeathListRecycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
@@ -228,9 +249,32 @@ public class SearchCharacterFragment extends Fragment
 
     private void populateView(Player player) {
         populatePlayerEntity(player);
+        populateHighscores(player);
         populateDeathList(player);
         populateKillList(player);
         populateTaskList(player);
+    }
+
+    private void populateHighscores(Player player) {
+        List<HighscoreEntity> highscoresAll = player.getHighscoresAll();
+        if(highscoresAll != null && !highscoresAll.isEmpty()) {
+            mHighscoresAllRecycler.setVisibility(View.VISIBLE);
+            mHighscoresAllView.setVisibility(View.VISIBLE);
+            mHighscoresAllAdapter.setHighscores(highscoresAll);
+        } else {
+            mHighscoresAllRecycler.setVisibility(View.GONE);
+            mHighscoresAllView.setVisibility(View.GONE);
+        }
+
+        List<HighscoreEntity> highscoresVoc = player.getHighscoresVoc();
+        if(highscoresVoc != null && !highscoresVoc.isEmpty()) {
+            mHighscoresVocRecycler.setVisibility(View.VISIBLE);
+            mHighscoresVocView.setVisibility(View.VISIBLE);
+            mHighscoresVocAdapter.setHighscores(highscoresVoc);
+        } else {
+            mHighscoresVocRecycler.setVisibility(View.GONE);
+            mHighscoresVocView.setVisibility(View.GONE);
+        }
     }
 
     private void populateDeathList(Player player) {

@@ -24,6 +24,12 @@ public interface HighscoreDao {
     @Query("SELECT * FROM highscore_list WHERE name = :name")
     List<HighscoreEntity> getEntryByName(String name);
 
+    @Query("SELECT * FROM highscore_list WHERE name = :name AND vocation = :voc")
+    List<HighscoreEntity> getEntryByNameVoc(String name, String voc);
+
+    @Query("SELECT * FROM highscore_list WHERE name = :name AND vocation != :voc")
+    List<HighscoreEntity> getEntryByNameNotVoc(String name, String voc);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(HighscoreEntity highscore);
 

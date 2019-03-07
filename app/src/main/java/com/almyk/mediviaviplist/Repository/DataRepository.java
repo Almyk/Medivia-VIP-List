@@ -30,10 +30,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import androidx.work.Constraints;
@@ -405,11 +403,21 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
             @Override
             public void run() {
                 Player player = getPlayerWeb(name);
-                List<HighscoreEntity> highscores = mDatabase.highscoreDao().getEntryByName(name);
-                for(HighscoreEntity highscore : highscores) {
-                    player.addHighScore(highscore);
+                if(player != null) {
+                    List<HighscoreEntity> highscoresAll = mDatabase.highscoreDao()
+                            .getEntryByNameVoc(player.getPlayerName(), "all");
+
+                    player.setHighscoresAll(highscoresAll);
+
+                    List<HighscoreEntity> highscoresVoc = mDatabase.highscoreDao()
+                            .getEntryByNameNotVoc(player.getPlayerName(), "all");
+
+                    player.setHighscoresVoc(highscoresVoc);
+
+                    mSearchCharacter.postValue(player);
+                } else {
+                    Toast.makeText(mContext, "Not able to connect toe the internet", Toast.LENGTH_LONG).show();
                 }
-                mSearchCharacter.postValue(player);
             }
         });
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -377,6 +377,36 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_highscore_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Highscores:"
+            android:textSize="18sp"
+            android:visibility="gone"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_highscores_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_highscore_voc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Highscores by Vocation:"
+            android:textSize="18sp"
+            android:visibility="gone"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_highscores_voc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone"/>
+
         <Button
             android:id="@+id/btn_more_details"
             android:layout_width="match_parent"
@@ -387,4 +417,4 @@
 
     </LinearLayout>
 
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

@@ -79,7 +79,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="To see highscores press the refresh button in the upper right corner"
+            android:text="To see highscoresAll press the refresh button in the upper right corner"
             android:textSize="20sp"
             android:textAlignment="center"
             android:layout_gravity="center_horizontal|center_vertical"
