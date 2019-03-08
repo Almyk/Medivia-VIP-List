@@ -1,5 +1,6 @@
 package com.almyk.mediviaviplist.Scraping;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.almyk.mediviaviplist.Database.DeathEntity;
@@ -232,8 +233,12 @@ public class Scraper {
                     String ban = elements.get(i+1).child(0).attr("title");
                     int pos = ban.indexOf("-");
                     Log.d(TAG, ban + " " + pos);
-                    if(pos > 0) {
-                        value = ban.substring(0, pos - 1);
+                    if(!TextUtils.isEmpty(ban)) {
+                        if(pos > 0) {
+                            value = ban.substring(0, pos - 1);
+                        } else {
+                            value = ban;
+                        }
                     }
                     player.setBanishment(value);
                     break;
