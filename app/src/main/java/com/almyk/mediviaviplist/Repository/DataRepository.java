@@ -403,7 +403,11 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
             @Override
             public void run() {
                 Player player = getPlayerWeb(name);
-                if(player != null) {
+                if(player == null) {
+                    player = new Player();
+                    player.setPlayerEntity(getPlayerDB(name));
+                }
+                if(player.getPlayerEntity() != null) {
                     List<HighscoreEntity> highscoresAll = mDatabase.highscoreDao()
                             .getEntryByNameVoc(player.getPlayerName(), "all");
 
@@ -416,7 +420,8 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
                     mSearchCharacter.postValue(player);
                 } else {
-                    Toast.makeText(mContext, "Not able to connect toe the internet", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Not able to connect to the internet", Toast.LENGTH_LONG).show();
+                    mSearchCharacter.postValue(new Player());
                 }
             }
         });
