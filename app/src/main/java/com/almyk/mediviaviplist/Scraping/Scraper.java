@@ -229,6 +229,12 @@ public class Scraper {
                     player.setAccountStatus(value);
                     break;
                 case "banishment:":
+                    String ban = elements.get(i+1).child(0).attr("title");
+                    int pos = ban.indexOf("-");
+                    Log.d(TAG, ban + " " + pos);
+                    if(pos > 0) {
+                        value = ban.substring(0, pos - 1);
+                    }
                     player.setBanishment(value);
                     break;
                 case "transfer:":
