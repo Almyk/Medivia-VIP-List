@@ -113,16 +113,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(R.id.fragment_container, new VipListFragment()).commit();
                 break;
             case R.id.nav_online_legacy:
-                showOnlineList(menuItem, "legacy");
+                showOnlineList(menuItem, "Legacy");
                 break;
             case R.id.nav_online_pendulum:
-                showOnlineList(menuItem, "pendulum");
+                showOnlineList(menuItem, "Pendulum");
                 break;
             case R.id.nav_online_destiny:
-                showOnlineList(menuItem, "destiny");
+                showOnlineList(menuItem, "Destiny");
                 break;
             case R.id.nav_online_prophecy:
-                showOnlineList(menuItem, "prophecy");
+                showOnlineList(menuItem, "Prophecy");
                 break;
             case R.id.nav_highscore_destiny:
             case R.id.nav_highscore_legacy:

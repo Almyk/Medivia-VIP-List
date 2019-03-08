@@ -67,7 +67,7 @@ public class OnlineListFragment extends Fragment {
 
     private void setupViewModel() {
         mViewModel = ViewModelProviders.of(this).get(OnlineListViewModel.class);
-        mViewModel.init(mServer);
+        mViewModel.init(mServer.toLowerCase());
 
         mViewModel.getOnlineList().observe(this, new Observer<List<PlayerEntity>>() {
             @Override
