@@ -420,8 +420,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
                     mSearchCharacter.postValue(player);
                 } else {
-                    Toast.makeText(mContext, "Not able to connect to the internet", Toast.LENGTH_LONG).show();
-                    mSearchCharacter.postValue(new Player());
+                    mSearchCharacter.postValue(null);
                 }
             }
         });

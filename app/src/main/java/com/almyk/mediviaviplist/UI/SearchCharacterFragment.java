@@ -240,7 +240,8 @@ public class SearchCharacterFragment extends Fragment
                 } else {
                     mProgressBar.setVisibility(View.GONE);
                     mPlayerContainer.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "Could not find player '" +mName+"'", Toast.LENGTH_SHORT).show();;
+                    Toast.makeText(getActivity(), "Could not find player '" +mName+"'." +
+                            " Check your spelling or internet and try again.", Toast.LENGTH_LONG).show();
                     mNameEditTextView.requestFocus();
                 }
             }
