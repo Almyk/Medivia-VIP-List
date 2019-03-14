@@ -56,8 +56,9 @@
                 <ImageView
                     android:id="@+id/ic_red_arrow"
                     android:visibility="gone"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:src="@drawable/ic_arrow_drop_down_red_24dp"/>
                 <ImageView
                     android:id="@+id/ic_dash"
@@ -69,14 +70,17 @@
                 <ImageView
                     android:id="@+id/ic_green_arrow"
                     android:visibility="gone"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:src="@drawable/ic_arrow_drop_up_green_24dp"/>
                 <TextView
                     android:id="@+id/tv_lv_prog"
                     android:visibility="gone"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
                     tools:text="99"/>
 
             </LinearLayout>
