@@ -5,7 +5,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(tableName = "level_progession")
+@Entity(tableName = "level_progression")
 public class LevelProgressionEntity {
     @PrimaryKey
     @NonNull
