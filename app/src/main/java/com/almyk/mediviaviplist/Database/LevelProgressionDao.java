@@ -7,15 +7,13 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import java.util.List;
-
 @Dao
 public interface LevelProgressionDao {
     @Query("SELECT :day FROM level_progression WHERE name = :name")
     String getPlayerProgression(String name, String day);
 
     @Query("SELECT * FROM level_progression WHERE name = :name")
-    List<String> getPlayerProgressionRow(String name);
+    LevelProgressionEntity getPlayerProgressionRow(String name);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(LevelProgressionEntity progression);

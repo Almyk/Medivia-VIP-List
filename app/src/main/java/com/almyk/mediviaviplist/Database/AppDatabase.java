@@ -30,7 +30,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
                         .addMigrations(MIGRATION_1_2, MIGRATION_2_3,
                                 MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7,
-                                MIGRATION_7_8, MIGRATION_8_9)
+                                MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10)
                         .build();
             }
         }
@@ -43,6 +43,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DeathDao deathDao();
     public abstract KillDao killDao();
     public abstract TaskDao taskDao();
+    public abstract LevelProgressionDao progDao();
 
     private static final Migration MIGRATION_1_2 = new Migration(1,2) {
         @Override
@@ -110,6 +111,16 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE vip_list ADD COLUMN note TEXT");
+        }
+    };
+
+    private static final Migration MIGRATION_9_10 = new Migration(9,10) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `level_progression` (`name` TEXT NOT NULL, `one` TEXT, `two` TEXT, `three` TEXT, `four` TEXT, `five` TEXT, `six` TEXT, `seven` TEXT, PRIMARY KEY(`name`))");
+            database.execSQL("INSERT INTO `level_progression`(`one`, `two`, `three`, `four`, `five`, `six`, `seven`) " +
+                    "SELECT `level`, `level`, `level`, `level`, `level`, `level`, `level` " +
+                    "FROM `vip_list`");
         }
     };
 }
