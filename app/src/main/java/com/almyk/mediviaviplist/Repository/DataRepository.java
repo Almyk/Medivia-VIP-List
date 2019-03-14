@@ -408,6 +408,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         if(lvProg == null) {
             lvProg = new LevelProgressionEntity(name, level, level, level, level, level, level, level);
             mDatabase.progDao().insert(lvProg);
+            Log.d(TAG, "New progression insert for " + name);
         } else {
 
             Calendar calendar = Calendar.getInstance();
@@ -418,22 +419,22 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                     lvProg.setOne(level);
                     break;
                 case 2:
-                    lvProg.setOne(level);
+                    lvProg.setTwo(level);
                     break;
                 case 3:
-                    lvProg.setOne(level);
+                    lvProg.setThree(level);
                     break;
                 case 4:
-                    lvProg.setOne(level);
+                    lvProg.setFour(level);
                     break;
                 case 5:
-                    lvProg.setOne(level);
+                    lvProg.setFive(level);
                     break;
                 case 6:
-                    lvProg.setOne(level);
+                    lvProg.setSix(level);
                     break;
                 case 7:
-                    lvProg.setOne(level);
+                    lvProg.setSeven(level);
                     break;
             }
 
