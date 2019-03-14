@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -65,13 +66,22 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
             holder.mOnline.setTextColor(Color.RED);
         }
 
-        holder.mLevelProg.setText(lvProg);
-        if(Integer.parseInt(lvProg) >= 0) {
-            holder.mGreenArrowIcon.setVisibility(View.VISIBLE);
-            holder.mRedArrowIcon.setVisibility(View.GONE);
-        } else {
-            holder.mRedArrowIcon.setVisibility(View.VISIBLE);
-            holder.mGreenArrowIcon.setVisibility(View.GONE);
+        if(!TextUtils.isEmpty(lvProg)) {
+            holder.mLevelProg.setText(lvProg);
+            int prog = Integer.parseInt(lvProg);
+            if (prog > 0) {
+                holder.mGreenArrowIcon.setVisibility(View.VISIBLE);
+                holder.mRedArrowIcon.setVisibility(View.GONE);
+                holder.mDashIcon.setVisibility(View.GONE);
+            } else if(prog < 0) {
+                holder.mRedArrowIcon.setVisibility(View.VISIBLE);
+                holder.mGreenArrowIcon.setVisibility(View.GONE);
+                holder.mDashIcon.setVisibility(View.GONE);
+            } else {
+                holder.mRedArrowIcon.setVisibility(View.GONE);
+                holder.mGreenArrowIcon.setVisibility(View.GONE);
+                holder.mDashIcon.setVisibility(View.VISIBLE);
+            }
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -120,6 +130,7 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
         private boolean isEnemy;
         private ImageView mRedArrowIcon;
         private ImageView mGreenArrowIcon;
+        private ImageView mDashIcon;
         private TextView mLevelProg;
 
 
@@ -134,6 +145,7 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
             mRedskullIcon = itemView.findViewById(R.id.ic_red_skull);
             mRedArrowIcon = itemView.findViewById(R.id.ic_red_arrow);
             mGreenArrowIcon = itemView.findViewById(R.id.ic_green_arrow);
+            mDashIcon = itemView.findViewById(R.id.ic_dash);
             mLevelProg = itemView.findViewById(R.id.tv_lv_prog);
 
 

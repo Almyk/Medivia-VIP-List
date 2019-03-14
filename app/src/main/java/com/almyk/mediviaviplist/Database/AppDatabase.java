@@ -118,8 +118,8 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE IF NOT EXISTS `level_progression` (`name` TEXT NOT NULL, `one` TEXT, `two` TEXT, `three` TEXT, `four` TEXT, `five` TEXT, `six` TEXT, `seven` TEXT, PRIMARY KEY(`name`))");
-            database.execSQL("INSERT INTO `level_progression`(`one`, `two`, `three`, `four`, `five`, `six`, `seven`) " +
-                    "SELECT `level`, `level`, `level`, `level`, `level`, `level`, `level` " +
+            database.execSQL("INSERT INTO `level_progression`(`name`, `one`, `two`, `three`, `four`, `five`, `six`, `seven`) " +
+                    "SELECT `player_name`, `level`, `level`, `level`, `level`, `level`, `level`, `level` " +
                     "FROM `vip_list`");
             database.execSQL("ALTER TABLE vip_list ADD COLUMN lv_prog TEXT");
         }
