@@ -73,13 +73,16 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
                 holder.mGreenArrowIcon.setVisibility(View.VISIBLE);
                 holder.mRedArrowIcon.setVisibility(View.GONE);
                 holder.mDashIcon.setVisibility(View.GONE);
+                holder.mLevelProg.setVisibility(View.VISIBLE);
             } else if(prog < 0) {
                 holder.mRedArrowIcon.setVisibility(View.VISIBLE);
                 holder.mGreenArrowIcon.setVisibility(View.GONE);
                 holder.mDashIcon.setVisibility(View.GONE);
+                holder.mLevelProg.setVisibility(View.VISIBLE);
             } else {
                 holder.mRedArrowIcon.setVisibility(View.GONE);
                 holder.mGreenArrowIcon.setVisibility(View.GONE);
+                holder.mLevelProg.setVisibility(View.GONE);
                 holder.mDashIcon.setVisibility(View.VISIBLE);
             }
         }
