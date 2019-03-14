@@ -43,7 +43,29 @@
                     android:id="@+id/tv_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="level"/>
+                    tools:text="300"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3">
+
+                <ImageView
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_drop_down_red_24dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_drop_up_green_24dp"/>
+                <TextView
+                    android:id="@+id/tv_lv_prog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="99"/>
 
             </LinearLayout>
 
@@ -51,7 +73,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="2dp">
 
                 <TextView
                     android:layout_width="wrap_content"
