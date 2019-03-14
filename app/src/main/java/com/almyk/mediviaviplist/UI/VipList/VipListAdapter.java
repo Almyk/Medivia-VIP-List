@@ -51,6 +51,7 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
         String vocation = player.getVocation();
         String server = player.getServer();
         boolean online = player.isOnline();
+        String lvProg = player.getLevelProgression();
 
         holder.mName.setText(name);
         holder.mLevel.setText(level);
@@ -62,6 +63,15 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
         } else {
             holder.mOnline.setText("Offline");
             holder.mOnline.setTextColor(Color.RED);
+        }
+
+        holder.mLevelProg.setText(lvProg);
+        if(Integer.parseInt(lvProg) >= 0) {
+            holder.mGreenArrowIcon.setVisibility(View.VISIBLE);
+            holder.mRedArrowIcon.setVisibility(View.GONE);
+        } else {
+            holder.mRedArrowIcon.setVisibility(View.VISIBLE);
+            holder.mGreenArrowIcon.setVisibility(View.GONE);
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -108,6 +118,9 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
         private ImageView mRedskullIcon;
         private boolean isMuted;
         private boolean isEnemy;
+        private ImageView mRedArrowIcon;
+        private ImageView mGreenArrowIcon;
+        private TextView mLevelProg;
 
 
         public VipListViewHolder(@NonNull View itemView) {
@@ -119,6 +132,10 @@ public class VipListAdapter extends RecyclerView.Adapter<VipListAdapter.VipListV
             mOnline = itemView.findViewById(R.id.tv_online);
             mMutedIcon = itemView.findViewById(R.id.ic_muted);
             mRedskullIcon = itemView.findViewById(R.id.ic_red_skull);
+            mRedArrowIcon = itemView.findViewById(R.id.ic_red_arrow);
+            mGreenArrowIcon = itemView.findViewById(R.id.ic_green_arrow);
+            mLevelProg = itemView.findViewById(R.id.tv_lv_prog);
+
 
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
                 @Override
