@@ -13,8 +13,8 @@ import android.util.Log;
 
 @Database(entities = {PlayerEntity.class,
         HighscoreEntity.class, DeathEntity.class,
-        KillEntity.class, TaskEntity.class},
-        version = 9, exportSchema = true)
+        KillEntity.class, TaskEntity.class, LevelProgressionEntity.class},
+        version = 10, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
