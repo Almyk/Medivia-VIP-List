@@ -59,6 +59,9 @@ public class PlayerEntity {
     @ColumnInfo(name = "note")
     private String note;
 
+    @ColumnInfo(name = "lv_prog")
+    private String levelProgression;
+
     @Ignore
     public PlayerEntity() {
     }
@@ -71,7 +74,7 @@ public class PlayerEntity {
         this.vocation = vocation;
     }
 
-    public PlayerEntity(@NonNull String name, String previousName, String server, String level, String vocation, boolean online, String residence, String guild, String house, String sex, String accountStatus, String comment, String lastLogin, String banishment, String transfer, String note) {
+    public PlayerEntity(@NonNull String name, String previousName, String server, String level, String vocation, boolean online, String residence, String guild, String house, String sex, String accountStatus, String comment, String lastLogin, String banishment, String transfer, String note, String levelProgression) {
         this.name = name;
         this.previousName = previousName;
         this.server = server;
@@ -88,6 +91,7 @@ public class PlayerEntity {
         this.banishment = banishment;
         this.transfer = transfer;
         this.note = note;
+        this.levelProgression = levelProgression;
     }
 
     public boolean isOnline() {
@@ -216,5 +220,13 @@ public class PlayerEntity {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getLevelProgression() {
+        return levelProgression;
+    }
+
+    public void setLevelProgression(String levelProgression) {
+        this.levelProgression = levelProgression;
     }
 }

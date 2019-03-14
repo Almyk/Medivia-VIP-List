@@ -121,6 +121,7 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("INSERT INTO `level_progression`(`one`, `two`, `three`, `four`, `five`, `six`, `seven`) " +
                     "SELECT `level`, `level`, `level`, `level`, `level`, `level`, `level` " +
                     "FROM `vip_list`");
+            database.execSQL("ALTER TABLE vip_list ADD COLUMN lv_prog TEXT");
         }
     };
 }
