@@ -12,6 +12,7 @@ import com.almyk.mediviaviplist.Database.AppDatabase;
 import com.almyk.mediviaviplist.Database.DeathEntity;
 import com.almyk.mediviaviplist.Database.HighscoreEntity;
 import com.almyk.mediviaviplist.Database.KillEntity;
+import com.almyk.mediviaviplist.Database.LevelProgressionEntity;
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.Database.TaskEntity;
 import com.almyk.mediviaviplist.Model.Player;
@@ -27,9 +28,11 @@ import com.almyk.mediviaviplist.Worker.UpdatePlayerWorker;
 import com.almyk.mediviaviplist.Worker.UpdateVipListWorker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -342,9 +345,100 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
+                updateLevelProgression(player);
+                String lvProg = getLevelProgression(player.getName());
+                player.setLevelProgression(lvProg);
                 mDatabase.playerDao().update(player);
             }
         });
+    }
+
+    private String getLevelProgression(String name) {
+        String lvProg;
+        int currLv = 0;
+        int oldLv = 0;
+
+        LevelProgressionEntity progression = mDatabase.progDao().getPlayerProgressionRow(name);
+
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+
+        switch (calendar.get(calendar.DAY_OF_WEEK)) {
+            case 1:
+                currLv = Integer.parseInt(progression.getOne());
+                oldLv = Integer.parseInt(progression.getTwo());
+                break;
+            case 2:
+                currLv = Integer.parseInt(progression.getTwo());
+                oldLv = Integer.parseInt(progression.getThree());
+                break;
+            case 3:
+                currLv = Integer.parseInt(progression.getThree());
+                oldLv = Integer.parseInt(progression.getFour());
+                break;
+            case 4:
+                currLv = Integer.parseInt(progression.getFour());
+                oldLv = Integer.parseInt(progression.getFive());
+                break;
+            case 5:
+                currLv = Integer.parseInt(progression.getFive());
+                oldLv = Integer.parseInt(progression.getSix());
+                break;
+            case 6:
+                currLv = Integer.parseInt(progression.getSix());
+                oldLv = Integer.parseInt(progression.getSeven());
+                break;
+            case 7:
+                currLv = Integer.parseInt(progression.getSeven());
+                oldLv = Integer.parseInt(progression.getOne());
+                break;
+        }
+
+        lvProg = Integer.toString((currLv - oldLv));
+
+        return lvProg;
+    }
+
+    private void updateLevelProgression(PlayerEntity player) {
+        String level = player.getLevel();
+        String name = player.getName();
+        LevelProgressionEntity lvProg = mDatabase.progDao().getPlayerProgressionRow(name);
+
+        if(lvProg == null) {
+            lvProg = new LevelProgressionEntity(name, level, level, level, level, level, level, level);
+            mDatabase.progDao().insert(lvProg);
+        } else {
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+
+            switch (calendar.get(calendar.DAY_OF_WEEK)) {
+                case 1:
+                    lvProg.setOne(level);
+                    break;
+                case 2:
+                    lvProg.setOne(level);
+                    break;
+                case 3:
+                    lvProg.setOne(level);
+                    break;
+                case 4:
+                    lvProg.setOne(level);
+                    break;
+                case 5:
+                    lvProg.setOne(level);
+                    break;
+                case 6:
+                    lvProg.setOne(level);
+                    break;
+                case 7:
+                    lvProg.setOne(level);
+                    break;
+            }
+
+            mDatabase.progDao().update(lvProg);
+        }
     }
 
     public long getSyncInterval() {
