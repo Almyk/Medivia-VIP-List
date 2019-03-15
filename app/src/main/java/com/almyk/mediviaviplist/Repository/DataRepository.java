@@ -131,7 +131,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, updateAllPlayersWork);
 
 //        mWorkManager.cancelUniqueWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME); // for debug
-        PeriodicWorkRequest updateAllHighscoresWork = new PeriodicWorkRequest.Builder(UpdateAllHighscoresWorker.class, 6, TimeUnit.HOURS)
+        PeriodicWorkRequest updateAllHighscoresWork = new PeriodicWorkRequest.Builder(UpdateAllHighscoresWorker.class, 2, TimeUnit.HOURS)
                 .addTag(Constants.UPDATE_HIGHSCORES_TAG)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).setRequiresBatteryNotLow(true).build())
                 .build();
