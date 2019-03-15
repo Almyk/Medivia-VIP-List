@@ -118,24 +118,24 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, vipListPolicy, workRequest);
 
         OneTimeWorkRequest launchPeriodWorkers = new OneTimeWorkRequest.Builder(LaunchPeriodicWorkWorker.class)
-                .setInitialDelay(10, TimeUnit.SECONDS)
+                .setInitialDelay(15, TimeUnit.SECONDS)
                 .build();
         mWorkManager.enqueue(launchPeriodWorkers);
     }
 
     public void startPeriodicWorkers() {
-        PeriodicWorkRequest updateAllPlayersWork = new PeriodicWorkRequest.Builder(UpdateAllPlayersWorker.class, 30, TimeUnit.MINUTES)
+        PeriodicWorkRequest updateAllPlayersWork = new PeriodicWorkRequest.Builder(UpdateAllPlayersWorker.class, 15, TimeUnit.MINUTES)
                 .addTag(Constants.UPDATE_VIP_DETAIL_TAG)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                 .build();
         mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, updateAllPlayersWork);
 
 //        mWorkManager.cancelUniqueWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME); // for debug
-        PeriodicWorkRequest updateAllHighscoresWork = new PeriodicWorkRequest.Builder(UpdateAllHighscoresWorker.class, 6, TimeUnit.HOURS)
+        PeriodicWorkRequest updateAllHighscoresWork = new PeriodicWorkRequest.Builder(UpdateAllHighscoresWorker.class, 2, TimeUnit.HOURS)
                 .addTag(Constants.UPDATE_HIGHSCORES_TAG)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).setRequiresBatteryNotLow(true).build())
                 .build();
-        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME, ExistingPeriodicWorkPolicy.KEEP, updateAllHighscoresWork);
+        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, updateAllHighscoresWork);
     }
 
     private void initializeUserPreferences(Context context) {
@@ -310,6 +310,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 .setInputData(data)
                 .build();
         mWorkManager.enqueue(workRequest);
+        Log.d(TAG, "Scheduled to update player: " + name);
     }
 
     public void updateHighscoreByServer(final String server) {
