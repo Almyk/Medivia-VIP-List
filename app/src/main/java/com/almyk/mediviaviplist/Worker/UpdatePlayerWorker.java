@@ -3,6 +3,7 @@ package com.almyk.mediviaviplist.Worker;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.MediviaVipListApp;
@@ -13,6 +14,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 public class UpdatePlayerWorker extends Worker {
+    private final static String TAG = UpdatePlayerWorker.class.getSimpleName();
     private Context mContext;
     private DataRepository mRepository;
 
@@ -31,6 +33,7 @@ public class UpdatePlayerWorker extends Worker {
             PlayerEntity oldPlayer = mRepository.getPlayerDB(name);
             player.setNote(oldPlayer.getNote());
             mRepository.updatePlayerDB(player);
+            Log.d(TAG, "Updated player: " + player.getName());
             return Result.success();
         }
 

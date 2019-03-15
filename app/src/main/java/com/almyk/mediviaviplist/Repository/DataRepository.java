@@ -118,13 +118,13 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, vipListPolicy, workRequest);
 
         OneTimeWorkRequest launchPeriodWorkers = new OneTimeWorkRequest.Builder(LaunchPeriodicWorkWorker.class)
-                .setInitialDelay(10, TimeUnit.SECONDS)
+                .setInitialDelay(15, TimeUnit.SECONDS)
                 .build();
         mWorkManager.enqueue(launchPeriodWorkers);
     }
 
     public void startPeriodicWorkers() {
-        PeriodicWorkRequest updateAllPlayersWork = new PeriodicWorkRequest.Builder(UpdateAllPlayersWorker.class, 30, TimeUnit.MINUTES)
+        PeriodicWorkRequest updateAllPlayersWork = new PeriodicWorkRequest.Builder(UpdateAllPlayersWorker.class, 15, TimeUnit.MINUTES)
                 .addTag(Constants.UPDATE_VIP_DETAIL_TAG)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                 .build();
@@ -310,6 +310,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 .setInputData(data)
                 .build();
         mWorkManager.enqueue(workRequest);
+        Log.d(TAG, "Scheduled to update player: " + name);
     }
 
     public void updateHighscoreByServer(final String server) {
