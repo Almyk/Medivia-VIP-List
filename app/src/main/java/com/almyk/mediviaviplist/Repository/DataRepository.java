@@ -238,7 +238,10 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     }
 
     public void forceUpdateVipList() {
+        Data data = new Data.Builder().putBoolean(Constants.DO_BGSYNC, false).build();
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class)
+                .setInputData(data)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                 .build();
         mWorkManager.enqueue(workRequest);
     }

@@ -33,9 +33,11 @@ public class UpdateVipListWorker extends Worker {
     public Result doWork() {
         Log.d(TAG, "Updating VIP List");
         DataRepository repository = ((MediviaVipListApp) getApplicationContext()).getRepository();
-        setSleepTime(repository.getSyncInterval());
-        updateVipList(repository);
-        boolean doBackgroundSync = getInputData().getBoolean(Constants.DO_BGSYNC, false);
+        if(repository != null) {
+            setSleepTime(repository.getSyncInterval());
+            updateVipList(repository);
+        }
+        boolean doBackgroundSync = getInputData().getBoolean(Constants.DO_BGSYNC, true);
         if(doBackgroundSync) {
             enqueueNextRequest(repository);
         }
@@ -44,16 +46,21 @@ public class UpdateVipListWorker extends Worker {
 
     private void enqueueNextRequest(DataRepository repository) {
         // Create a new work request so that we can have intervals <15m
-        Data data = new Data.Builder().putBoolean(Constants.DO_BGSYNC, repository.isDoBackgroundSync()).build();
-        WorkManager workManager = repository.getWorkManager();
-        Log.d(TAG, "New work scheduled");
-        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class)
-                .addTag(Constants.UPDATE_VIP_LIST_TAG)
-                .setInputData(data)
+        WorkManager workManager = WorkManager.getInstance();
+
+        OneTimeWorkRequest.Builder builder = new OneTimeWorkRequest.Builder(UpdateVipListWorker.class);
+        builder.addTag(Constants.UPDATE_VIP_LIST_TAG)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
-                .setInitialDelay(mDelay, TimeUnit.MILLISECONDS)
-                .build();
+                .setInitialDelay(mDelay, TimeUnit.MILLISECONDS);
+
+        if(repository != null) {
+            Data data = new Data.Builder().putBoolean(Constants.DO_BGSYNC, repository.isDoBackgroundSync()).build();
+            builder.setInputData(data);
+        }
+
+        OneTimeWorkRequest workRequest = builder.build();
         workManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, ExistingWorkPolicy.APPEND, workRequest);
+        Log.d(TAG, "New work scheduled to run in: " + mDelay);
     }
 
     private void updateVipList(DataRepository repository) {
@@ -61,7 +68,7 @@ public class UpdateVipListWorker extends Worker {
         repository.updateVipAndOnlineList("Prophecy");
         repository.updateVipAndOnlineList("Destiny");
         repository.updateVipAndOnlineList("Legacy");
-        Log.d(TAG, "updated vip list");
+        Log.d(TAG, "Updated vip list");
     }
 
     public void setSleepTime(long SleepTime) {
