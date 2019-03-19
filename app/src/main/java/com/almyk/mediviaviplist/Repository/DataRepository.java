@@ -99,12 +99,12 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     private void setupWorkManager() {
         mWorkManager = WorkManager.getInstance();
+        mWorkManager.cancelAllWork();
         if(mDoBackgroundSync) {
             initializeVipListBackgroundSync(ExistingWorkPolicy.REPLACE);
         } else {
             mWorkManager.cancelAllWork();
         }
-
     }
 
     private void initializeVipListBackgroundSync(ExistingWorkPolicy vipListPolicy) {
@@ -130,7 +130,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 .build();
         mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, updateAllPlayersWork);
 
-//        mWorkManager.cancelUniqueWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME); // for debug
+        mWorkManager.cancelAllWorkByTag(Constants.UPDATE_HIGHSCORES_TAG);
         PeriodicWorkRequest updateAllHighscoresWork = new PeriodicWorkRequest.Builder(UpdateAllHighscoresWorker.class, 2, TimeUnit.HOURS)
                 .addTag(Constants.UPDATE_HIGHSCORES_TAG)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).setRequiresBatteryNotLow(true).build())
@@ -319,6 +319,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     public void updateHighscoreByServer(final String server) {
         Data data = new Data.Builder().putString(Constants.UPDATE_HIGHSCORES_SERVER_KEY, server).build();
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateHighscoreByServerWorker.class)
+                .addTag(Constants.UPDATE_HIGHSCORES_TAG)
                 .setInputData(data)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                 .build();

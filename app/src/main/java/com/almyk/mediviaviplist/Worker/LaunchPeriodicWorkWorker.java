@@ -21,7 +21,9 @@ public class LaunchPeriodicWorkWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        mRepository.startPeriodicWorkers();
+        if(mRepository != null) {
+            mRepository.startPeriodicWorkers();
+        }
         return Result.success();
     }
 }

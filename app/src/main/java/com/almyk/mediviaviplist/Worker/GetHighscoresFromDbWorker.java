@@ -20,7 +20,9 @@ public class GetHighscoresFromDbWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        mRepository.setHighScores();
+        if(mRepository != null) {
+            mRepository.setHighScores();
+        }
         return Result.success();
     }
 }

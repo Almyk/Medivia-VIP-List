@@ -36,6 +36,7 @@ public class UpdateHighscoreByServerWorker extends Worker {
                     .putString(Constants.UPDATE_HIGHSCORES_SKILL_KEY, skill)
                     .build();
             OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateHighscoreWorker.class)
+                    .addTag(Constants.UPDATE_HIGHSCORES_TAG)
                     .setInputData(data)
                     .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                     .build();
