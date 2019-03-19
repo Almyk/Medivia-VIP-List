@@ -20,13 +20,10 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 public class UpdateHighscoreByServerWorker extends Worker {
-    private DataRepository mRepository;
-
     private final List<String> skills = Arrays.asList("level", "maglevel", "fist", "club", "sword", "axe", "distance", "shielding", "fishing", "mining");
 
     public UpdateHighscoreByServerWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-        mRepository = ((MediviaVipListApp) context).getRepository();
     }
 
     @NonNull
@@ -39,6 +36,7 @@ public class UpdateHighscoreByServerWorker extends Worker {
                     .putString(Constants.UPDATE_HIGHSCORES_SKILL_KEY, skill)
                     .build();
             OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(UpdateHighscoreWorker.class)
+                    .addTag(Constants.UPDATE_HIGHSCORES_TAG)
                     .setInputData(data)
                     .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                     .build();

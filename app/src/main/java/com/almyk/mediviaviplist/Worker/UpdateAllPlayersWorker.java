@@ -3,6 +3,7 @@ package com.almyk.mediviaviplist.Worker;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.almyk.mediviaviplist.Database.PlayerEntity;
 import com.almyk.mediviaviplist.MediviaVipListApp;
@@ -14,6 +15,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 public class UpdateAllPlayersWorker extends Worker {
+    private final static String TAG = UpdateAllPlayersWorker.class.getSimpleName();
     private DataRepository mRepository;
 
     public UpdateAllPlayersWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
@@ -24,15 +26,20 @@ public class UpdateAllPlayersWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        List<PlayerEntity> players = mRepository.getVipList().getValue();
+        try {
+            List<PlayerEntity> players = mRepository.getVipList().getValue();
 
-        if(players != null) {
-            for (PlayerEntity player : players) {
-                mRepository.updatePlayer(player.getName());
+            if (players != null) {
+                for (PlayerEntity player : players) {
+                    mRepository.updatePlayer(player.getName());
+                }
+
+                return Result.success();
+            } else {
+                return Result.failure();
             }
-
-            return Result.success();
-        } else {
+        } catch (Exception e) {
+            Log.d(TAG, "Failed to update player due to exception: " + e.toString());
             return Result.failure();
         }
     }

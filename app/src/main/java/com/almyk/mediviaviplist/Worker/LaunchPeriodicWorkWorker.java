@@ -11,19 +11,19 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 public class LaunchPeriodicWorkWorker extends Worker {
-    private Context mContext;
     private DataRepository mRepository;
 
     public LaunchPeriodicWorkWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-        this.mContext = context;
         this.mRepository = ((MediviaVipListApp) context).getRepository();
     }
 
     @NonNull
     @Override
     public Result doWork() {
-        mRepository.startPeriodicWorkers();
+        if(mRepository != null) {
+            mRepository.startPeriodicWorkers();
+        }
         return Result.success();
     }
 }
