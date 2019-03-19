@@ -2,6 +2,7 @@ package com.almyk.mediviaviplist.Worker;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.almyk.mediviaviplist.MediviaVipListApp;
 import com.almyk.mediviaviplist.Repository.DataRepository;
@@ -11,6 +12,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 public class UpdateAllHighscoresWorker extends Worker {
+    private static final String TAG = UpdateAllHighscoresWorker.class.getSimpleName();
     private DataRepository mRepository;
 
     public UpdateAllHighscoresWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
@@ -21,9 +23,14 @@ public class UpdateAllHighscoresWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        for(String server : Constants.SERVERS) {
-            mRepository.updateHighscoreByServer(server);
+        try {
+            for (String server : Constants.SERVERS) {
+                mRepository.updateHighscoreByServer(server);
+            }
+            return Result.success();
+        } catch (Exception e) {
+            Log.d(TAG, "Failed to update highscores due to exception: " + e.toString());
         }
-        return Result.success();
+        return Result.failure();
     }
 }

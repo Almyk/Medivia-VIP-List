@@ -33,9 +33,11 @@ public class UpdateVipListWorker extends Worker {
     public Result doWork() {
         Log.d(TAG, "Updating VIP List");
         DataRepository repository = ((MediviaVipListApp) getApplicationContext()).getRepository();
-        if(repository != null) {
+        try {
             setSleepTime(repository.getSyncInterval());
             updateVipList(repository);
+        } catch (Exception e) {
+            Log.d(TAG, "Failed to update vip list due to exception: " + e.toString());
         }
         boolean doBackgroundSync = getInputData().getBoolean(Constants.DO_BGSYNC, true);
         if(doBackgroundSync) {
@@ -53,9 +55,11 @@ public class UpdateVipListWorker extends Worker {
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                 .setInitialDelay(mDelay, TimeUnit.MILLISECONDS);
 
-        if(repository != null) {
+        try {
             Data data = new Data.Builder().putBoolean(Constants.DO_BGSYNC, repository.isDoBackgroundSync()).build();
             builder.setInputData(data);
+        } catch (Exception e) {
+            Log.d(TAG, "Failed to set input data due to exception: " + e.toString());
         }
 
         OneTimeWorkRequest workRequest = builder.build();

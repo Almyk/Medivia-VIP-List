@@ -15,12 +15,10 @@ import androidx.work.WorkerParameters;
 
 public class UpdatePlayerWorker extends Worker {
     private final static String TAG = UpdatePlayerWorker.class.getSimpleName();
-    private Context mContext;
     private DataRepository mRepository;
 
     public UpdatePlayerWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-        this.mContext = context;
         this.mRepository = ((MediviaVipListApp) getApplicationContext()).getRepository();
     }
 
@@ -28,13 +26,18 @@ public class UpdatePlayerWorker extends Worker {
     @Override
     public Result doWork() {
         String name = getInputData().getString(Constants.UPDATE_PLAYER_KEY);
-        PlayerEntity player = mRepository.getPlayerEntityWeb(name);
-        if(player != null) {
-            PlayerEntity oldPlayer = mRepository.getPlayerDB(name);
-            player.setNote(oldPlayer.getNote());
-            mRepository.updatePlayerDB(player);
-            Log.d(TAG, "Updated player: " + player.getName());
-            return Result.success();
+        try {
+            PlayerEntity player = mRepository.getPlayerEntityWeb(name);
+            if (player != null) {
+                PlayerEntity oldPlayer = mRepository.getPlayerDB(name);
+                player.setNote(oldPlayer.getNote());
+                mRepository.updatePlayerDB(player);
+                Log.d(TAG, "Updated player: " + player.getName());
+                return Result.success();
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Failed to update player due to exception: " + e.toString());
+            return Result.failure();
         }
 
         return Result.failure();

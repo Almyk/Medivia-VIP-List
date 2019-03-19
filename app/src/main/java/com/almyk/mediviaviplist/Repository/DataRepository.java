@@ -99,7 +99,6 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     private void setupWorkManager() {
         mWorkManager = WorkManager.getInstance();
-        mWorkManager.cancelAllWork();
         if(mDoBackgroundSync) {
             initializeVipListBackgroundSync(ExistingWorkPolicy.REPLACE);
         } else {
