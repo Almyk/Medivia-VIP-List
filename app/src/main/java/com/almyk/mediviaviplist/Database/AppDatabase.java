@@ -151,7 +151,7 @@ public abstract class AppDatabase extends RoomDatabase {
     private static final Migration MIGRATION_11_12 = new Migration(11,12) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE bedmage_table ADD COLUMN timeLeft INTEGER");
+            database.execSQL("ALTER TABLE bedmage_table ADD COLUMN timeLeft INTEGER NOT NULL DEFAULT 0");
         }
     };
 }
