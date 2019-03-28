@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.almyk.mediviaviplist.Database.PlayerEntity;
+import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
 import com.almyk.mediviaviplist.MediviaVipListApp;
 import com.almyk.mediviaviplist.R;
 import com.almyk.mediviaviplist.Repository.DataRepository;

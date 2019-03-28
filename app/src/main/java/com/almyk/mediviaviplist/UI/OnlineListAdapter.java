@@ -1,7 +1,6 @@
 package com.almyk.mediviaviplist.UI;
 
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuCompat;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.almyk.mediviaviplist.Database.PlayerEntity;
+import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
 import com.almyk.mediviaviplist.R;
 
 import java.util.ArrayList;

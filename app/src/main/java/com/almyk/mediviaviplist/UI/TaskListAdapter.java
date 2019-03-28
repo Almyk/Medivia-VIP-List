@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.almyk.mediviaviplist.Database.TaskEntity;
+import com.almyk.mediviaviplist.Database.Entities.TaskEntity;
 import com.almyk.mediviaviplist.R;
 
 import java.util.ArrayList;

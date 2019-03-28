@@ -28,7 +28,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.almyk.mediviaviplist.Database.PlayerEntity;
+import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
 import com.almyk.mediviaviplist.R;
 import com.almyk.mediviaviplist.UI.Settings.SettingsActivity;
 import com.almyk.mediviaviplist.Utilities.EditTextBackEvent;

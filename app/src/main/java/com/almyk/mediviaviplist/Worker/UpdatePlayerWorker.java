@@ -2,10 +2,9 @@ package com.almyk.mediviaviplist.Worker;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.almyk.mediviaviplist.Database.PlayerEntity;
+import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
 import com.almyk.mediviaviplist.MediviaVipListApp;
 import com.almyk.mediviaviplist.Repository.DataRepository;
 import com.almyk.mediviaviplist.Utilities.Constants;

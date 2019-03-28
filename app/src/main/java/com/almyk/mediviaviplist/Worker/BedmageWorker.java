@@ -1,0 +1,99 @@
+package com.almyk.mediviaviplist.Worker;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.almyk.mediviaviplist.Database.Entities.BedmageEntity;
+import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
+import com.almyk.mediviaviplist.MediviaVipListApp;
+import com.almyk.mediviaviplist.Repository.DataRepository;
+import com.almyk.mediviaviplist.Utilities.Constants;
+import com.almyk.mediviaviplist.Utilities.NotificationUtils;
+
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import androidx.work.Constraints;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
+public class BedmageWorker extends Worker {
+    private static final String TAG = BedmageWorker.class.getSimpleName();
+
+    private DataRepository mRepository;
+    private Context mContext;
+
+    public BedmageWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+        super(context, workerParams);
+        mRepository = ((MediviaVipListApp) getApplicationContext()).getRepository();
+        this.mContext = context;
+    }
+
+    @NonNull
+    @Override
+    public Result doWork() {
+        try {
+            List<BedmageEntity> bedmages = mRepository.getBedmagesNotLive();
+            if (bedmages != null && !bedmages.isEmpty()) {
+                for (BedmageEntity bedmage : bedmages) {
+                    PlayerEntity player = mRepository.getPlayerEntityWeb(bedmage.getName());
+                    if (player == null) {
+                        continue;
+                    }
+                    Log.d(TAG, "got bedmage " + player.getName());
+                    if (!bedmage.getName().equals(player.getName())) {
+                        mRepository.deleteBedmage(bedmage, 1);
+                        bedmage.setName(player.getName());
+                    }
+                    if (bedmage.isOnline() && !player.isOnline()) { // was online and is now offline
+                        bedmage.setOnline(false);
+
+                        Log.d(TAG, "bedmage logged out");
+                        long logoutTime = new Date().getTime();
+                        bedmage.setLogoutTime(logoutTime);
+                        bedmage.setTimeLeft(bedmage.getTimer());
+
+                    } else if (player.isOnline()) { // bedmage is online
+                        Log.d(TAG, "bedmage is online");
+                        bedmage.setOnline(true);
+                        bedmage.setTimeLeft(-1);
+                    } else { // bedmage is offline
+                        Log.d(TAG, "bedmage is offline");
+                        Date date = new Date();
+                        long time = date.getTime();
+                        long logoutTime = bedmage.getLogoutTime();
+                        long timer = bedmage.getTimer();
+                        long remainingTime = timer - (time - logoutTime);
+                        if (remainingTime > 0 && bedmage.getTimeLeft() > 0) {
+                            bedmage.setTimeLeft(remainingTime);
+                        } else {
+                            bedmage.setTimeLeft(0);
+                            Log.d(TAG, "create notification for bedmage");
+                            NotificationUtils.makeBedmageNotification(bedmage.getName(), mContext);
+                        }
+                    }
+                    mRepository.addBedmage(bedmage);
+                }
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Failed to update bedmages due to exception: " + e.toString());
+        }
+        rescheduleBedmageWorker();
+        return Result.success();
+    }
+
+    private void rescheduleBedmageWorker() {
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(BedmageWorker.class)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                .setInitialDelay(60, TimeUnit.SECONDS)
+                .build();
+        WorkManager.getInstance().enqueueUniqueWork(Constants.BEDMAGE_UNIQUE_NAME, ExistingWorkPolicy.APPEND, workRequest);
+        Log.d(TAG, "Scheduled new bedmage worker");
+    }
+}

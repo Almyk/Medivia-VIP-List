@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.almyk.mediviaviplist.Database.HighscoreEntity;
+import com.almyk.mediviaviplist.Database.Entities.HighscoreEntity;
 import com.almyk.mediviaviplist.MediviaVipListApp;
 import com.almyk.mediviaviplist.Repository.DataRepository;
 import com.almyk.mediviaviplist.Utilities.Constants;

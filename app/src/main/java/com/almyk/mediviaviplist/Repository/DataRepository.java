@@ -9,17 +9,19 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.AppDatabase;
-import com.almyk.mediviaviplist.Database.DeathEntity;
-import com.almyk.mediviaviplist.Database.HighscoreEntity;
-import com.almyk.mediviaviplist.Database.KillEntity;
-import com.almyk.mediviaviplist.Database.LevelProgressionEntity;
-import com.almyk.mediviaviplist.Database.PlayerEntity;
-import com.almyk.mediviaviplist.Database.TaskEntity;
+import com.almyk.mediviaviplist.Database.Entities.BedmageEntity;
+import com.almyk.mediviaviplist.Database.Entities.DeathEntity;
+import com.almyk.mediviaviplist.Database.Entities.HighscoreEntity;
+import com.almyk.mediviaviplist.Database.Entities.KillEntity;
+import com.almyk.mediviaviplist.Database.Entities.LevelProgressionEntity;
+import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
+import com.almyk.mediviaviplist.Database.Entities.TaskEntity;
 import com.almyk.mediviaviplist.Model.Player;
 import com.almyk.mediviaviplist.Utilities.AppExecutors;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.almyk.mediviaviplist.Scraping.Scraper;
+import com.almyk.mediviaviplist.Worker.BedmageWorker;
 import com.almyk.mediviaviplist.Worker.LaunchPeriodicWorkWorker;
 import com.almyk.mediviaviplist.Worker.UpdateAllHighscoresWorker;
 import com.almyk.mediviaviplist.Worker.UpdateAllPlayersWorker;
@@ -58,6 +60,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private static WorkManager mWorkManager;
 
     private final LiveData<List<PlayerEntity>> mVipList;
+    private final LiveData<List<BedmageEntity>> mBedmageList;
     private static MutableLiveData<List<PlayerEntity>> mOnlineLegacy = new MutableLiveData<>();
     private static MutableLiveData<List<PlayerEntity>> mOnlinePendulum = new MutableLiveData<>();
     private static MutableLiveData<List<PlayerEntity>> mOnlineDestiny = new MutableLiveData<>();
@@ -78,17 +81,19 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private DataRepository(final AppDatabase database, Context context) {
         this.mDatabase = database;
 
-        // This code is left here for debugging purposes
+//         This code is left here for debugging purposes
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
 //                mDatabase.deathDao().nukeTable();
 //                mDatabase.killDao().nukeTable();
 //                mDatabase.taskDao().nukeTable();
+//                mDatabase.bedmageDao().nukeTable();
 //            }
 //        }).start();
 
         mVipList = mDatabase.playerDao().getAll();
+        mBedmageList = mDatabase.bedmageDao().getAll();
         mScraper = new Scraper();
         mExecutors = AppExecutors.getInstance();
         this.mContext = context;
@@ -104,6 +109,15 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         } else {
             mWorkManager.cancelAllWork();
         }
+        initializeBedmageWorker();
+    }
+
+    private void initializeBedmageWorker() {
+//        mWorkManager.cancelUniqueWork(Constants.BEDMAGE_UNIQUE_NAME);
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(BedmageWorker.class)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                .build();
+        mWorkManager.enqueueUniqueWork(Constants.BEDMAGE_UNIQUE_NAME, ExistingWorkPolicy.REPLACE, workRequest);
     }
 
     private void initializeVipListBackgroundSync(ExistingWorkPolicy vipListPolicy) {
@@ -117,7 +131,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, vipListPolicy, workRequest);
 
         OneTimeWorkRequest launchPeriodWorkers = new OneTimeWorkRequest.Builder(LaunchPeriodicWorkWorker.class)
-                .setInitialDelay(15, TimeUnit.SECONDS)
+                .setInitialDelay(20, TimeUnit.SECONDS)
                 .build();
         mWorkManager.enqueue(launchPeriodWorkers);
     }
@@ -129,12 +143,12 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 .build();
         mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, updateAllPlayersWork);
 
-        mWorkManager.cancelAllWorkByTag(Constants.UPDATE_HIGHSCORES_TAG);
+//        mWorkManager.cancelAllWorkByTag(Constants.UPDATE_HIGHSCORES_TAG);
         PeriodicWorkRequest updateAllHighscoresWork = new PeriodicWorkRequest.Builder(UpdateAllHighscoresWorker.class, 2, TimeUnit.HOURS)
                 .addTag(Constants.UPDATE_HIGHSCORES_TAG)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).setRequiresBatteryNotLow(true).build())
                 .build();
-        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, updateAllHighscoresWork);
+        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME, ExistingPeriodicWorkPolicy.KEEP, updateAllHighscoresWork);
     }
 
     private void initializeUserPreferences(Context context) {
@@ -556,6 +570,53 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private void setTasksDB(List<TaskEntity> tasks){
         for(TaskEntity task: tasks) {
             mDatabase.taskDao().insertTask(task);
+        }
+    }
+
+    public LiveData<List<BedmageEntity>> getBedmages() {
+        return mBedmageList;
+    }
+
+    public void addBedmage(final BedmageEntity bedmage) {
+        mExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDatabase.bedmageDao().insert(bedmage);
+            }
+        });
+    }
+
+    public void updateBedmage(final BedmageEntity bedmage) {
+        mExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDatabase.bedmageDao().update(bedmage);
+            }
+        });
+    }
+
+    public List<BedmageEntity> getBedmagesNotLive() {
+        return mDatabase.bedmageDao().getAllNotLive();
+    }
+
+    /**
+     *
+     * @param bedmage
+     * @param flag set as 0 for main thread callers or 1 for background worker callers
+     */
+    public void deleteBedmage(final BedmageEntity bedmage, int flag) {
+        switch (flag) {
+            case 0:
+                mExecutors.diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDatabase.bedmageDao().delete(bedmage);
+                    }
+                });
+                break;
+            case 1:
+                mDatabase.bedmageDao().delete(bedmage);
+                break;
         }
     }
 }

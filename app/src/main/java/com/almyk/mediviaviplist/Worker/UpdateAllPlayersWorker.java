@@ -1,11 +1,10 @@
 package com.almyk.mediviaviplist.Worker;
 
-import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.almyk.mediviaviplist.Database.PlayerEntity;
+import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
 import com.almyk.mediviaviplist.MediviaVipListApp;
 import com.almyk.mediviaviplist.Repository.DataRepository;
 
