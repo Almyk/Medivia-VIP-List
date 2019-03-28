@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.almyk.mediviaviplist.Database.DAOs.BedmageDao;
 import com.almyk.mediviaviplist.Database.DAOs.DeathDao;
 import com.almyk.mediviaviplist.Database.DAOs.HighscoreDao;
 import com.almyk.mediviaviplist.Database.DAOs.KillDao;
@@ -56,6 +57,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract KillDao killDao();
     public abstract TaskDao taskDao();
     public abstract LevelProgressionDao progDao();
+    public abstract BedmageDao bedmageDao();
 
     private static final Migration MIGRATION_1_2 = new Migration(1,2) {
         @Override

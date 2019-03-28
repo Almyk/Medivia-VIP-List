@@ -64,6 +64,11 @@ public class BedmageAdapter extends RecyclerView.Adapter<BedmageAdapter.MyViewHo
         return mBedmageList.size();
     }
 
+    public void setBedmages(List<BedmageEntity> bedmageEntities) {
+        mBedmageList = bedmageEntities;
+        notifyDataSetChanged();
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView left;
         private TextView right;

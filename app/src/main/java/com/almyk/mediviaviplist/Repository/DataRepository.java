@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.AppDatabase;
+import com.almyk.mediviaviplist.Database.Entities.BedmageEntity;
 import com.almyk.mediviaviplist.Database.Entities.DeathEntity;
 import com.almyk.mediviaviplist.Database.Entities.HighscoreEntity;
 import com.almyk.mediviaviplist.Database.Entities.KillEntity;
@@ -58,6 +59,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private static WorkManager mWorkManager;
 
     private final LiveData<List<PlayerEntity>> mVipList;
+    private final LiveData<List<BedmageEntity>> mBedmageList;
     private static MutableLiveData<List<PlayerEntity>> mOnlineLegacy = new MutableLiveData<>();
     private static MutableLiveData<List<PlayerEntity>> mOnlinePendulum = new MutableLiveData<>();
     private static MutableLiveData<List<PlayerEntity>> mOnlineDestiny = new MutableLiveData<>();
@@ -89,6 +91,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 //        }).start();
 
         mVipList = mDatabase.playerDao().getAll();
+        mBedmageList = mDatabase.bedmageDao().getAll();
         mScraper = new Scraper();
         mExecutors = AppExecutors.getInstance();
         this.mContext = context;
@@ -557,5 +560,9 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         for(TaskEntity task: tasks) {
             mDatabase.taskDao().insertTask(task);
         }
+    }
+
+    public LiveData<List<BedmageEntity>> getBedmages() {
+        return mBedmageList;
     }
 }
