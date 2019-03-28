@@ -48,7 +48,7 @@ public class BedmageWorker extends Worker {
                     }
                     Log.d(TAG, "got bedmage " + player.getName());
                     if (!bedmage.getName().equals(player.getName())) {
-                        mRepository.deleteBedmage(bedmage);
+                        mRepository.deleteBedmage(bedmage, 1);
                         bedmage.setName(player.getName());
                     }
                     if (bedmage.isOnline() && !player.isOnline()) { // was online and is now offline

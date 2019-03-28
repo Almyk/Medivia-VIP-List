@@ -26,7 +26,7 @@ public class BedmageViewModel extends AndroidViewModel {
     }
 
     public void removeBedmage(BedmageEntity bedmage) {
-        mRepository.deleteBedmage(bedmage);
+        mRepository.deleteBedmage(bedmage, 0);
     }
 
     public void addBedmage(BedmageEntity bedmage) {

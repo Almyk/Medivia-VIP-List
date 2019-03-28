@@ -599,12 +599,24 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         return mDatabase.bedmageDao().getAllNotLive();
     }
 
-    public void deleteBedmage(final BedmageEntity bedmage) {
-        mExecutors.diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
+    /**
+     *
+     * @param bedmage
+     * @param flag set as 0 for main thread callers or 1 for background worker callers
+     */
+    public void deleteBedmage(final BedmageEntity bedmage, int flag) {
+        switch (flag) {
+            case 0:
+                mExecutors.diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDatabase.bedmageDao().delete(bedmage);
+                    }
+                });
+                break;
+            case 1:
                 mDatabase.bedmageDao().delete(bedmage);
-            }
-        });
+                break;
+        }
     }
 }
