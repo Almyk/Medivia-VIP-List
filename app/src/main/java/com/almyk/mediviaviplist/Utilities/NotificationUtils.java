@@ -55,14 +55,15 @@ public class NotificationUtils{
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setVibrate(new long[0])
-                .setContentIntent(getPendingIntent(context));
+                .setContentIntent(getPendingIntent(context, "vip"));
 
         // Show the notification
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder.build());
     }
 
-    private static PendingIntent getPendingIntent(Context context) {
+    private static PendingIntent getPendingIntent(Context context, String menuFragment) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra("menuFragment", menuFragment);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(MainActivity.class);
@@ -71,4 +72,40 @@ public class NotificationUtils{
     }
 
     public NotificationUtils() {}
+
+    public static void makeBedmageNotification(String name, Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create the NotificationChannel, but only on API 26+ because
+            // the NotificationChannel class is new and not in the support library
+            CharSequence channelName = Constants.BEDMAGE_NOTIFICATION_CHANNEL_NAME;
+            String description = Constants.BEDMAGE_NOTIFICATION_CHANNEL_DESCRIPTION;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel =
+                    new NotificationChannel(Constants.BEDMAGE_CHANNEL_ID, channelName, importance);
+            channel.setDescription(description);
+            channel.setLightColor(Color.GREEN);
+
+            // Add the channel
+            NotificationManager notificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+
+        // Create the notification
+        int NOTIFICATION_ID = name.hashCode();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.BEDMAGE_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle(Constants.BEDMAGE_NOTIFICATION_TITLE)
+                .setContentText("Bedmage " + name + " is ready to login")
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setVibrate(new long[0])
+                .setContentIntent(getPendingIntent(context, "bedmage"));
+
+        // Show the notification
+        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, builder.build());
+    }
 }

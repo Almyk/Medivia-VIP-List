@@ -53,13 +53,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setupViewModel();
 
-        if(savedInstanceState == null) {
-            VipListFragment vipListFragment = VipListFragment.newInstance();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        String menuFragment = getIntent().getStringExtra("menuFragment");
 
-            fragmentTransaction.add(R.id.fragment_container, vipListFragment).commit();
+        if (menuFragment != null) { // app opened by pressing notification
+            switch (menuFragment) {
+                case "bedmage":
+                    openBedmageFragment();
+                    break;
+                case "vip":
+                    openVipListFragment();
+                    break;
+            }
         }
+
+        if(savedInstanceState == null && menuFragment == null) {
+            openVipListFragment();
+        }
+    }
+
+    private void openVipListFragment() {
+        getSupportActionBar().setTitle(R.string.app_name);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, VipListFragment.newInstance()).commit();
+    }
+
+    private void openBedmageFragment() {
+        getSupportActionBar().setTitle("Bedmages");
+        BedmageFragment bedmageFragment = BedmageFragment.newInstance();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, bedmageFragment).commit();
     }
 
     private void setupViewModel() {
@@ -108,9 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // TODO maybe change this switch to use menuItem.getGroupId() instead
         switch(menuItem.getItemId()) {
             case R.id.nav_vip_list:
-                getSupportActionBar().setTitle(R.string.app_name);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new VipListFragment()).commit();
+                openVipListFragment();
                 break;
             case R.id.nav_online_legacy:
                 showOnlineList(menuItem, "Legacy");
@@ -139,10 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(R.id.fragment_container, searchCharacterFragment).commit();
                 break;
             case R.id.nav_bedmage:
-                getSupportActionBar().setTitle("Bedmages");
-                BedmageFragment bedmageFragment = BedmageFragment.newInstance();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, bedmageFragment).commit();
+                openBedmageFragment();
         }
         mDrawer.closeDrawer(GravityCompat.START);
         return true;

@@ -574,4 +574,13 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
             }
         });
     }
+
+    public void updateBedmage(final BedmageEntity bedmage) {
+        mExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDatabase.bedmageDao().update(bedmage);
+            }
+        });
+    }
 }
