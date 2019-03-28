@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(R.id.fragment_container, searchCharacterFragment).commit();
                 break;
             case R.id.nav_bedmage:
+                getSupportActionBar().setTitle("Bedmages");
                 BedmageFragment bedmageFragment = BedmageFragment.newInstance();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, bedmageFragment).commit();

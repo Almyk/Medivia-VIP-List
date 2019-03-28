@@ -1,11 +1,14 @@
 package com.almyk.mediviaviplist.UI;
 
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,13 +24,11 @@ import com.almyk.mediviaviplist.ViewModel.BedmageViewModel;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class BedmageFragment extends Fragment {
+public class BedmageFragment extends Fragment implements View.OnClickListener {
     private BedmageViewModel mViewModel;
     private RecyclerView mRecyclerView;
     private BedmageAdapter mAdapter;
+    private FloatingActionButton mFab;
 
     public BedmageFragment() {
     }
@@ -47,6 +48,8 @@ public class BedmageFragment extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
         mAdapter = new BedmageAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
+        mFab = rootView.findViewById(R.id.fab);
+        mFab.setOnClickListener(this);
 
         return rootView;
     }
@@ -67,5 +70,16 @@ public class BedmageFragment extends Fragment {
                 mAdapter.setBedmages(bedmageEntities);
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+                DialogFragment dialog = new BedmageDialog();
+                dialog.show(getFragmentManager(), "Add Bedmage");
+                break;
+        }
+
     }
 }
