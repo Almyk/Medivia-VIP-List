@@ -41,10 +41,7 @@ public class BedmageAdapter extends RecyclerView.Adapter<BedmageAdapter.MyViewHo
         // find out remaining time
         Date date = new Date();
         long minutesRemaining;
-        long time = date.getTime();
-        long logoutTime = bedmage.getLogoutTime();
-        long timer = bedmage.getTimer();
-        long remainingTimeMilli = timer - (time - logoutTime);
+        long remainingTimeMilli = bedmage.getTimeLeft();
         if (remainingTimeMilli > 0) {
             minutesRemaining = TimeUnit.MILLISECONDS.toMinutes(remainingTimeMilli);
         } else {
@@ -54,8 +51,10 @@ public class BedmageAdapter extends RecyclerView.Adapter<BedmageAdapter.MyViewHo
         viewHolder.left.setText(bedmage.getName());
         if (minutesRemaining > 0) {
             viewHolder.right.setText("" + minutesRemaining + " min");
-        } else {
+        } else if (minutesRemaining == 0) {
             viewHolder.right.setText("Due");
+        } else {
+            viewHolder.right.setText("Online");
         }
     }
 
