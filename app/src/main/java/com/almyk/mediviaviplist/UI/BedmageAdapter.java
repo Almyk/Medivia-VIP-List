@@ -29,7 +29,7 @@ public class BedmageAdapter extends RecyclerView.Adapter<BedmageAdapter.MyViewHo
     @Override
     public BedmageAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.two_horizontal_textviews, viewGroup, false);
+                .inflate(R.layout.bedmage_entry, viewGroup, false);
         return new MyViewHolder(view);
     }
 
@@ -53,7 +53,7 @@ public class BedmageAdapter extends RecyclerView.Adapter<BedmageAdapter.MyViewHo
 
         viewHolder.left.setText(bedmage.getName());
         if (minutesRemaining > 0) {
-            viewHolder.right.setText("" + minutesRemaining);
+            viewHolder.right.setText("" + minutesRemaining + " min");
         } else {
             viewHolder.right.setText("Due");
         }
