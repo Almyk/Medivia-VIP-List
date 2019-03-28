@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.Entities.BedmageEntity;
 import com.almyk.mediviaviplist.MediviaVipListApp;
@@ -32,6 +33,7 @@ public class BedmageDialog extends DialogFragment implements View.OnClickListene
 
         mBedmageTextView = rootView.findViewById(R.id.et_name);
         mTimerTextView = rootView.findViewById(R.id.et_timer);
+        rootView.findViewById(R.id.btn_add).setOnClickListener(this);
 
         return rootView;
     }
@@ -40,13 +42,13 @@ public class BedmageDialog extends DialogFragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_add:
-                addBedmange();
+                addBedmage();
                 break;
         }
 
     }
 
-    private void addBedmange() {
+    private void addBedmage() {
         String name = mBedmageTextView.getText().toString();
         String timer = mTimerTextView.getText().toString();
 
@@ -59,6 +61,10 @@ public class BedmageDialog extends DialogFragment implements View.OnClickListene
             bedmage.setLogoutTime(new Date().getTime());
 
             mRepository.addBedmage(bedmage);
+            Toast.makeText(getActivity(), "Added bedmage " + name, Toast.LENGTH_SHORT).show();
+            dismiss();
+        } else {
+            Toast.makeText(getActivity(), "Error!\nMake sure that the input was correct and try again.", Toast.LENGTH_LONG).show();
         }
     }
 }

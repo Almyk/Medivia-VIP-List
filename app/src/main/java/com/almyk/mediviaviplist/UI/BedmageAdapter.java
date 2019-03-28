@@ -53,7 +53,7 @@ public class BedmageAdapter extends RecyclerView.Adapter<BedmageAdapter.MyViewHo
 
         viewHolder.left.setText(bedmage.getName());
         if (minutesRemaining > 0) {
-            viewHolder.right.setText(String.format("%.0f", minutesRemaining));
+            viewHolder.right.setText("" + minutesRemaining);
         } else {
             viewHolder.right.setText("Due");
         }

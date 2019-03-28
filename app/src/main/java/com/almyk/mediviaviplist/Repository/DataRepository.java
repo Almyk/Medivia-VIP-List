@@ -565,4 +565,13 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     public LiveData<List<BedmageEntity>> getBedmages() {
         return mBedmageList;
     }
+
+    public void addBedmage(final BedmageEntity bedmage) {
+        mExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDatabase.bedmageDao().insert(bedmage);
+            }
+        });
+    }
 }
