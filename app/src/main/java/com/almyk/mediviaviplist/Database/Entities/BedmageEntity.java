@@ -11,15 +11,17 @@ public class BedmageEntity {
     @PrimaryKey
     private String name;
 
-    private String logoutTime;
+    private long logoutTime;
+    private long timer;
 
     @Ignore
     public BedmageEntity() {
     }
 
-    public BedmageEntity(@NonNull String name, String logoutTime) {
+    public BedmageEntity(@NonNull String name, long logoutTime, long timer) {
         this.name = name;
         this.logoutTime = logoutTime;
+        this.timer = timer;
     }
 
     @NonNull
@@ -31,11 +33,19 @@ public class BedmageEntity {
         this.name = name;
     }
 
-    public String getLogoutTime() {
+    public long getLogoutTime() {
         return logoutTime;
     }
 
-    public void setLogoutTime(String logoutTime) {
+    public void setLogoutTime(long logoutTime) {
         this.logoutTime = logoutTime;
+    }
+
+    public long getTimer() {
+        return timer;
+    }
+
+    public void setTimer(long timer) {
+        this.timer = timer;
     }
 }

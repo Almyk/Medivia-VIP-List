@@ -3,15 +3,19 @@ package com.almyk.mediviaviplist.UI;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.almyk.mediviaviplist.Database.Entities.BedmageEntity;
 import com.almyk.mediviaviplist.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class BedmageAdapter extends RecyclerView.Adapter<BedmageAdapter.MyViewHolder> {
     private Context mContext;
@@ -30,8 +34,29 @@ public class BedmageAdapter extends RecyclerView.Adapter<BedmageAdapter.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BedmageAdapter.MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull BedmageAdapter.MyViewHolder viewHolder, int i) {
+        BedmageEntity bedmage = mBedmageList.get(i);
 
+
+        // find out remaining time
+        Date date = new Date();
+        long minutesRemaining;
+        long time = date.getTime();
+        long logoutTime = bedmage.getLogoutTime();
+        long timer = bedmage.getTimer();
+        long remainingTimeMilli = timer - (time - logoutTime);
+        if (remainingTimeMilli > 0) {
+            minutesRemaining = TimeUnit.MILLISECONDS.toMinutes(remainingTimeMilli);
+        } else {
+            minutesRemaining = 0;
+        }
+
+        viewHolder.left.setText(bedmage.getName());
+        if (minutesRemaining > 0) {
+            viewHolder.right.setText(String.format("%.0f", minutesRemaining));
+        } else {
+            viewHolder.right.setText("Due");
+        }
     }
 
     @Override
