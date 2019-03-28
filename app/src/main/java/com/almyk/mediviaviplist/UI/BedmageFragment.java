@@ -8,17 +8,20 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.almyk.mediviaviplist.Database.Entities.BedmageEntity;
+import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
 import com.almyk.mediviaviplist.R;
 import com.almyk.mediviaviplist.ViewModel.BedmageViewModel;
 
@@ -51,6 +54,7 @@ public class BedmageFragment extends Fragment implements View.OnClickListener {
         mFab = rootView.findViewById(R.id.fab);
         mFab.setOnClickListener(this);
 
+
         return rootView;
     }
 
@@ -59,6 +63,7 @@ public class BedmageFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
 
         setupViewModel();
+        setupTouchHelper();
     }
 
     private void setupViewModel() {
@@ -70,6 +75,31 @@ public class BedmageFragment extends Fragment implements View.OnClickListener {
                 mAdapter.setBedmages(bedmageEntities);
             }
         });
+    }
+
+    private void setupTouchHelper() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                int pos = viewHolder.getAdapterPosition();
+                List<BedmageEntity> bedmages = mAdapter.getBedmages();
+                final BedmageEntity bedmage = bedmages.get(pos);
+                mViewModel.removeBedmage(bedmage);
+                Snackbar snackbar = Snackbar.make(viewHolder.itemView.getRootView(), "Take back deletion of " + bedmage.getName() + "?", Snackbar.LENGTH_LONG);
+                snackbar.setAction("TAKE BACK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mViewModel.addBedmage(bedmage);
+                    }
+                });
+                snackbar.show();
+            }
+        }).attachToRecyclerView(mRecyclerView);
     }
 
     @Override

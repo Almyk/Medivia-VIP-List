@@ -143,12 +143,12 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 .build();
         mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_VIP_DETAIL_UNIQUE_NAME, ExistingPeriodicWorkPolicy.REPLACE, updateAllPlayersWork);
 
-        mWorkManager.cancelAllWorkByTag(Constants.UPDATE_HIGHSCORES_TAG);
-//        PeriodicWorkRequest updateAllHighscoresWork = new PeriodicWorkRequest.Builder(UpdateAllHighscoresWorker.class, 2, TimeUnit.HOURS)
-//                .addTag(Constants.UPDATE_HIGHSCORES_TAG)
-//                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).setRequiresBatteryNotLow(true).build())
-//                .build();
-//        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME, ExistingPeriodicWorkPolicy.KEEP, updateAllHighscoresWork);
+//        mWorkManager.cancelAllWorkByTag(Constants.UPDATE_HIGHSCORES_TAG);
+        PeriodicWorkRequest updateAllHighscoresWork = new PeriodicWorkRequest.Builder(UpdateAllHighscoresWorker.class, 2, TimeUnit.HOURS)
+                .addTag(Constants.UPDATE_HIGHSCORES_TAG)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).setRequiresBatteryNotLow(true).build())
+                .build();
+        mWorkManager.enqueueUniquePeriodicWork(Constants.UPDATE_HIGHSCORES_UNIQUE_NAME, ExistingPeriodicWorkPolicy.KEEP, updateAllHighscoresWork);
     }
 
     private void initializeUserPreferences(Context context) {
@@ -599,7 +599,12 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         return mDatabase.bedmageDao().getAllNotLive();
     }
 
-    public void deleteBedmage(BedmageEntity bedmage) {
-        mDatabase.bedmageDao().delete(bedmage);
+    public void deleteBedmage(final BedmageEntity bedmage) {
+        mExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDatabase.bedmageDao().delete(bedmage);
+            }
+        });
     }
 }

@@ -70,6 +70,10 @@ public class BedmageAdapter extends RecyclerView.Adapter<BedmageAdapter.MyViewHo
         notifyDataSetChanged();
     }
 
+    public List<BedmageEntity> getBedmages() {
+        return mBedmageList;
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView left;
         private TextView right;

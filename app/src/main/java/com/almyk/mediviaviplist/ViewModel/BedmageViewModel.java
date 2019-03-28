@@ -24,4 +24,12 @@ public class BedmageViewModel extends AndroidViewModel {
     public LiveData<List<BedmageEntity>> getBedmages() {
         return mBedmages;
     }
+
+    public void removeBedmage(BedmageEntity bedmage) {
+        mRepository.deleteBedmage(bedmage);
+    }
+
+    public void addBedmage(BedmageEntity bedmage) {
+        mRepository.addBedmage(bedmage);
+    }
 }
