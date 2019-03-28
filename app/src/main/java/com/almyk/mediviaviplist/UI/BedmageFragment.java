@@ -15,7 +15,6 @@ import com.almyk.mediviaviplist.R;
  */
 public class BedmageFragment extends Fragment {
 
-
     public BedmageFragment() {
     }
 
