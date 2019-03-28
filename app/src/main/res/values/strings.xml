@@ -11,5 +11,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="player">Player</string>
+    <string name="time_left">Time Left</string>
 
 </resources>
