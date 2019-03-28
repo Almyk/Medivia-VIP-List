@@ -8,12 +8,18 @@ import com.almyk.mediviaviplist.Database.Entities.BedmageEntity;
 import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
 import com.almyk.mediviaviplist.MediviaVipListApp;
 import com.almyk.mediviaviplist.Repository.DataRepository;
+import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.work.Constraints;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -67,10 +73,18 @@ public class BedmageWorker extends Worker {
             }
         } catch (Exception e) {
             Log.d(TAG, "Failed to update bedmages due to exception: " + e.toString());
+            rescheduleBedmageWorker();
             return Result.failure();
         }
-
-
+        rescheduleBedmageWorker();
         return Result.success();
+    }
+
+    private void rescheduleBedmageWorker() {
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(BedmageWorker.class)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                .setInitialDelay(60, TimeUnit.SECONDS)
+                .build();
+        WorkManager.getInstance().enqueueUniqueWork(Constants.BEDMAGE_UNIQUE_NAME, ExistingWorkPolicy.APPEND, workRequest);
     }
 }

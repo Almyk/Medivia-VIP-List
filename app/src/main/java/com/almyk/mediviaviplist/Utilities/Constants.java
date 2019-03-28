@@ -43,6 +43,8 @@ public final class Constants {
     public static final String UPDATE_HIGHSCORES_UNIQUE_NAME = "update highscores name";
     public static final String UPDATE_HIGHSCORE_FOR = "UPDATE HIGHSCORE FOR: ";
 
+    public static final String BEDMAGE_UNIQUE_NAME =
+            "bedmage_unique_name";
     public static final CharSequence BEDMAGE_NOTIFICATION_CHANNEL_NAME =
             "Bedmage Ready Notifications";
     public static final String BEDMAGE_NOTIFICATION_CHANNEL_DESCRIPTION =

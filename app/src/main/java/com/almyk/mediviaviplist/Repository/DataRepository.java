@@ -21,6 +21,7 @@ import com.almyk.mediviaviplist.Utilities.AppExecutors;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
 import com.almyk.mediviaviplist.Scraping.Scraper;
+import com.almyk.mediviaviplist.Worker.BedmageWorker;
 import com.almyk.mediviaviplist.Worker.LaunchPeriodicWorkWorker;
 import com.almyk.mediviaviplist.Worker.UpdateAllHighscoresWorker;
 import com.almyk.mediviaviplist.Worker.UpdateAllPlayersWorker;
@@ -107,6 +108,14 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         } else {
             mWorkManager.cancelAllWork();
         }
+        initializeBedmageWorker();
+    }
+
+    private void initializeBedmageWorker() {
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(BedmageWorker.class)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                .build();
+        mWorkManager.enqueueUniqueWork(Constants.BEDMAGE_UNIQUE_NAME, ExistingWorkPolicy.REPLACE, workRequest);
     }
 
     private void initializeVipListBackgroundSync(ExistingWorkPolicy vipListPolicy) {
@@ -120,7 +129,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         mWorkManager.enqueueUniqueWork(Constants.UPDATE_VIP_LIST_UNIQUE_NAME, vipListPolicy, workRequest);
 
         OneTimeWorkRequest launchPeriodWorkers = new OneTimeWorkRequest.Builder(LaunchPeriodicWorkWorker.class)
-                .setInitialDelay(15, TimeUnit.SECONDS)
+                .setInitialDelay(20, TimeUnit.SECONDS)
                 .build();
         mWorkManager.enqueue(launchPeriodWorkers);
     }
