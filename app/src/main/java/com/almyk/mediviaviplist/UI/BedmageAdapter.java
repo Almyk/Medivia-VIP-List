@@ -44,8 +44,10 @@ public class BedmageAdapter extends RecyclerView.Adapter<BedmageAdapter.MyViewHo
         long remainingTimeMilli = bedmage.getTimeLeft();
         if (remainingTimeMilli > 0) {
             minutesRemaining = TimeUnit.MILLISECONDS.toMinutes(remainingTimeMilli);
-        } else {
+        } else if (remainingTimeMilli == 0){
             minutesRemaining = 0;
+        } else {
+            minutesRemaining = -1;
         }
 
         viewHolder.left.setText(bedmage.getName());

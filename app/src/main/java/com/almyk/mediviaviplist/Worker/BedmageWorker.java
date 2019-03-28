@@ -1,5 +1,6 @@
 package com.almyk.mediviaviplist.Worker;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -31,33 +32,37 @@ public class BedmageWorker extends Worker {
 
     public BedmageWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-        mRepository = ((MediviaVipListApp) context).getRepository();
+        mRepository = ((MediviaVipListApp) getApplicationContext()).getRepository();
+        this.mContext = context;
     }
 
     @NonNull
     @Override
     public Result doWork() {
-        List<BedmageEntity> bedmages;
         try {
-            bedmages = mRepository.getBedmages().getValue();
-            if (!bedmages.isEmpty()) {
+            List<BedmageEntity> bedmages = mRepository.getBedmagesNotLive();
+            if (bedmages != null && !bedmages.isEmpty()) {
                 for (BedmageEntity bedmage : bedmages) {
                     PlayerEntity player = mRepository.getPlayerEntityWeb(bedmage.getName());
                     if (player == null) {
                         continue;
                     }
+                    Log.d(TAG, "got bedmage " + player.getName());
                     bedmage.setName(player.getName());
-                    if (bedmage.isOnline() && !!player.isOnline()) { // was online and is now offline
+                    if (bedmage.isOnline() && !player.isOnline()) { // was online and is now offline
                         bedmage.setOnline(false);
 
+                        Log.d(TAG, "bedmage logged out");
                         long logoutTime = new Date().getTime();
                         bedmage.setLogoutTime(logoutTime);
                         bedmage.setTimeLeft(bedmage.getTimer());
 
                     } else if (player.isOnline()) { // bedmage is online
+                        Log.d(TAG, "bedmage is online");
                         bedmage.setOnline(true);
                         bedmage.setTimeLeft(-1);
                     } else { // bedmage is offline
+                        Log.d(TAG, "bedmage is offline");
                         Date date = new Date();
                         long time = date.getTime();
                         long logoutTime = bedmage.getLogoutTime();
@@ -67,6 +72,7 @@ public class BedmageWorker extends Worker {
                             bedmage.setTimeLeft(remainingTime);
                         } else {
                             bedmage.setTimeLeft(0);
+                            Log.d(TAG, "create notification for bedmage");
                             NotificationUtils.makeBedmageNotification(bedmage.getName(), mContext);
                         }
                     }
@@ -75,8 +81,6 @@ public class BedmageWorker extends Worker {
             }
         } catch (Exception e) {
             Log.d(TAG, "Failed to update bedmages due to exception: " + e.toString());
-            rescheduleBedmageWorker();
-            return Result.failure();
         }
         rescheduleBedmageWorker();
         return Result.success();
@@ -85,8 +89,9 @@ public class BedmageWorker extends Worker {
     private void rescheduleBedmageWorker() {
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(BedmageWorker.class)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
-                .setInitialDelay(60, TimeUnit.SECONDS)
+                .setInitialDelay(20, TimeUnit.SECONDS)
                 .build();
         WorkManager.getInstance().enqueueUniqueWork(Constants.BEDMAGE_UNIQUE_NAME, ExistingWorkPolicy.APPEND, workRequest);
+        Log.d(TAG, "Scheduled new bedmage worker");
     }
 }

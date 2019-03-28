@@ -20,7 +20,7 @@ public interface BedmageDao {
     @Query("SELECT * FROM bedmage_table WHERE name = :name")
     BedmageEntity getBedmage(String name);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(BedmageEntity bedmage);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -28,4 +28,7 @@ public interface BedmageDao {
 
     @Delete
     void delete(BedmageEntity bedmage);
+
+    @Query("SELECT * FROM bedmage_table ORDER BY name ASC")
+    List<BedmageEntity> getAllNotLive();
 }
