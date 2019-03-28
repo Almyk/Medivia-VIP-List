@@ -57,15 +57,11 @@
     </item>
 
     <group
-        android:id="@+id/nav_group_bedmage">
+        android:id="@+id/nav_group_utilities">
         <item
             android:id="@+id/nav_bedmage"
             android:title="Bedmages"
             android:icon="@drawable/ic_bed_black_24dp"/>
-    </group>
-
-    <group
-        android:id="@+id/nav_group_search_player">
         <item
             android:id="@+id/nav_search_player"
             android:title="Search Character"
