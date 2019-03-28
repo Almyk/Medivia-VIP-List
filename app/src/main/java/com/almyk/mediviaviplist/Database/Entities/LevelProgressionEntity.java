@@ -1,4 +1,4 @@
-package com.almyk.mediviaviplist.Database;
+package com.almyk.mediviaviplist.Database.Entities;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;

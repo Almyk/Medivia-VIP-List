@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.almyk.mediviaviplist.Database.KillEntity;
+import com.almyk.mediviaviplist.Database.Entities.KillEntity;
 import com.almyk.mediviaviplist.R;
 
 import java.util.ArrayList;

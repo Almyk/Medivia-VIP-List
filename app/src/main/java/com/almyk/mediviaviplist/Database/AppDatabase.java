@@ -9,6 +9,18 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.almyk.mediviaviplist.Database.DAOs.DeathDao;
+import com.almyk.mediviaviplist.Database.DAOs.HighscoreDao;
+import com.almyk.mediviaviplist.Database.DAOs.KillDao;
+import com.almyk.mediviaviplist.Database.DAOs.LevelProgressionDao;
+import com.almyk.mediviaviplist.Database.DAOs.PlayerDao;
+import com.almyk.mediviaviplist.Database.DAOs.TaskDao;
+import com.almyk.mediviaviplist.Database.Entities.DeathEntity;
+import com.almyk.mediviaviplist.Database.Entities.HighscoreEntity;
+import com.almyk.mediviaviplist.Database.Entities.KillEntity;
+import com.almyk.mediviaviplist.Database.Entities.LevelProgressionEntity;
+import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
+import com.almyk.mediviaviplist.Database.Entities.TaskEntity;
 
 
 @Database(entities = {PlayerEntity.class,

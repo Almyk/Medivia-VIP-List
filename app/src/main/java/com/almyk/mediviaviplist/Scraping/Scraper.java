@@ -3,11 +3,11 @@ package com.almyk.mediviaviplist.Scraping;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.almyk.mediviaviplist.Database.DeathEntity;
-import com.almyk.mediviaviplist.Database.HighscoreEntity;
-import com.almyk.mediviaviplist.Database.KillEntity;
-import com.almyk.mediviaviplist.Database.PlayerEntity;
-import com.almyk.mediviaviplist.Database.TaskEntity;
+import com.almyk.mediviaviplist.Database.Entities.DeathEntity;
+import com.almyk.mediviaviplist.Database.Entities.HighscoreEntity;
+import com.almyk.mediviaviplist.Database.Entities.KillEntity;
+import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
+import com.almyk.mediviaviplist.Database.Entities.TaskEntity;
 import com.almyk.mediviaviplist.Model.Player;
 
 import org.jsoup.Jsoup;

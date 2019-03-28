@@ -1,4 +1,4 @@
-package com.almyk.mediviaviplist.Database;
+package com.almyk.mediviaviplist.Database.Entities;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

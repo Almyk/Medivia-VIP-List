@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.almyk.mediviaviplist.Database.HighscoreEntity;
+import com.almyk.mediviaviplist.Database.Entities.HighscoreEntity;
 import com.almyk.mediviaviplist.R;
 
 import java.util.List;

@@ -22,7 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.almyk.mediviaviplist.Database.HighscoreEntity;
+import com.almyk.mediviaviplist.Database.Entities.HighscoreEntity;
 import com.almyk.mediviaviplist.R;
 import com.almyk.mediviaviplist.ViewModel.HighscoreViewModel;
 
