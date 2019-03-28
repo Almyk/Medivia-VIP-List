@@ -15,17 +15,19 @@ public class BedmageEntity {
     private long timer;
     private long timeLeft;
     private boolean online;
+    private boolean notified;
 
     @Ignore
     public BedmageEntity() {
     }
 
-    public BedmageEntity(@NonNull String name, long logoutTime, long timer, long timeLeft, boolean online) {
+    public BedmageEntity(@NonNull String name, long logoutTime, long timer, long timeLeft, boolean online, boolean notified) {
         this.name = name;
         this.logoutTime = logoutTime;
         this.timer = timer;
         this.timeLeft = timeLeft;
         this.online = online;
+        this.notified = notified;
     }
 
     @NonNull
@@ -67,5 +69,13 @@ public class BedmageEntity {
 
     public void setOnline(boolean online) {
         this.online = online;
+    }
+
+    public boolean isNotified() {
+        return notified;
+    }
+
+    public void setNotified(boolean notified) {
+        this.notified = notified;
     }
 }
