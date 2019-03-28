@@ -16,6 +16,7 @@ import com.almyk.mediviaviplist.Database.DAOs.KillDao;
 import com.almyk.mediviaviplist.Database.DAOs.LevelProgressionDao;
 import com.almyk.mediviaviplist.Database.DAOs.PlayerDao;
 import com.almyk.mediviaviplist.Database.DAOs.TaskDao;
+import com.almyk.mediviaviplist.Database.Entities.BedmageEntity;
 import com.almyk.mediviaviplist.Database.Entities.DeathEntity;
 import com.almyk.mediviaviplist.Database.Entities.HighscoreEntity;
 import com.almyk.mediviaviplist.Database.Entities.KillEntity;
@@ -26,8 +27,8 @@ import com.almyk.mediviaviplist.Database.Entities.TaskEntity;
 
 @Database(entities = {PlayerEntity.class,
         HighscoreEntity.class, DeathEntity.class,
-        KillEntity.class, TaskEntity.class, LevelProgressionEntity.class},
-        version = 10, exportSchema = true)
+        KillEntity.class, TaskEntity.class, LevelProgressionEntity.class, BedmageEntity.class},
+        version = 11, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
@@ -43,7 +44,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
                         .addMigrations(MIGRATION_1_2, MIGRATION_2_3,
                                 MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7,
-                                MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10)
+                                MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11)
                         .build();
             }
         }
@@ -136,6 +137,13 @@ public abstract class AppDatabase extends RoomDatabase {
                     "SELECT `player_name`, `level`, `level`, `level`, `level`, `level`, `level`, `level` " +
                     "FROM `vip_list`");
             database.execSQL("ALTER TABLE vip_list ADD COLUMN lv_prog TEXT");
+        }
+    };
+
+    private static final Migration MIGRATION_10_11 = new Migration(10,11) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `bedmage_table` (`name` TEXT NOT NULL, `logoutTime` INTEGER NOT NULL, `timer` INTEGER NOT NULL, PRIMARY KEY(`name`))");
         }
     };
 }
