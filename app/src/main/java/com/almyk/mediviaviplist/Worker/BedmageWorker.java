@@ -53,15 +53,18 @@ public class BedmageWorker extends Worker {
                     }
                     if (bedmage.isOnline() && !player.isOnline()) { // was online and is now offline
                         bedmage.setOnline(false);
+                        bedmage.setNotified(false);
 
                         Log.d(TAG, "bedmage logged out");
                         long logoutTime = new Date().getTime();
                         bedmage.setLogoutTime(logoutTime);
                         bedmage.setTimeLeft(bedmage.getTimer());
 
+
                     } else if (player.isOnline()) { // bedmage is online
                         Log.d(TAG, "bedmage is online");
                         bedmage.setOnline(true);
+                        bedmage.setNotified(false);
                         bedmage.setTimeLeft(-1);
                     } else { // bedmage is offline
                         Log.d(TAG, "bedmage is offline");
@@ -72,10 +75,14 @@ public class BedmageWorker extends Worker {
                         long remainingTime = timer - (time - logoutTime);
                         if (remainingTime > 0 && bedmage.getTimeLeft() > 0) {
                             bedmage.setTimeLeft(remainingTime);
+                            bedmage.setNotified(false);
                         } else {
                             bedmage.setTimeLeft(0);
-                            Log.d(TAG, "create notification for bedmage");
-                            NotificationUtils.makeBedmageNotification(bedmage.getName(), mContext);
+                            if (!bedmage.isNotified()) {
+                                Log.d(TAG, "create notification for bedmage");
+                                NotificationUtils.makeBedmageNotification(bedmage.getName(), mContext);
+                                bedmage.setNotified(true);
+                            }
                         }
                     }
                     mRepository.addBedmage(bedmage);
