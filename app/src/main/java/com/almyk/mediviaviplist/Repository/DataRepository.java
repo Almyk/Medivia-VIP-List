@@ -81,13 +81,14 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     private DataRepository(final AppDatabase database, Context context) {
         this.mDatabase = database;
 
-        // This code is left here for debugging purposes
+//         This code is left here for debugging purposes
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
 //                mDatabase.deathDao().nukeTable();
 //                mDatabase.killDao().nukeTable();
 //                mDatabase.taskDao().nukeTable();
+//                mDatabase.bedmageDao().nukeTable();
 //            }
 //        }).start();
 
@@ -112,7 +113,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
     }
 
     private void initializeBedmageWorker() {
-        mWorkManager.cancelUniqueWork(Constants.BEDMAGE_UNIQUE_NAME);
+//        mWorkManager.cancelUniqueWork(Constants.BEDMAGE_UNIQUE_NAME);
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(BedmageWorker.class)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
                 .build();
@@ -596,5 +597,9 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public List<BedmageEntity> getBedmagesNotLive() {
         return mDatabase.bedmageDao().getAllNotLive();
+    }
+
+    public void deleteBedmage(BedmageEntity bedmage) {
+        mDatabase.bedmageDao().delete(bedmage);
     }
 }

@@ -1,6 +1,5 @@
 package com.almyk.mediviaviplist.Worker;
 
-import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -48,7 +47,10 @@ public class BedmageWorker extends Worker {
                         continue;
                     }
                     Log.d(TAG, "got bedmage " + player.getName());
-                    bedmage.setName(player.getName());
+                    if (!bedmage.getName().equals(player.getName())) {
+                        mRepository.deleteBedmage(bedmage);
+                        bedmage.setName(player.getName());
+                    }
                     if (bedmage.isOnline() && !player.isOnline()) { // was online and is now offline
                         bedmage.setOnline(false);
 
@@ -68,7 +70,7 @@ public class BedmageWorker extends Worker {
                         long logoutTime = bedmage.getLogoutTime();
                         long timer = bedmage.getTimer();
                         long remainingTime = timer - (time - logoutTime);
-                        if (remainingTime > 0) {
+                        if (remainingTime > 0 && bedmage.getTimeLeft() > 0) {
                             bedmage.setTimeLeft(remainingTime);
                         } else {
                             bedmage.setTimeLeft(0);
@@ -76,7 +78,7 @@ public class BedmageWorker extends Worker {
                             NotificationUtils.makeBedmageNotification(bedmage.getName(), mContext);
                         }
                     }
-                    mRepository.updateBedmage(bedmage);
+                    mRepository.addBedmage(bedmage);
                 }
             }
         } catch (Exception e) {
@@ -89,7 +91,7 @@ public class BedmageWorker extends Worker {
     private void rescheduleBedmageWorker() {
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(BedmageWorker.class)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
-                .setInitialDelay(20, TimeUnit.SECONDS)
+                .setInitialDelay(60, TimeUnit.SECONDS)
                 .build();
         WorkManager.getInstance().enqueueUniqueWork(Constants.BEDMAGE_UNIQUE_NAME, ExistingWorkPolicy.APPEND, workRequest);
         Log.d(TAG, "Scheduled new bedmage worker");

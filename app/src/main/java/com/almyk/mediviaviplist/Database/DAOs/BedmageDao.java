@@ -23,7 +23,7 @@ public interface BedmageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(BedmageEntity bedmage);
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Update
     void update(BedmageEntity bedmage);
 
     @Delete
@@ -31,4 +31,7 @@ public interface BedmageDao {
 
     @Query("SELECT * FROM bedmage_table ORDER BY name ASC")
     List<BedmageEntity> getAllNotLive();
+
+    @Query("DELETE FROM bedmage_table")
+    void nukeTable();
 }
