@@ -32,14 +32,10 @@ public class UpdateAllPlayersWorker extends Worker {
                 for (PlayerEntity player : players) {
                     mRepository.updatePlayer(player.getName());
                 }
-
-                return Result.success();
-            } else {
-                return Result.failure();
             }
         } catch (Exception e) {
             Log.d(TAG, "Failed to update player due to exception: " + e.toString());
-            return Result.failure();
         }
+        return Result.success();
     }
 }

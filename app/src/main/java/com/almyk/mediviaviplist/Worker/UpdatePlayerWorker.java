@@ -32,13 +32,11 @@ public class UpdatePlayerWorker extends Worker {
                 player.setNote(oldPlayer.getNote());
                 mRepository.updatePlayerDB(player);
                 Log.d(TAG, "Updated player: " + player.getName());
-                return Result.success();
             }
         } catch (Exception e) {
             Log.d(TAG, "Failed to update player due to exception: " + e.toString());
-            return Result.failure();
         }
 
-        return Result.failure();
+        return Result.success();
     }
 }

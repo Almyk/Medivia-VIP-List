@@ -36,11 +36,10 @@ public class UpdateHighscoreWorker extends Worker {
                     mRepository.uppdateHighscoreDB(highscore);
                 }
                 mRepository.setHighScores();
-                return Result.success();
             }
         } catch (Exception e) {
             Log.d(TAG, "Failed to update highscores due to exception: " + e.toString());
         }
-        return Result.failure();
+        return Result.success();
     }
 }

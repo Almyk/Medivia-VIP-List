@@ -27,10 +27,9 @@ public class UpdateAllHighscoresWorker extends Worker {
             for (String server : Constants.SERVERS) {
                 mRepository.updateHighscoreByServer(server);
             }
-            return Result.success();
         } catch (Exception e) {
             Log.d(TAG, "Failed to update highscores due to exception: " + e.toString());
         }
-        return Result.failure();
+        return Result.success();
     }
 }
