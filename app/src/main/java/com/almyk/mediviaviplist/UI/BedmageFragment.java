@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
@@ -32,6 +33,7 @@ public class BedmageFragment extends Fragment implements View.OnClickListener {
     private RecyclerView mRecyclerView;
     private BedmageAdapter mAdapter;
     private FloatingActionButton mFab;
+    private CoordinatorLayout mCoordLayout;
 
     public BedmageFragment() {
     }
@@ -46,6 +48,7 @@ public class BedmageFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_bedmage, container, false);
 
+        mCoordLayout = rootView.findViewById(R.id.coord_layout);
         mRecyclerView = rootView.findViewById(R.id.rv_bedmage_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
@@ -90,7 +93,7 @@ public class BedmageFragment extends Fragment implements View.OnClickListener {
                 List<BedmageEntity> bedmages = mAdapter.getBedmages();
                 final BedmageEntity bedmage = bedmages.get(pos);
                 mViewModel.removeBedmage(bedmage);
-                Snackbar snackbar = Snackbar.make(viewHolder.itemView.getRootView(), "Take back deletion of " + bedmage.getName() + "?", Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(mCoordLayout, "Take back deletion of " + bedmage.getName() + "?", Snackbar.LENGTH_LONG);
                 snackbar.setAction("TAKE BACK", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -58,7 +58,7 @@ public class BedmageDialog extends DialogFragment implements View.OnClickListene
             long timerMilli = Long.parseLong(timer);
             timerMilli = TimeUnit.MINUTES.toMillis(timerMilli);
             bedmage.setTimer(timerMilli);
-            bedmage.setLogoutTime(new Date().getTime());
+            bedmage.setLogoutTime(0);
             bedmage.setTimeLeft(timerMilli);
             bedmage.setNotified(false);
             bedmage.setOnline(false);
