@@ -70,10 +70,18 @@ public class BedmageWorker extends Worker {
                         Log.d(TAG, "bedmage is offline");
                         Date date = new Date();
                         long time = date.getTime();
+
+                        long theoLogoutTime = getTheoreticalLogoutTime(player, time);
                         long logoutTime = bedmage.getLogoutTime();
+
+                        if (logoutTime < theoLogoutTime) { // logged in and out without worker noticed
+                            logoutTime = theoLogoutTime;
+                            bedmage.setLogoutTime(logoutTime);
+                        }
+
                         long timer = bedmage.getTimer();
                         long remainingTime = timer - (time - logoutTime);
-                        if (remainingTime > 0 && bedmage.getTimeLeft() > 0) {
+                        if (remainingTime > 0) {
                             bedmage.setTimeLeft(remainingTime);
                             bedmage.setNotified(false);
                         } else {
@@ -93,6 +101,30 @@ public class BedmageWorker extends Worker {
         }
         rescheduleBedmageWorker();
         return Result.success();
+    }
+
+    private long getTheoreticalLogoutTime(PlayerEntity player, long time) {
+        String[] lastLogin = player.getLastLogin().split(" ");
+        long theoLogoutTime;
+        switch (lastLogin[1]) {
+            case "minutes":
+            case "minute":
+                theoLogoutTime = time - TimeUnit.MINUTES.toMillis(Long.parseLong(lastLogin[0]));
+                break;
+            case "hours":
+            case "hour":
+                theoLogoutTime = time - TimeUnit.HOURS.toMillis(Long.parseLong(lastLogin[0]));
+                break;
+            case "seconds":
+            case "second":
+                theoLogoutTime = time - TimeUnit.SECONDS.toMillis(Long.parseLong(lastLogin[0]));
+                break;
+            default:
+                theoLogoutTime = -1;
+                break;
+        }
+        Log.d(TAG, "Last Login: #" + lastLogin[0] + " unit: " + lastLogin[1]);
+        return theoLogoutTime;
     }
 
     private void rescheduleBedmageWorker() {
