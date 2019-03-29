@@ -6,7 +6,12 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.media.SoundPool;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -48,13 +53,18 @@ public class NotificationUtils{
             case "Destiny": NOTIFICATION_ID = 3; break;
             case "Prophecy": NOTIFICATION_ID = 4; break;
         }
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, LOGIN_CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
+                        R.mipmap.ic_launcher))
                 .setContentTitle(Constants.LOGIN_NOTIFICATION_TITLE + server.toUpperCase())
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setVibrate(new long[0])
+                .setSound(alarmSound)
+                .setOnlyAlertOnce(true)
                 .setContentIntent(getPendingIntent(context, "vip"));
 
         // Show the notification
@@ -66,9 +76,9 @@ public class NotificationUtils{
         intent.putExtra("menuFragment", menuFragment);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-//        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(intent);
-        return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
+        return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public NotificationUtils() {}
@@ -96,13 +106,17 @@ public class NotificationUtils{
 
         // Create the notification
         int NOTIFICATION_ID = name.hashCode();
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.BEDMAGE_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_bed_black_24dp)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_bed_black_24dp))
                 .setContentTitle(Constants.BEDMAGE_NOTIFICATION_TITLE)
                 .setContentText("Bedmage " + name + " is ready to login")
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setVibrate(new long[0])
+                .setSound(alarmSound)
+                .setOnlyAlertOnce(true)
                 .setContentIntent(getPendingIntent(context, "bedmage"));
 
         // Show the notification
