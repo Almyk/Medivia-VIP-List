@@ -49,7 +49,7 @@ public class NotificationUtils{
             case "Prophecy": NOTIFICATION_ID = 4; break;
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, LOGIN_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(Constants.LOGIN_NOTIFICATION_TITLE + server.toUpperCase())
                 .setContentText(message)
                 .setAutoCancel(true)
@@ -66,7 +66,7 @@ public class NotificationUtils{
         intent.putExtra("menuFragment", menuFragment);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(MainActivity.class);
+//        stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(intent);
         return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
     }
@@ -97,7 +97,7 @@ public class NotificationUtils{
         // Create the notification
         int NOTIFICATION_ID = name.hashCode();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.BEDMAGE_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_bed_black_24dp)
                 .setContentTitle(Constants.BEDMAGE_NOTIFICATION_TITLE)
                 .setContentText("Bedmage " + name + " is ready to login")
                 .setAutoCancel(true)
