@@ -1,8 +1,10 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 
 ext.versionMajor = 2
-ext.versionMinor = 7
+ext.versionMinor = 6
 ext.versionPatch = 2
 ext.versionClassifier = null
 ext.isSnapshot = false
@@ -53,6 +55,10 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    // firebase
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.google.firebase:firebase-perf:16.2.3'
+
     // android
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
@@ -81,10 +87,5 @@ dependencies {
 
     // worker
     implementation "android.arch.work:work-runtime:$versions.work"
-
-    configurations {
-        all*.exclude group: 'com.google.firebase', module: 'firebase-core'
-        all*.exclude group: 'com.google.firebase', module: 'firebase-iid'
-    }
 
 }
