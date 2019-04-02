@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ public class BedmageDialog extends DialogFragment implements View.OnClickListene
 
     private EditText mBedmageTextView;
     private EditText mTimerTextView;
+    private Button mButton;
 
     private static String mName;
     private static long mTimer;
@@ -37,12 +39,14 @@ public class BedmageDialog extends DialogFragment implements View.OnClickListene
 
         mBedmageTextView = rootView.findViewById(R.id.et_name);
         mTimerTextView = rootView.findViewById(R.id.et_timer);
-        rootView.findViewById(R.id.btn_add).setOnClickListener(this);
+        mButton = rootView.findViewById(R.id.btn_add);
+        mButton.setOnClickListener(this);
 
         if (mEditFlag) {
             mEditFlag = false;
             mBedmageTextView.setText(mName);
             mTimerTextView.setText("" + mTimer);
+            mButton.setText("Edit");
         }
 
         return rootView;
