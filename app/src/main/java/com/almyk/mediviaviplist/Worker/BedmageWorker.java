@@ -1,12 +1,15 @@
 package com.almyk.mediviaviplist.Worker;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.almyk.mediviaviplist.Database.Entities.BedmageEntity;
 import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
 import com.almyk.mediviaviplist.MediviaVipListApp;
+import com.almyk.mediviaviplist.R;
 import com.almyk.mediviaviplist.Repository.DataRepository;
 import com.almyk.mediviaviplist.Utilities.Constants;
 import com.almyk.mediviaviplist.Utilities.NotificationUtils;
@@ -87,8 +90,12 @@ public class BedmageWorker extends Worker {
                         } else {
                             bedmage.setTimeLeft(0);
                             if (!bedmage.isNotified()) {
-                                Log.d(TAG, "create notification for bedmage");
-                                NotificationUtils.makeBedmageNotification(bedmage.getName(), mContext);
+                                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+                                boolean isMuted = preferences.getBoolean(Constants.BEDMAGE_ISMUTED_PREF, false);
+                                if (!isMuted) {
+                                    Log.d(TAG, "create notification for bedmage");
+                                    NotificationUtils.makeBedmageNotification(bedmage.getName(), mContext);
+                                }
                                 bedmage.setNotified(true);
                             }
                         }

@@ -106,7 +106,7 @@ public class NotificationUtils{
 
         // Create the notification
         int NOTIFICATION_ID = name.hashCode();
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.BEDMAGE_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_bed_black_24dp)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_bed_black_24dp))

@@ -14,5 +14,6 @@
     <string name="player">Player</string>
     <string name="time_left">Time Left</string>
     <string name="bedmage">Bedmage</string>
+    <string name="bedmage_isMuted">bedmage_isMuted</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.almyk.mediviaviplist.UI;
+package com.almyk.mediviaviplist.UI.Bedmage;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,6 +25,11 @@ public class BedmageDialog extends DialogFragment implements View.OnClickListene
 
     private EditText mBedmageTextView;
     private EditText mTimerTextView;
+    private Button mButton;
+
+    private static String mName;
+    private static long mTimer;
+    private static boolean mEditFlag = false;
 
     @Nullable
     @Override
@@ -33,7 +39,15 @@ public class BedmageDialog extends DialogFragment implements View.OnClickListene
 
         mBedmageTextView = rootView.findViewById(R.id.et_name);
         mTimerTextView = rootView.findViewById(R.id.et_timer);
-        rootView.findViewById(R.id.btn_add).setOnClickListener(this);
+        mButton = rootView.findViewById(R.id.btn_add);
+        mButton.setOnClickListener(this);
+
+        if (mEditFlag) {
+            mEditFlag = false;
+            mBedmageTextView.setText(mName);
+            mTimerTextView.setText("" + mTimer);
+            mButton.setText("Edit");
+        }
 
         return rootView;
     }
@@ -69,5 +83,11 @@ public class BedmageDialog extends DialogFragment implements View.OnClickListene
         } else {
             Toast.makeText(getActivity(), "Error!\nMake sure that the input was correct and try again.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void editBedmage(String name, long timer) {
+        mName = name;
+        mTimer = TimeUnit.MILLISECONDS.toMinutes(timer);
+        mEditFlag = true;
     }
 }
