@@ -1,4 +1,4 @@
-package com.almyk.mediviaviplist.UI;
+package com.almyk.mediviaviplist.UI.Bedmage;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

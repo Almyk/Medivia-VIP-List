@@ -6,8 +6,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +17,7 @@ import android.view.MenuItem;
 
 import com.almyk.mediviaviplist.Database.Entities.PlayerEntity;
 import com.almyk.mediviaviplist.R;
+import com.almyk.mediviaviplist.UI.Bedmage.BedmageFragment;
 import com.almyk.mediviaviplist.UI.VipList.VipListFragment;
 import com.almyk.mediviaviplist.ViewModel.MainViewModel;
 
