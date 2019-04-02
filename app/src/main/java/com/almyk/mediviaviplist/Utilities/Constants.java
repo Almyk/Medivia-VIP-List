@@ -52,6 +52,7 @@ public final class Constants {
     public static final String BEDMAGE_CHANNEL_ID =
             "BEDMAGE_NOTIFICATION";
     public static final CharSequence BEDMAGE_NOTIFICATION_TITLE = "A bedmage is ready!";
+    public static final String BEDMAGE_ISMUTED_PREF = "bedmage_isMuted";
 
     public Constants() {}
 }

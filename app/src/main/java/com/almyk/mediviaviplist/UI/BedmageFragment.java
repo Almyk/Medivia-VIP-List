@@ -102,7 +102,7 @@ public class BedmageFragment extends Fragment implements View.OnClickListener {
         mBedmageUnMuteItem = menu.findItem(R.id.bedmage_unmute);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        boolean isMuted = preferences.getBoolean("bedmage_isMuted", false);
+        boolean isMuted = preferences.getBoolean(getString(R.string.bedmage_isMuted), false);
         Log.d(TAG, "onPrepareOptionsMenu, isMuted: " + isMuted);
         if (isMuted) {
             mBedmageUnMuteItem.setVisible(true);
@@ -118,13 +118,13 @@ public class BedmageFragment extends Fragment implements View.OnClickListener {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         switch (item.getItemId()) {
             case R.id.bedmage_mute:
-                preferences.edit().putBoolean("bedmage_isMuted", true).apply();
+                preferences.edit().putBoolean(getString(R.string.bedmage_isMuted), true).apply();
                 mBedmageMuteItem.setVisible(false);
                 mBedmageUnMuteItem.setVisible(true);
                 Log.d(TAG, "mute bedmages");
                 return true;
             case R.id.bedmage_unmute:
-                preferences.edit().putBoolean("bedmage_isMuted", false).apply();
+                preferences.edit().putBoolean(getString(R.string.bedmage_isMuted), false).apply();
                 mBedmageMuteItem.setVisible(true);
                 mBedmageUnMuteItem.setVisible(false);
                 Log.d(TAG, " unmute bedmages");
