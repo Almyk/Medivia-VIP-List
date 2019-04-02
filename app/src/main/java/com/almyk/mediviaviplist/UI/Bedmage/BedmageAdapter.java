@@ -2,14 +2,19 @@ package com.almyk.mediviaviplist.UI.Bedmage;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.almyk.mediviaviplist.Database.Entities.BedmageEntity;
 import com.almyk.mediviaviplist.R;
+import com.almyk.mediviaviplist.UI.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,7 +78,8 @@ public class BedmageAdapter extends RecyclerView.Adapter<BedmageAdapter.MyViewHo
         return mBedmageList;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         private TextView left;
         private TextView right;
 
@@ -81,6 +87,40 @@ public class BedmageAdapter extends RecyclerView.Adapter<BedmageAdapter.MyViewHo
             super(itemView);
             left = itemView.findViewById(R.id.tv_left);
             right = itemView.findViewById(R.id.tv_right);
+
+            itemView.setOnClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            v.showContextMenu();
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(0, 0, 0,"Change Timer").setOnMenuItemClickListener(this);
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            int id = item.getItemId();
+            int pos = getAdapterPosition();
+
+            if (pos < 0) { // Error when getting position
+                Toast.makeText(mContext, "List is updating, please try again", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            switch (id) {
+                case 0: // Change Timer
+                    BedmageEntity bedmage = mBedmageList.get(pos);
+                    DialogFragment dialog = new BedmageDialog();
+                    ((BedmageDialog) dialog).editBedmage(bedmage.getName(), bedmage.getTimer());
+                    dialog.show(((MainActivity) mContext).getSupportFragmentManager(), "Add Bedmage");
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }

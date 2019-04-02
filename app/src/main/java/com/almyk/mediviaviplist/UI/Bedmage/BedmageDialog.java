@@ -25,6 +25,10 @@ public class BedmageDialog extends DialogFragment implements View.OnClickListene
     private EditText mBedmageTextView;
     private EditText mTimerTextView;
 
+    private static String mName;
+    private static long mTimer;
+    private static boolean mEditFlag = false;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,6 +38,12 @@ public class BedmageDialog extends DialogFragment implements View.OnClickListene
         mBedmageTextView = rootView.findViewById(R.id.et_name);
         mTimerTextView = rootView.findViewById(R.id.et_timer);
         rootView.findViewById(R.id.btn_add).setOnClickListener(this);
+
+        if (mEditFlag) {
+            mEditFlag = false;
+            mBedmageTextView.setText(mName);
+            mTimerTextView.setText("" + mTimer);
+        }
 
         return rootView;
     }
@@ -69,5 +79,11 @@ public class BedmageDialog extends DialogFragment implements View.OnClickListene
         } else {
             Toast.makeText(getActivity(), "Error!\nMake sure that the input was correct and try again.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void editBedmage(String name, long timer) {
+        mName = name;
+        mTimer = TimeUnit.MILLISECONDS.toMinutes(timer);
+        mEditFlag = true;
     }
 }
