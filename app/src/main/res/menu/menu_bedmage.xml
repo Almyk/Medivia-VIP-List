@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <item
         android:id="@+id/bedmage_mute"
-        android:title="MUTE"
+        android:title="MUTE ALARM"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/bedmage_unmute"
+        android:title="UNMUTE ALARM"
         app:showAsAction="ifRoom"/>
 
 </menu>
