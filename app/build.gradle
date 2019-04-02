@@ -4,8 +4,8 @@ apply plugin: 'com.google.firebase.firebase-perf'
 
 
 ext.versionMajor = 2
-ext.versionMinor = 6
-ext.versionPatch = 1
+ext.versionMinor = 7
+ext.versionPatch = 0
 ext.versionClassifier = null
 ext.isSnapshot = true
 ext.minimumSdkVersion = 19
