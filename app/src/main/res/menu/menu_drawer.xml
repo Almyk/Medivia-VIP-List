@@ -7,6 +7,10 @@
         android:id="@+id/nav_vip_list"
         android:title="VIP LIST"
         android:icon="@drawable/ic_star_black_24dp"/>
+    <item
+        android:id="@+id/nav_bedmage"
+        android:title="Bedmages"
+        android:icon="@drawable/ic_bed_black_24dp"/>
 
     <item android:title="Online Lists">
 
@@ -58,10 +62,6 @@
 
     <group
         android:id="@+id/nav_group_utilities">
-        <item
-            android:id="@+id/nav_bedmage"
-            android:title="Bedmages"
-            android:icon="@drawable/ic_bed_black_24dp"/>
         <item
             android:id="@+id/nav_search_player"
             android:title="Search Character"
