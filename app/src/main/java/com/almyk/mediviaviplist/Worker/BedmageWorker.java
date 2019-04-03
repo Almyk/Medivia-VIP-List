@@ -120,7 +120,8 @@ public class BedmageWorker extends Worker {
                 break;
             case "hours":
             case "hour":
-                theoLogoutTime = time - TimeUnit.HOURS.toMillis(Long.parseLong(lastLogin[0]));
+//                theoLogoutTime = time - TimeUnit.HOURS.toMillis(Long.parseLong(lastLogin[0]));
+                theoLogoutTime = -1;
                 break;
             case "seconds":
             case "second":
