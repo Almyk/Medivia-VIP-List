@@ -68,6 +68,7 @@ public class UpdateVipListWorker extends Worker {
     }
 
     private void updateVipList(DataRepository repository) {
+        // TODO: Add Strife
         repository.updateVipAndOnlineList("Pendulum");
         repository.updateVipAndOnlineList("Prophecy");
         repository.updateVipAndOnlineList("Destiny");

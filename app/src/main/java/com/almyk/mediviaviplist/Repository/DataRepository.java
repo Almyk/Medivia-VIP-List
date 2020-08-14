@@ -61,6 +61,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     private final LiveData<List<PlayerEntity>> mVipList;
     private final LiveData<List<BedmageEntity>> mBedmageList;
+    // TODO: add Strife
     private static MutableLiveData<List<PlayerEntity>> mOnlineLegacy = new MutableLiveData<>();
     private static MutableLiveData<List<PlayerEntity>> mOnlinePendulum = new MutableLiveData<>();
     private static MutableLiveData<List<PlayerEntity>> mOnlineDestiny = new MutableLiveData<>();
@@ -280,6 +281,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
         });
 
         switch(server.toLowerCase()) {
+            // TODO: add strife
             case "legacy":
                 mOnlineLegacy.postValue(onlineList);
                 break;
@@ -474,6 +476,7 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     public LiveData<List<PlayerEntity>> getOnlineByServer(String server) {
         switch(server.toLowerCase()) {
+            // TODO: add strife
             case "legacy":
                 return mOnlineLegacy;
             case "pendulum":
