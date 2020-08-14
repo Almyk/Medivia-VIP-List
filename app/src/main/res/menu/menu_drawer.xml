@@ -19,19 +19,19 @@
                 <item
                     android:id="@+id/nav_online_legacy"
                     android:title="Legacy"
-                    android:icon="@drawable/ic_stat_l"/>
+                    android:icon="@drawable/ic_letter_l"/>
                 <item
                     android:id="@+id/nav_online_pendulum"
                     android:title="Pendulum"
-                    android:icon="@drawable/ic_stat_p"/>
+                    android:icon="@drawable/ic_letter_p"/>
                 <item
                     android:id="@+id/nav_online_destiny"
                     android:title="Destiny"
-                    android:icon="@drawable/ic_stat_d"/>
+                    android:icon="@drawable/ic_letter_d"/>
                 <item
                     android:id="@+id/nav_online_prophecy"
                     android:title="Prophecy"
-                    android:icon="@drawable/ic_stat_p"/>
+                    android:icon="@drawable/ic_letter_p"/>
             </group>
         </menu>
     </item>
@@ -43,19 +43,19 @@
                 <item
                     android:id="@+id/nav_highscore_legacy"
                     android:title="Legacy"
-                    android:icon="@drawable/ic_stat_l"/>
+                    android:icon="@drawable/ic_letter_l"/>
                 <item
                     android:id="@+id/nav_highscore_pendulum"
                     android:title="Pendulum"
-                    android:icon="@drawable/ic_stat_p"/>
+                    android:icon="@drawable/ic_letter_p"/>
                 <item
                     android:id="@+id/nav_highscore_destiny"
                     android:title="Destiny"
-                    android:icon="@drawable/ic_stat_d"/>
+                    android:icon="@drawable/ic_letter_d"/>
                 <item
                     android:id="@+id/nav_highscore_prophecy"
                     android:title="Prophecy"
-                    android:icon="@drawable/ic_stat_p"/>
+                    android:icon="@drawable/ic_letter_p"/>
             </group>
         </menu>
     </item>

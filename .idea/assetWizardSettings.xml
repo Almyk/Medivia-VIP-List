@@ -68,7 +68,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="fontFamily" value="Enchanted Land" />
-                                                <entry key="text" value="U" />
+                                                <entry key="text" value="D" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -79,7 +79,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="TEXT" />
-                                      <entry key="outputName" value="ic_letter_U" />
+                                      <entry key="outputName" value="ic_letter_d" />
                                       <entry key="theme" value="HOLO_DARK" />
                                       <entry key="themeColor" value="ffffff" />
                                     </map>
