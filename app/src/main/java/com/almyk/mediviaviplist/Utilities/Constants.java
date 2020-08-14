@@ -31,7 +31,7 @@ public final class Constants {
     public static final String PLAYER_NAME = "player name";
 
     public static final String SERVER_KEY = "server key";
-    public static final List<String> SERVERS = Arrays.asList("prophecy", "legacy", "destiny", "pendulum");
+    public static final List<String> SERVERS = Arrays.asList("prophecy", "legacy", "destiny", "pendulum", "unity", "purity");
     public static final String PROPHECY = "Prophecy";
     public static final String LEGACY = "Legacy";
     public static final String DESTINY = "Destiny";
