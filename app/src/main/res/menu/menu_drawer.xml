@@ -32,6 +32,10 @@
                     android:id="@+id/nav_online_prophecy"
                     android:title="Prophecy"
                     android:icon="@drawable/ic_letter_p"/>
+                <item
+                    android:id="@+id/nav_online_unity"
+                    android:title="Unity"
+                    android:icon="@drawable/ic_letter_u"/>
             </group>
         </menu>
     </item>
@@ -56,6 +60,10 @@
                     android:id="@+id/nav_highscore_prophecy"
                     android:title="Prophecy"
                     android:icon="@drawable/ic_letter_p"/>
+                <item
+                    android:id="@+id/nav_highscore_unity"
+                    android:title="Unity"
+                    android:icon="@drawable/ic_letter_u"/>
             </group>
         </menu>
     </item>

@@ -48,6 +48,7 @@ public class NotificationUtils{
         // Create the notification
         int NOTIFICATION_ID = 0;
         switch(server) {
+            // TODO: add Strife
             case "Pendulum": NOTIFICATION_ID = 1; break;
             case "Legacy": NOTIFICATION_ID = 2; break;
             case "Destiny": NOTIFICATION_ID = 3; break;
