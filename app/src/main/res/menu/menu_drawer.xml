@@ -36,6 +36,10 @@
                     android:id="@+id/nav_online_unity"
                     android:title="Unity"
                     android:icon="@drawable/ic_letter_u"/>
+                <item
+                    android:id="@+id/nav_online_purity"
+                    android:title="Purity"
+                    android:icon="@drawable/ic_letter_p"/>
             </group>
         </menu>
     </item>
@@ -64,6 +68,10 @@
                     android:id="@+id/nav_highscore_unity"
                     android:title="Unity"
                     android:icon="@drawable/ic_letter_u"/>
+                <item
+                    android:id="@+id/nav_highscore_purity"
+                    android:title="Purity"
+                    android:icon="@drawable/ic_letter_p"/>
             </group>
         </menu>
     </item>

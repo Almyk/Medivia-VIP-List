@@ -16,6 +16,8 @@ public class MainViewModel extends AndroidViewModel {
     private static LiveData<List<PlayerEntity>> mOnlinePendulum;
     private static LiveData<List<PlayerEntity>> mOnlineDestiny;
     private static LiveData<List<PlayerEntity>> mOnlineProphecy;
+    private static LiveData<List<PlayerEntity>> mOnlineUnity;
+    private static LiveData<List<PlayerEntity>> mOnlinePurity;
 
     private DataRepository mRepository;
 
@@ -28,6 +30,8 @@ public class MainViewModel extends AndroidViewModel {
         mOnlinePendulum = mRepository.getOnlineByServer("pendulum");
         mOnlineDestiny = mRepository.getOnlineByServer("destiny");
         mOnlineProphecy = mRepository.getOnlineByServer("prophecy");
+        mOnlineUnity = mRepository.getOnlineByServer("unity");
+        mOnlinePurity = mRepository.getOnlineByServer("purity");
     }
 
     public LiveData<List<PlayerEntity>> getOnlineLegacy() {
@@ -44,5 +48,13 @@ public class MainViewModel extends AndroidViewModel {
 
     public LiveData<List<PlayerEntity>> getOnlineProphecy() {
         return mOnlineProphecy;
+    }
+
+    public LiveData<List<PlayerEntity>> getOnlineUnity() {
+        return mOnlineUnity;
+    }
+
+    public LiveData<List<PlayerEntity>> getOnlinePurity() {
+        return mOnlinePurity;
     }
 }

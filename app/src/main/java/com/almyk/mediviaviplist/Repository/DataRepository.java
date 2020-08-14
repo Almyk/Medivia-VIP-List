@@ -61,11 +61,12 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
 
     private final LiveData<List<PlayerEntity>> mVipList;
     private final LiveData<List<BedmageEntity>> mBedmageList;
-    // TODO: add Strife
     private static MutableLiveData<List<PlayerEntity>> mOnlineLegacy = new MutableLiveData<>();
     private static MutableLiveData<List<PlayerEntity>> mOnlinePendulum = new MutableLiveData<>();
     private static MutableLiveData<List<PlayerEntity>> mOnlineDestiny = new MutableLiveData<>();
     private static MutableLiveData<List<PlayerEntity>> mOnlineProphecy = new MutableLiveData<>();
+    private static MutableLiveData<List<PlayerEntity>> mOnlineUnity = new MutableLiveData<>();
+    private static MutableLiveData<List<PlayerEntity>> mOnlinePurity = new MutableLiveData<>();
     private static MutableLiveData<List<HighscoreEntity>> mHighscores = new MutableLiveData<>();
 
     private String mHighscoreServer;
@@ -485,6 +486,10 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
                 return mOnlineDestiny;
             case "prophecy":
                 return mOnlineProphecy;
+            case "unity":
+                return mOnlineUnity;
+            case "purity":
+                return mOnlinePurity;
         }
         return null;
     }

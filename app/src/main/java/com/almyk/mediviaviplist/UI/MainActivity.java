@@ -113,6 +113,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mNavView.getMenu().findItem(R.id.nav_online_prophecy).setTitle("Prophecy (" + playerEntities.size() +")");
             }
         });
+
+        mViewModel.getOnlineUnity().observe(this, new Observer<List<PlayerEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<PlayerEntity> playerEntities) {
+                mNavView.getMenu().findItem(R.id.nav_online_unity).setTitle("Unity (" + playerEntities.size() +")");
+            }
+        });
+
+        mViewModel.getOnlinePurity().observe(this, new Observer<List<PlayerEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<PlayerEntity> playerEntities) {
+                mNavView.getMenu().findItem(R.id.nav_online_purity).setTitle("Purity (" + playerEntities.size() +")");
+            }
+        });
     }
 
     @Override
@@ -143,10 +157,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_online_prophecy:
                 showOnlineList(menuItem, "Prophecy");
                 break;
+            case R.id.nav_online_unity:
+                showOnlineList(menuItem, "Unity");
+                break;
+            case R.id.nav_online_purity:
+                showOnlineList(menuItem, "Purity");
+                break;
             case R.id.nav_highscore_destiny:
             case R.id.nav_highscore_legacy:
             case R.id.nav_highscore_pendulum:
             case R.id.nav_highscore_prophecy:
+            case R.id.nav_highscore_unity:
+            case R.id.nav_highscore_purity:
                 HighscoreFragment highscoreFragment = HighscoreFragment.newInstance();
                 highscoreFragment.setServer(menuItem.getTitle().toString());
                 getSupportFragmentManager().beginTransaction()
