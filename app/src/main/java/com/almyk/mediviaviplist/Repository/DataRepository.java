@@ -295,6 +295,12 @@ public class DataRepository implements SharedPreferences.OnSharedPreferenceChang
             case "prophecy":
                 mOnlineProphecy.postValue(onlineList);
                 break;
+            case "unity":
+                mOnlineUnity.postValue(onlineList);
+                break;
+            case "purity":
+                mOnlinePurity.postValue(onlineList);
+                break;
         }
 
     }

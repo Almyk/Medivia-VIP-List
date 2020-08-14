@@ -40,9 +40,11 @@ public class Scraper {
     }
 
     public HashMap<String, PlayerEntity> scrapeOnline(String server) {
+        Log.d("Scraper", "scraping " + server);
         HashMap<String, PlayerEntity> onlineList = new HashMap<>();
         boolean success = getDocument(BASE_URL_ONLINE+server);
         if(!success) {
+            Log.d("Scraper", "unsuccessful when scraping " + server);
             return null;
         }
 //        int count = 0;
